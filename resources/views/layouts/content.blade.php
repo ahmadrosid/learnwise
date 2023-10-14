@@ -21,13 +21,10 @@
 </head>
 
 <body>
-    @include('layouts.navigations.navigation')
+    @include('layouts.navigations.contentnav', ["title" => $title])
 
     <div class="layout">
-        @include('layouts.navigations.sidebarnav')
-        <main class="p-5 bg-neutral-10">
-            {{ $slot }}
-        </main>
+        {{ $slot }}
     </div>
 </body>
 

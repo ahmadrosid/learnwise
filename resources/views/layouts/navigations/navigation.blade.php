@@ -1,7 +1,7 @@
 <header class="border-top w-100">
     <nav class="navbar navbar-expand-lg header-navbar py-0 sticky-top bg-white">
         <div style='width:256px;' class="border-end py-3 px-2">
-            <a class="navbar-brand fw-bold" href="#">
+            <a class="navbar-brand fw-bold" href="/">
                 <img src="/images/learnwise.svg" width="36" alt="Logo" /> Learnwise
             </a>
         </div>

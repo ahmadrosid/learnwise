@@ -28,4 +28,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/courses/chapter-free', function () {
+    return view('courses.chapter', [
+        "isFree" => true,
+        "isLocked" => false,
+        "title" => "Fullstack Notion Clone"
+    ]);
+});
+
+Route::get('/courses/chapter-lock', function () {
+    return view('courses.chapter', [
+        "isFree" => false,
+        "isLocked" => true,
+        "title" => "Fullstack Notion Clone"
+    ]);
+});
+
+require __DIR__ . '/auth.php';
