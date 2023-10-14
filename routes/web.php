@@ -32,7 +32,7 @@ Route::get('/courses/chapter-free', function () {
     return view('courses.chapter', [
         "isFree" => true,
         "isLocked" => false,
-        "title" => "Fullstack Notion Clone"
+        "title" => "Fullstack Saas Laravel"
     ]);
 });
 
@@ -40,7 +40,7 @@ Route::get('/courses/chapter-lock', function () {
     return view('courses.chapter', [
         "isFree" => false,
         "isLocked" => true,
-        "title" => "Fullstack Notion Clone"
+        "title" => "Fullstack Saas Laravel"
     ]);
 });
 

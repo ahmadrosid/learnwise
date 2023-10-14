@@ -13,9 +13,11 @@
                     <li>
                         <a class="menu-item p-4 {{ $isLocked && $item === 'Deep dive' ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/chapter-lock">
                             @if($isFree)
-                            <x-lucide-play-circle class="w-4 h-4 me-2" />
+                            <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
                             @else
                             <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
+                            <!-- Use play circle once the data coming from db -->
+                            <!-- <x-lucide-play-circle class="w-4 h-4 me-2" /> -->
                             @endif
                             <span class="text-truncate" style="width:220px;">{{$item}}</span>
                         </a>
