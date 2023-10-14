@@ -21,3 +21,12 @@ body {
 .w-80 {
     width: 24rem;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.g-col-6 {
+    grid-column: span 6 / span 6;
+}

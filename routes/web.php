@@ -44,4 +44,8 @@ Route::get('/courses/chapter-lock', function () {
     ]);
 });
 
+Route::get('/courses/mycourses', function () {
+    return view('courses.mycourse');
+});
+
 require __DIR__ . '/auth.php';

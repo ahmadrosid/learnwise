@@ -9,7 +9,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="menu-item p-4" href="#">
+                    <a class="menu-item p-4" href="/courses/mycourses">
                         <x-lucide-layers-3 class="w-4 h-4 me-2" />
                         My course
                     </a>
