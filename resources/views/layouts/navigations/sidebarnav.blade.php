@@ -2,6 +2,13 @@
     <div class="sidenav show border-end">
         <div class="menu accordion">
             <ul class="menu-list">
+                <li class="position-sticky">
+                    <div class="brand py-3 px-2">
+                        <a class="navbar-brand fw-bold" href="/">
+                            <img src="/images/learnwise.svg" width="36" alt="Logo" /> Learnwise
+                        </a>
+                    </div>
+                </li>
                 <li>
                     <a class="menu-item p-4 active" href="#">
                         <x-lucide-radar class="w-4 h-4 me-2" />

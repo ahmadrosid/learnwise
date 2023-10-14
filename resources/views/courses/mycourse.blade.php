@@ -5,7 +5,10 @@
                 <div class="d-flex justify-content-center bg-blue-50 p-1 rounded-circle" style="width: 30px; height: 30px">
                     <x-lucide-clock class="text-blue-400 w-5 h-5" />
                 </div>
-                <div class="fw-bold">In Progress</div>
+                <div>
+                    <div class="fw-bold">In Progress</div>
+                    <div class="fs-sm text-neutral-100">3 Courses</div>
+                </div>
             </div>
         </div>
         <div class="g-col-6 border rounded-3 bg-white p-1">
@@ -13,7 +16,10 @@
                 <div class="d-flex justify-content-center bg-green-50 p-1 rounded-circle" style="width: 30px; height: 30px">
                     <x-lucide-check-circle class="text-green-400 w-5 h-5" />
                 </div>
-                <div class="fw-bold">Completed</div>
+                <div>
+                    <div class="fw-bold">Completed</div>
+                    <div class="fs-sm text-neutral-100">4 Courses</div>
+                </div>
             </div>
         </div>
     </div>
