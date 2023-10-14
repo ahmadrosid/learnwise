@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    @include('layouts.navigations.contentnav', ["title" => $title])
+    @include('layouts.navigations.coursenav', ["title" => $title])
 
     <div class="layout">
         {{ $slot }}

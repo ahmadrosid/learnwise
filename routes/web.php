@@ -48,4 +48,8 @@ Route::get('/courses/mycourses', function () {
     return view('courses.mycourse');
 });
 
+Route::get('/teacher', function () {
+    return view('teachers.index');
+});
+
 require __DIR__ . '/auth.php';

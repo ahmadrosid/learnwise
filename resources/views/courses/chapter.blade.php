@@ -1,4 +1,4 @@
-<x-content-layout :title="$title">
+<x-course-layout :title="$title">
     <div class="layout-sidebar">
         <div class="sidenav show border-end">
             <div class="menu accordion">
@@ -60,4 +60,4 @@
             </div>
         </div>
     </main>
-</x-content-layout>
+</x-course-layout>
