@@ -5,9 +5,9 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                "node_modules/fastbootstrap/dist/css/fastbootstrap.min.css",
                 "resources/css/app.css",
                 "resources/js/app.js",
+                "node_modules/choices.js/public/assets/styles/choices.min.css",
             ],
             refresh: true,
         }),

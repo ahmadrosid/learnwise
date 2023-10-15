@@ -52,3 +52,8 @@ body {
 .cursor-grab {
     cursor: grab;
 }
+
+.choices__list--multiple .choices__item {
+    background-color: rgb(38, 132, 255);
+    border: 1px solid rgb(0, 101, 255);
+}

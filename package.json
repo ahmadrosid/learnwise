@@ -12,5 +12,8 @@
         "fastbootstrap": "^1.1.2",
         "laravel-vite-plugin": "^0.8.0",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "choices.js": "^10.2.0"
     }
 }

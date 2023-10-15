@@ -2,8 +2,13 @@ import "./bootstrap";
 import "fastbootstrap";
 
 import Alpine from "alpinejs";
+import Choices from "choices.js";
 
 window.Alpine = Alpine;
+
+if (document.querySelector(".select-choice")) {
+    new Choices(".select-choice");
+}
 
 document.addEventListener("alpine:init", () => {
     Alpine.data("imgPreview", () => ({
