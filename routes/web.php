@@ -52,4 +52,8 @@ Route::get('/teacher', function () {
     return view('teachers.index');
 });
 
+Route::get('/teacher/course/setup', function () {
+    return view('teachers.course.setup');
+});
+
 require __DIR__ . '/auth.php';

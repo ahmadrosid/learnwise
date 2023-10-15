@@ -2,6 +2,14 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+.w-3  {
+    width: 0.9rem;
+}
+
+.h-3  {
+    width: 0.9rem;
+}
+
 .w-4  {
     width: 1rem;
 }
@@ -39,4 +47,8 @@ body {
     right: 0px;
     left: 0px;
     background: linear-gradient(rgba(9, 30, 66, 0.13) 0px, rgba(9, 30, 66, 0.13) 1px, rgba(9, 30, 66, 0.08) 1px, rgba(9, 30, 66, 0) 4px);
-  }
+}
+
+.cursor-grab {
+    cursor: grab;
+}

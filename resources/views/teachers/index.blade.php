@@ -21,7 +21,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Fullstack Saas Laravel</td>
+                    <td>
+                        <a href="/teacher/course/setup">Fullstack Saas Laravel</a>
+                    </td>
                     <td>$30</td>
                     <td>
                         <span class="badge bg-primary p-2 rounded-pill text-white">Published</span>
