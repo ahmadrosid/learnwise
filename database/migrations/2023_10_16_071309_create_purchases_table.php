@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->integer("course_id");
-            $table->integer("student_id");
-            $table->unique(['course_id', 'student_id']);
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('course_id')->constrained('courses');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase');
+        Schema::dropIfExists('purchases');
     }
 };
