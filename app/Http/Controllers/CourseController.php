@@ -10,6 +10,6 @@ class CourseController extends Controller
     public function index()
     {
 
-        return view('welcome', ['courses' => Course::all()]);
+        return view('welcome', ['courses' => Course::with(['chapters', 'category'])->get()]);
     }
 }
