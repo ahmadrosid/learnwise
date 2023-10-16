@@ -127,14 +127,8 @@
                                 <span x-show="open">Cancel</span>
                             </button>
                         </div>
-                        <div class="pb-2" x-show="open">
-                            <div class="input-group py-2">
-                                <input value="Fullstack Saas Laravel" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
-                            </div>
-                            <button class="btn btn-primary">Save</button>
-                        </div>
                         <!-- Alphine drag and drop: https://codepen.io/lgaud/pen/abVEwgz -->
-                        <div x-show="!open">
+                        <div>
                             <div class="py-2" x-data="{ items: ['Intro', 'Deep dive', 'Setup project', 'Outro'], newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
                                 <div class="list-group border border-blue-100 rounded-2 overflow-hidden">
                                     <template x-for="(item, index) in items" :key="index">
@@ -158,6 +152,12 @@
                                             <div class="position-absolute" style="top: 0; bottom: 0; right: 0; left: 0;" x-show.transition="dragging !== null" :class="{'bg-blue-100': dropping === index, 'cursor-grabbing': dragging === index}" @dragenter.prevent="if(index !== dragging) {dropping = index}" @dragleave="if(dropping === index) dropping = null"></div>
                                         </div>
                                     </template>
+                                </div>
+                                <div class="pb-2" x-show="open" x-trap="open">
+                                    <div class="input-group py-2">
+                                        <input value="Fullstack Saas Laravel" x-model="newItem" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                    </div>
+                                    <button class="btn btn-primary" @click="if (newItem.length >= 2) { items.push(newItem);newItem='';open = !open}">Save</button>
                                 </div>
                             </div>
                         </div>
