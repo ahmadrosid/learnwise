@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->integer('user_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->foreignId('user_id')->constrained('users');
+            // $table->foreignId('category_id')->constrained('categories')->default(1);
+            $table->integer('category_id')->default(1);
             $table->boolean('is_published')->default(false);
-            $table->integer('price')->default(0);
+            $table->float('price')->default(0);
             $table->string('thumbnail')->nullable();
-            $table->timestamps();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course');
+        Schema::dropIfExists('courses');
     }
 };

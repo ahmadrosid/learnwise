@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('progresses', function (Blueprint $table) {
             $table->id();
-            $table->integer("user_id");
-            $table->integer("course_id");
-            $table->integer("chapter_id");
-            $table->unique(["user_id", "course_id", "chapter_id"]);
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('course_id')->constrained('courses');
+            $table->foreignId('chapter_id')->constrained('chapters');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('progress');
+        Schema::dropIfExists('progresses');
     }
 };
