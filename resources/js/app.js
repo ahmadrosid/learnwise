@@ -3,6 +3,8 @@ import "fastbootstrap";
 
 import Alpine from "alpinejs";
 import Choices from "choices.js";
+import focus from "@alpinejs/focus";
+Alpine.plugin(focus);
 
 window.Alpine = Alpine;
 
