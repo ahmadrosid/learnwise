@@ -17,12 +17,12 @@
                     <a href="/courses/chapter-free" class="text-black">
                         <div class="fs-6 fw-bold">{{$item->title}}</div>
                     </a>
-                    <div class="fs-sm text-neutral-100">{{$item->category->name}}</div>
+                    <div class="fs-sm text-neutral-100">{{$item->category_name}}</div>
                     <div class="hstack gap-2 py-2">
                         <div class="bg-blue-50 rounded-circle d-flex justify-content-center align-items-center" style="width: 30px; height: 30px; padding: 6px;">
                             <x-lucide-book-open class="text-blue-100" />
                         </div>
-                        <span class="text-neutral-100 fs-sm">{{$item->chapters->count()}} Chapters</span>
+                        <span class="text-neutral-100 fs-sm">{{$item->chapters_count}} Chapters</span>
                     </div>
                     <div class="fw-bold fs-sm">
                         @if ($item->price == 0)

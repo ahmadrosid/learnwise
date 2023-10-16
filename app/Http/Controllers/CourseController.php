@@ -10,6 +10,9 @@ class CourseController extends Controller
     public function index()
     {
 
-        return view('welcome', ['courses' => Course::with(['chapters', 'category'])->get()]);
+        return view(
+            'welcome',
+            ['courses' => Course::withCount('chapters')->join('categories', 'categories.id', '=', 'courses.category_id')->select('courses.thumbnail', 'courses.title', 'courses.id', 'courses.price', 'categories.name as category_name')->get()]
+        );
     }
 }
