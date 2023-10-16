@@ -33,14 +33,18 @@
                             <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More</button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item p-2 px-3" href="#"><x-lucide-pencil class="w-4 h-4" style="margin-right: 8px;" /> Edit course</a>
+                                    <a class="dropdown-item p-2 px-3" href="#">
+                                        <x-lucide-pencil class="w-4 h-4" style="margin-right: 8px;" /> Edit course
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td>Build an LMS Platform</td>
+                    <td>
+                        <a href="/teacher/course/setup">Build an LMS Platform</a>
+                    </td>
                     <td>$15</td>
                     <td>
                         <span class="badge bg-info p-2 rounded-pill text-white">Unpublished</span>
@@ -57,7 +61,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Fullstack Saas Laravel</td>
+                    <td>
+                        <a href="/teacher/course/setup">Fullstack Saas Laravel</a>
+                    </td>
                     <td>$29</td>
                     <td>
                         <span class="badge bg-primary p-2 rounded-pill text-white">Published</span>

@@ -135,9 +135,14 @@
                                             <x-lucide-grip-vertical class="text-neutral-400 w-5 h-5 cursor-pointer" />
                                         </button>
                                         <span x-text="item" class="px-2"></span>
-                                        <button type="button" class="btn btn-sm float-end" aria-label="Delete" @click="items.splice(index, 1);">
-                                            <x-lucide-trash class="text-neutral-400 w-3 h-3 cursor-pointer" />
-                                        </button>
+                                        <div class="float-end d-flex px-2">
+                                            <button type="button" class="btn px-1">
+                                                <x-lucide-pencil class="w-3 h-3" style="margin-right: 8px;" />
+                                            </button>
+                                            <button type="button" class="btn px-1" aria-label="Delete" @click="items.splice(index, 1);">
+                                                <x-lucide-trash class="text-neutral-400 w-3 h-3 cursor-pointer" />
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="position-absolute" style="top: 0; bottom: 0; right: 0; left: 0;" x-show.transition="dragging !== null" :class="{'bg-blue-100': dropping === index}" @dragenter.prevent="if(index !== dragging) {dropping = index}" @dragleave="if(dropping === index) dropping = null"></div>
                                 </div>
