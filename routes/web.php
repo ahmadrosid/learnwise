@@ -56,4 +56,8 @@ Route::get('/teacher/course/setup', function () {
     return view('teachers.course.setup');
 });
 
+Route::get('/teacher/chapter/create', function () {
+    return view('teachers.chapter.create');
+});
+
 require __DIR__ . '/auth.php';

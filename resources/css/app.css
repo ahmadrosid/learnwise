@@ -50,7 +50,11 @@ body {
 }
 
 .cursor-grab {
-    cursor: grab;
+    cursor: grab !important;
+}
+
+.cursor-grabbing {
+    cursor: grabbing !important;
 }
 
 .choices__list--multiple .choices__item {

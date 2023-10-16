@@ -116,37 +116,48 @@
                 </div>
                 <div class="fs-5">Course chapters</div>
             </div>
-            <div class="py-4">
+            <div class="py-4" x-data="{ open: false }">
                 <div class="p-2 px-3 rounded-2 bg-neutral-30 border border-neutral-40">
                     <div class="d-flex justify-content-between align-items-center pb-2 pt-1">
                         <label for="course-description" class="form-label text-dark">Course chapters</label>
-                        <button class="btn btn-sm p-1 d-flex align-items-center gap-2">
-                            <x-lucide-plus-circle class="text-neutral-400 w-3 h-3 cursor-pointer" />
-                            <span>Add new chapter</span>
+                        <button class="btn btn-sm p-1 d-flex align-items-center gap-2" x-on:click="open = ! open">
+                            <x-lucide-plus-circle class="text-neutral-400 w-3 h-3 cursor-pointer" x-show="!open" />
+                            <span x-show="!open">Add new chapter</span>
+                            <span x-show="open">Cancel</span>
                         </button>
                     </div>
+                    <div class="pb-2" x-show="open">
+                        <div class="input-group py-2">
+                            <input value="Fullstack Saas Laravel" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                        </div>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
                     <!-- Alphine drag and drop: https://codepen.io/lgaud/pen/abVEwgz -->
-                    <div class="py-2" x-data="{ items: ['Intro', 'Deep dive', 'Setup project', 'Outro'], newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
-                        <div class="list-group border border-blue-100 rounded-2 overflow-hidden">
-                            <template x-for="(item, index) in items" :key="index">
-                                <div class="position-relative list-group-item border-bottom border-blue-100 p-0" draggable="true" :class="{'border-bottom-0': items.length-1 === index}" @dragstart="dragging = index" @dragend="dragging = null">
-                                    <div>
-                                        <button class="btn border-0 rounded-0 px-2 py-2 border-end border-blue-100">
-                                            <x-lucide-grip-vertical class="text-neutral-400 w-5 h-5 cursor-pointer" />
-                                        </button>
-                                        <span x-text="item" class="px-2"></span>
-                                        <div class="float-end d-flex px-2">
-                                            <button type="button" class="btn px-1">
-                                                <x-lucide-pencil class="w-3 h-3" style="margin-right: 8px;" />
+                    <div x-show="!open">
+                        <div class="py-2" x-data="{ items: ['Intro', 'Deep dive', 'Setup project', 'Outro'], newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                            <div class="list-group border border-blue-100 rounded-2 overflow-hidden">
+                                <template x-for="(item, index) in items" :key="index">
+                                    <div class="position-relative list-group-item border-bottom border-blue-100 p-0" draggable="true" :class="{'border-bottom-0': items.length-1 === index}" @dragstart="dragging = index" @dragend="dragging = null">
+                                        <div>
+                                            <button class="btn border-0 rounded-0 px-2 py-2 border-end border-blue-100 cursor-grab">
+                                                <x-lucide-grip-vertical class="text-neutral-400 w-5 h-5 cursor-pointer" />
                                             </button>
-                                            <button type="button" class="btn px-1" aria-label="Delete" @click="items.splice(index, 1);">
-                                                <x-lucide-trash class="text-neutral-400 w-3 h-3 cursor-pointer" />
-                                            </button>
+                                            <span x-text="item" class="px-2"></span>
+                                            <div class="float-end d-flex px-2 pt-1">
+                                                <a href="/teacher/chapter/create">
+                                                    <button type="button" class="btn px-1">
+                                                        <x-lucide-pencil class="w-3 h-3" style="margin-right: 8px;" />
+                                                    </button>
+                                                </a>
+                                                <button type="button" class="btn px-1" aria-label="Delete" @click="items.splice(index, 1);">
+                                                    <x-lucide-trash class="text-neutral-400 w-3 h-3 cursor-pointer" />
+                                                </button>
+                                            </div>
                                         </div>
+                                        <div class="position-absolute" style="top: 0; bottom: 0; right: 0; left: 0;" x-show.transition="dragging !== null" :class="{'bg-blue-100': dropping === index, 'cursor-grabbing': dragging === index}" @dragenter.prevent="if(index !== dragging) {dropping = index}" @dragleave="if(dropping === index) dropping = null"></div>
                                     </div>
-                                    <div class="position-absolute" style="top: 0; bottom: 0; right: 0; left: 0;" x-show.transition="dragging !== null" :class="{'bg-blue-100': dropping === index}" @dragenter.prevent="if(index !== dragging) {dropping = index}" @dragleave="if(dropping === index) dropping = null"></div>
-                                </div>
-                            </template>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
