@@ -52,7 +52,7 @@
         </div>
         <div>
             @include('layouts.navigations.teachernav')
-            <main class="p-5 bg-neutral-10" style="min-height: 90vh;">
+            <main style="min-height: 90vh;">
                 {{ $slot }}
             </main>
         </div>
