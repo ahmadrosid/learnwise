@@ -11,10 +11,14 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         $categories = Category::all();
-        $category = $request->input('category');
+        $categorySlug = $request->input('category');
+        $categoryName = "";
         $categoryId = 0;
-        if ($category) {
-            $categoryId = $categories->where('slug', $category)->first()->id;
+
+        if ($categorySlug) {
+            $category = $categories->where('slug', $categorySlug)->first();
+            $categoryId = $category->id;
+            $categoryName =  $category->name;
         }
 
 
@@ -33,6 +37,7 @@ class CourseController extends Controller
             'courses' => $courses,
             'categories' => $categories,
             'category_id' => $categoryId,
+            'category' => $categoryName,
         ]);
     }
 }

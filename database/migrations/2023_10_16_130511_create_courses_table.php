@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->integer('category_id')->default(1);
             $table->boolean('is_published')->default(false);
-            $table->float('price')->default(0);
+            $table->integer('price')->default(0);
             $table->string('thumbnail')->nullable();
         });
     }

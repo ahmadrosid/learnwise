@@ -6,7 +6,7 @@
 
                 Showing courses in the category:
                 <span class="text-blue-500">
-                    {{$categories->where('id', $category_id)->first()->name}}
+                    {{$category}}
                 </span>
             </p>
             @else
