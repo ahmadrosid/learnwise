@@ -12,7 +12,10 @@ class CourseController extends Controller
     {
         $categories = Category::all();
         $category = $request->input('category');
-        $categoryId = $categories->where('slug', $category)->first()->id;
+        $categoryId = 0;
+        if ($category) {
+            $categoryId = $categories->where('slug', $category)->first()->id;
+        }
 
 
         $query = Course::select('courses.id', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', 'categories.name as category_name')
