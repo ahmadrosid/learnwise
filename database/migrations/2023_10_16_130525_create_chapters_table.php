@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('chapters', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->integer('user_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->integer('course_id')->nullable()->constrained('courses');
+            $table->boolean('is_free')->default(false);
             $table->boolean('is_published')->default(false);
-            $table->integer('price')->default(0);
-            $table->string('thumbnail')->nullable();
-            $table->timestamps();
+            $table->integer('position')->nullable();
+            $table->string('video_url')->nullable();
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course');
+        Schema::dropIfExists('chapters');
     }
 };
