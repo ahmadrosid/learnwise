@@ -51,4 +51,8 @@
         @endforeach
         @endif
     </div>
+
+    <div class="m-auto w-full mt-6 p-4">
+        {{$courses->links()}}
+    </div>
 </x-app-layout>

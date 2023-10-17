@@ -32,7 +32,7 @@ class CourseController extends Controller
             $query->where('courses.category_id', $categoryId);
         }
 
-        $courses = $query->get();
+        $courses = $query->paginate(3);
 
         return view('welcome', [
             'courses' => $courses,
