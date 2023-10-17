@@ -18,7 +18,6 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->foreignId('user_id')->constrained('users');
-            // $table->foreignId('category_id')->constrained('categories')->default(1);
             $table->integer('category_id')->default(1);
             $table->boolean('is_published')->default(false);
             $table->float('price')->default(0);

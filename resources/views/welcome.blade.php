@@ -12,7 +12,7 @@
             @else
 
             @foreach($categories as $category)
-            <a href="/?category_id={{$category->id}}">
+            <a href="/?category={{$category->slug}}">
                 <span class="btn btn-outline-primary">{{$category->name}}</span>
             </a>
             @endforeach
@@ -20,6 +20,10 @@
         </div>
     </div>
     <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        @if($courses->count() == 0)
+        <p class="text-lg font-bold italic text-gray-500">No courses found.</p>
+        @else
+
         @foreach($courses as $item)
         <div class="col">
             <div class="card border shadow-none rounded-4">
@@ -45,5 +49,6 @@
             </div>
         </div>
         @endforeach
+        @endif
     </div>
 </x-app-layout>

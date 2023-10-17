@@ -14,16 +14,16 @@ class Course extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
     public function chapters()
     {
-        return $this->hasMany(Chapter::class, 'course_id');
+        return $this->hasMany(Chapter::class);
     }
 }
