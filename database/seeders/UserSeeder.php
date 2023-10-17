@@ -16,39 +16,40 @@ class UserSeeder extends Seeder
         $usersData = [
             [
                 'name' => 'John Doe',
-                'email' => 'johndoe@example.com',
-                'password' => 'hashed_password_for_johndoe',
+                'email' => 'johndoe@mail.com',
+                'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'Alice Smith',
-                'email' => 'alicesmith@example.com',
-                'password' => 'hashed_password_for_alicesmith',
+                'email' => 'alicesmith@mail.com',
+                'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'David Brown',
-                'email' => 'davidbrown@example.com',
-                'password' => 'hashed_password_for_davidbrown',
+                'email' => 'davidbrown@mail.com',
+                'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'Emily Johnson',
-                'email' => 'emilyjohnson@example.com',
-                'password' => 'hashed_password_for_emilyjohnson',
+                'email' => 'emilyjohnson@mail.com',
+                'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'Michael Davis',
-                'email' => 'michaeldavis@example.com',
-                'password' => 'hashed_password_for_michaeldavis',
+                'email' => 'michaeldavis@mail.com',
+                'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
         ];
 
         DB::table('users')->insert($usersData);

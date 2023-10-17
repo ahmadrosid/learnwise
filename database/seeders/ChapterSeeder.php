@@ -36,7 +36,7 @@ class ChapterSeeder extends Seeder
                 'title' => 'Modern Art Movements',
                 'description' => 'Discover modern art movements and their impact on contemporary art.',
                 'course_id' => 2,
-                'is_free' => 1,
+                'is_free' => 0,
                 'is_published' => 1,
                 'position' => 2,
                 'video_url' => 'chapter2_video.mp4',

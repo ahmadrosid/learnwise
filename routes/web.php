@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*

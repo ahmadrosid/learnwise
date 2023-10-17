@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Models\Course;
 use \App\Models\Category;
 use App\Models\Chapter;
+use App\Models\Purchase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -34,17 +35,18 @@ class CourseController extends Controller
     public function show($slug, $chapter)
     {
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
-        $chapterData = Chapter::select('*')
-            ->where('course_id', $course->id)->where('position', $chapter)->firstOrFail();
-
+        $chapterData = $course->chapters->collect()->first(function ($item) use ($chapter) {
+            return $item->position == $chapter;
+        });
+        $isEnrolled = Purchase::where('user_id', auth()->user()->id)
+            ->where('course_id', $course->id)->count() === 1;
 
         return view('courses.chapter', [
-            "isFree" => true,
-            "isLocked" => false,
             "course" => $course,
             "slug" => $slug,
             "chapter" => $chapterData,
-            "chapterPosition" => $chapter
+            "chapterPosition" => $chapter,
+            "isEnrolled" => $isEnrolled,
         ]);
     }
 }
