@@ -29,11 +29,11 @@
         @foreach($courses as $item)
         <div class="col">
             <div class="card border shadow-none rounded-4">
-                <a href="/courses/chapter-free" class="p-2">
+                <a href="/courses/{{$item->slug}}/chapter/1" class="p-2">
                     <img src="{{$item->thumbnail}}" class="rounded-3 ratio ratio-4x3 object-cover" alt="{{$item->title}}" style="max-height: 160px;;" />
                 </a>
                 <div class="card-body p-3 pt-0">
-                    <a href="/courses/chapter-free" class="text-black">
+                    <a href="/courses/{{$item->slug}}/chapter/1" class="text-black">
                         <div class="fs-6 fw-bold">{{$item->title}}</div>
                     </a>
                     <div class="fs-sm text-neutral-100">{{$item->category_name}}</div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,8 @@ Route::get('/courses/mycourses', function () {
     return view('courses.mycourse');
 });
 
+Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
+
 Route::get('/teacher', function () {
     return view('teachers.index');
 });
@@ -58,5 +61,7 @@ Route::get('/teacher/course/setup', function () {
 Route::get('/teacher/chapter/create', function () {
     return view('teachers.chapter.create');
 });
+
+
 
 require __DIR__ . '/auth.php';

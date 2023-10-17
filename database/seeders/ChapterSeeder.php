@@ -15,15 +15,6 @@ class ChapterSeeder extends Seeder
     {
         $chaptersData = [
             [
-                'title' => 'Understanding Human Behavior',
-                'description' => 'Delve into the fundamental principles of human behavior and psychology.',
-                'course_id' => 1,
-                'is_free' => 1,
-                'is_published' => 1,
-                'position' => 1,
-                'video_url' => 'chapter1_video.mp4',
-            ],
-            [
                 'title' => 'The Art of Painting',
                 'description' => 'Explore the techniques and history of various painting styles.',
                 'course_id' => 2,
@@ -40,15 +31,6 @@ class ChapterSeeder extends Seeder
                 'is_published' => 1,
                 'position' => 1,
                 'video_url' => 'chapter1_video.mp4',
-            ],
-            [
-                'title' => 'Psychological Disorders',
-                'description' => 'Gain insights into common psychological disorders and their treatment.',
-                'course_id' => 1,
-                'is_free' => 1,
-                'is_published' => 1,
-                'position' => 2,
-                'video_url' => 'chapter2_video.mp4',
             ],
             [
                 'title' => 'Modern Art Movements',
@@ -94,7 +76,73 @@ class ChapterSeeder extends Seeder
                 'is_published' => 1,
                 'position' => 6,
                 'video_url' => 3,
+            ],
+
+            [
+                'title' =>  'Exploring the Basics',
+                'description' => 'An Introduction to Psychology and Human Behavior',
+                'course_id' => 1,
+                'is_free' => true,
+                'is_published' => false,
+                'position' => 1,
+                'video_url' => 'chapter1_video.mp4',
+            ],
+            [
+                'title' => 'The Mind Unveiled',
+                'description' => 'A Beginner\'s Guide to Understanding Human Behavior',
+                'course_id' => 1,
+                'is_free' => false,
+                'is_published' => false,
+                'position' => 2,
+                'video_url' => 'chapter1_video.mp4',
+            ],
+            [
+                'title' => 'Psychology 101',
+                'description' => 'A Primer on the Fundamentals of Human Behavior',
+                'course_id' => 1,
+                'is_free' => false,
+                'is_published' => false,
+                'position' => 3,
+                'video_url' => 'chapter1_video.mp4',
+            ],
+            [
+                'title' => 'Nature vs. Nurture',
+                'description' => 'The Role of Genetics and Environment in Human Behavior',
+                'course_id' => 1,
+                'is_free' => false,
+                'is_published' => false,
+                'position' => 4,
+                'video_url' => 'chapter1_video.mp4',
+            ],
+            [
+                'title' => 'The Psychology of Emotions',
+                'description' => 'How Feelings Shape Human Behavior',
+                'course_id' => 1,
+                'is_free' => false,
+                'is_published' => false,
+                'position' => 5,
+                'video_url' => 'chapter1_video.mp4',
+            ],
+            [
+                'title' => 'Cognitive Processes',
+                'description' => 'Unraveling the Mysteries of Human Thinking and Decision-Making',
+                'course_id' => 1,
+                'is_free' => false,
+                'is_published' => false,
+                'position' => 6,
+                'video_url' => 'chapter1_video.mp4',
+            ],
+            [
+
+                'title' => 'Applied Psychology',
+                'description' => 'Practical Insights into Understanding and Influencing Human Behavior',
+                'course_id' => 1,
+                'is_free' => false,
+                'is_published' => false,
+                'position' => 7,
+                'video_url' => 'chapter1_video.mp4',
             ]
+
         ];
 
         DB::table('chapters')->insert($chaptersData);

@@ -1,25 +1,27 @@
-<x-course-layout :title="$title">
+<x-course-layout :title="$course->title">
     <div class="layout-sidebar">
         <div class="sidenav show border-end">
             <div class="menu accordion">
                 <ul class="menu-list">
-                    <li>
-                        <a class="menu-item p-4 {{ $isFree ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/chapter-free">
-                            <x-lucide-play-circle class="w-4 h-4 me-2" />
-                            Introduction
-                        </a>
+                    {{--
+                        <li>
+                            <a class="menu-item p-4 {{ $isFree ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/{{$chapter->slug}}">
+                    <x-lucide-play-circle class="w-4 h-4 me-2" />
+                    {{ $course->chapters[0]->title }}
+                    </a>
                     </li>
-                    @foreach(['Deep dive','Exploring the basic of projects', 'Registering app', 'Outro'] as $item)
+                    --}}
+                    @foreach($course->chapters as $item)
                     <li>
-                        <a class="menu-item p-4 {{ $isLocked && $item === 'Deep dive' ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/chapter-lock">
-                            @if($isFree)
-                            <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
+                        <a class="menu-item p-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/{{$slug}}/chapter/{{$item->position}}">
+                            @if($item->is_free)
+                            <x-lucide-play-circle class="w-4 h-4 me-2" />
                             @else
                             <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
                             <!-- Use play circle once the data coming from db -->
                             <!-- <x-lucide-play-circle class="w-4 h-4 me-2" /> -->
                             @endif
-                            <span class="text-truncate" style="width:220px;">{{$item}}</span>
+                            <span class="text-truncate" style="width:220px;">{{$item->title}}</span>
                         </a>
                     </li>
                     @endforeach
@@ -42,7 +44,7 @@
                 @endif
             </div>
             <div class=" py-2 d-flex justify-content-between align-items-center border-bottom border-2 rounded">
-                <h1>Introduction</h1>
+                <h1>{{$chapter->title}}</h1>
                 <div>
                     @if(!Auth::user())
                     <button class="btn btn-primary">Start course</button>
@@ -56,7 +58,7 @@
                 </div>
             </div>
             <div class="py-2">
-                <p></p>
+                <p>{{$chapter->description}}</p>
             </div>
         </div>
     </main>
