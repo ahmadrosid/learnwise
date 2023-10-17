@@ -1,9 +1,22 @@
 <x-app-layout>
     <div class="pb-5">
         <div class="d-flex gap-2">
-            @foreach(['All', 'Laravel', 'PHP', 'CSS', 'Javascript'] as $label)
-            <span class="btn btn-outline-primary">{{$label}}</span>
+            @if($category_id > 0 )
+            <p>
+
+                Showing courses in the category:
+                <span class="text-blue-500">
+                    {{$categories->where('id', $category_id)->first()->name}}
+                </span>
+            </p>
+            @else
+
+            @foreach($categories as $category)
+            <a href="/?category_id={{$category->id}}">
+                <span class="btn btn-outline-primary">{{$category->name}}</span>
+            </a>
             @endforeach
+            @endif
         </div>
     </div>
     <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
@@ -25,11 +38,7 @@
                         <span class="text-neutral-100 fs-sm">{{$item->chapters_count}} Chapters</span>
                     </div>
                     <div class="fw-bold fs-sm">
-                        @if ($item->price == 0)
-                        Free
-                        @else
-                        $ {{$item->price}}
-                        @endif
+                        {{ $item->price == 0 ? 'Free' : '$ '. $item->price}}
                     </div>
 
                 </div>
