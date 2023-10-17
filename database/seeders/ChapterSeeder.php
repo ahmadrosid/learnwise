@@ -68,6 +68,33 @@ class ChapterSeeder extends Seeder
                 'position' => 2,
                 'video_url' => 'chapter2_video.mp4',
             ],
+            [
+                'title' => 'Introduction | Is programming for me?',
+                'description' => 'In this chapter you find out what it takes to be a software developer which further gives you quite a clear idea whether you believe you are the person for the job.',
+                'course_id' => 4,
+                'is_free' => 1,
+                'is_published' => 1,
+                'position' => 1,
+                'video_url' => 'chapter6_video.mp4',
+            ],
+            [
+                'title' => 'Yes! I am the person for the job! What\'s next?',
+                'description' => 'This chapter will provide you with fundamental of software development in general, tools that you need and many more',
+                'course_id' => 4,
+                'is_free' => 3,
+                'is_published' => 1,
+                'position' => 1,
+                'video_url' => 'chapter7_video.mp4',
+            ],
+            [
+                'title' => 'Where do you get that?',
+                'description' => 'We dive deeper into the core of the universe by exploring the ...',
+                'course_id' => 4,
+                'is_free' => 1,
+                'is_published' => 1,
+                'position' => 6,
+                'video_url' => 3,
+            ]
         ];
 
         DB::table('chapters')->insert($chaptersData);

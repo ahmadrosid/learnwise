@@ -50,6 +50,12 @@ class CategorySeeder extends Seeder
                 'updated_at' => now(),
                 'slug' => 'programming'
             ],
+            [
+                'name' => 'Food and Beverages',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'slug' => 'food-and beverages'
+            ]
         ];
 
         DB::table('categories')->insert($categoriesData);

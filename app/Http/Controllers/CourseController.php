@@ -11,7 +11,7 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::select('name', 'id', 'slug')->get();
         $categorySlug = $request->input('category');
         $categoryName = "";
         $categoryId = 0;
