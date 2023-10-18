@@ -1,25 +1,17 @@
-<x-course-layout :title="$title">
+<x-course-layout :title="$course->title">
     <div class="layout-sidebar">
         <div class="sidenav show border-end">
             <div class="menu accordion">
                 <ul class="menu-list">
+                    @foreach($course->chapters as $item)
                     <li>
-                        <a class="menu-item p-4 {{ $isFree ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/chapter-free">
+                        <a class="menu-item p-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/{{$slug}}/chapter/{{$item->position}}">
+                            @if($item->is_free || $isEnrolled)
                             <x-lucide-play-circle class="w-4 h-4 me-2" />
-                            Introduction
-                        </a>
-                    </li>
-                    @foreach(['Deep dive','Exploring the basic of projects', 'Registering app', 'Outro'] as $item)
-                    <li>
-                        <a class="menu-item p-4 {{ $isLocked && $item === 'Deep dive' ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}" href="/courses/chapter-lock">
-                            @if($isFree)
-                            <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
                             @else
                             <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
-                            <!-- Use play circle once the data coming from db -->
-                            <!-- <x-lucide-play-circle class="w-4 h-4 me-2" /> -->
                             @endif
-                            <span class="text-truncate" style="width:220px;">{{$item}}</span>
+                            <span class="text-truncate" style="width:220px;">{{$item->title}}</span>
                         </a>
                     </li>
                     @endforeach
@@ -30,7 +22,7 @@
     <main class="bg-neutral-10">
         <div class="p-5">
             <div class="pb-2">
-                @if($isFree)
+                @if($isEnrolled || $chapter->is_free)
                 <video src="/videos/video-in-bootstrap-card.mp4" class="card-img-top rounded" controls></video>
                 @else
                 <div class="card-img-top rounded bg-neutral-800 ratio-16x9" style="height: 600px;">
@@ -42,12 +34,12 @@
                 @endif
             </div>
             <div class=" py-2 d-flex justify-content-between align-items-center border-bottom border-2 rounded">
-                <h1>Introduction</h1>
+                <h1>{{$chapter->title}}</h1>
                 <div>
                     @if(!Auth::user())
                     <button class="btn btn-primary">Start course</button>
                     @else
-                    @if($isLocked)
+                    @if(!$isEnrolled)
                     <button class="btn btn-primary">Enrol course</button>
                     @else
                     <button class="btn btn-success">Mark as complete <x-lucide-check-circle class="w-4 h-4 ms-2" /></button>
@@ -56,7 +48,14 @@
                 </div>
             </div>
             <div class="py-2">
-                <p></p>
+                <x-markdown :options="['commonmark' => ['enable_strong' => false]]" theme="github-dark">
+                    ### {{$chapter->description}}
+
+                    ```js
+                    console.log("this is working");
+                    ```
+                </x-markdown>
+
             </div>
         </div>
     </main>
