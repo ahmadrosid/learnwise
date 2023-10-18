@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div class="">
-                <button class="btn btn-primary d-flex align-items-center gap-2"><x-lucide-plus-circle class="w-4 h-4" /> New course</button>
+                <a href="/teacher/course/create" class="btn btn-primary d-flex align-items-center gap-2"><x-lucide-plus-circle class="w-4 h-4" /> New course</a>
             </div>
         </div>
         <div class="border border-bottom-0 bg-white rounded-3 overflow-hidden">
@@ -21,13 +21,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($courses as $course)
+
                     <tr>
                         <td>
-                            <a href="/teacher/course/setup">Fullstack Saas Laravel</a>
+                            <a href="/teacher/course/setup">{{$course->title}}</a>
                         </td>
-                        <td>$30</td>
+                        <td>${{$course->price}}</td>
                         <td>
+                            @if($course->is_published)
                             <span class="badge bg-primary p-2 rounded-pill text-white">Published</span>
+                            @else
+                            <span class="badge bg-info p-2 rounded-pill text-white">Unpublished</span>
+                            @endif
                         </td>
                         <td>
                             <div class="dropdown">
@@ -42,44 +48,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <a href="/teacher/course/setup">Build an LMS Platform</a>
-                        </td>
-                        <td>$15</td>
-                        <td>
-                            <span class="badge bg-info p-2 rounded-pill text-white">Unpublished</span>
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More</button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item p-2 px-3" href="#"><x-lucide-pencil class="w-4 h-4" style="margin-right: 8px;" /> Edit course</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="/teacher/course/setup">Fullstack Saas Laravel</a>
-                        </td>
-                        <td>$29</td>
-                        <td>
-                            <span class="badge bg-primary p-2 rounded-pill text-white">Published</span>
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More</button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item p-2 px-3" href="#"><x-lucide-pencil class="w-4 h-4" style="margin-right: 8px;" /> Edit course</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

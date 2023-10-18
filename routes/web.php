@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserCourseController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,9 +49,9 @@ Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 
-Route::get('/teacher', function () {
-    return view('teachers.index');
-});
+Route::get('/teacher', [TeacherController::class, 'index']);
+
+Route::get('/teacher/course/create', [TeacherController::class, 'create']);
 
 Route::get('/teacher/course/setup', function () {
     return view('teachers.course.setup');
