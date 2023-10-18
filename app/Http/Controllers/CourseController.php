@@ -69,9 +69,11 @@ class CourseController extends Controller
         )
             ->leftJoin('chapters', 'courses.id', '=', 'chapters.course_id')
             ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
-            ->whereIn('courses.id', $enrolledCourseIds) // Filter by enrolled course IDs
+            ->whereIn('courses.id', $enrolledCourseIds)
             ->groupBy('courses.id', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', 'categories.name')
             ->get();
+
+        // I might need help optimizing these two queries above
 
         $completedCoursesCount = $courses->filter(function ($item) {
             return $item->chapters_count == $item->progress_count;
@@ -79,15 +81,6 @@ class CourseController extends Controller
 
         $inProgressCoursesCount = $courses->count() - $completedCoursesCount;
 
-        // dd($completedCoursesCount);
-
-
-        $info = [
-            "user_id" => auth()->user()->id,
-            "course_id" => $courses[0]->id,
-        ];
-
-        // dd($info);
 
         return view('courses.mycourse', [
             "courses" => $courses,
