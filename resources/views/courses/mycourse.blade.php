@@ -1,7 +1,5 @@
 <x-app-layout>
     <div class="grid align-items-center gap-4">
-        @if($courses->count() > 0)
-
         <div class="g-col-6 border rounded-3 bg-white p-1">
             <div class="d-flex gap-2 align-items-center py-2 px-2">
                 <div class="d-flex justify-content-center bg-blue-50 p-1 rounded-circle" style="width: 30px; height: 30px">
@@ -9,7 +7,9 @@
                 </div>
                 <div>
                     <div class="fw-bold">In Progress</div>
-                    <div class="fs-sm text-neutral-100">{{$inProgressCoursesCount}} Courses</div>
+                    <div class="fs-sm text-neutral-100">
+                        {{ $inProgressCoursesCount == 0 ? "You don't currently have unfinished course. ": $inProgressCoursesCount. " Courses"}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,7 +26,6 @@
                 </div>
             </div>
         </div>
-        @endif
     </div>
     <div class="py-5">
         @if($courses->count() > 0)
