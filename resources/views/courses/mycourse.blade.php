@@ -28,9 +28,7 @@
         </div>
     </div>
     <div class="py-5">
-        @if($courses->count() > 0)
-
-        <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        @if($courses->count() < 0) <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
             @foreach($courses as $item)
 
             @php
@@ -58,16 +56,14 @@
                             </div>
 
                             <div class="fs-sm pt-2 text-neutral-400">{{ $progress }}% Complete</div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
             @endforeach
-        </div>
-        @else
-        <p class="text-xl italic text-gray-400">The course you enroll will appear here.</p>
-        @endif
+    </div>
+    @else
+    <p class="fs-6 text-muted fst-italic">The course you enroll will appear here.</p>
+    @endif
     </div>
 </x-app-layout>
