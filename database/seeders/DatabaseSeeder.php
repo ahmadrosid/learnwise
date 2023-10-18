@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             ChapterSeeder::class,
             PurchaseSeeder::class,
+            ProgressSeeder::class,
         ]);
     }
 }

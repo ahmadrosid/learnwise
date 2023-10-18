@@ -50,4 +50,49 @@ class CourseController extends Controller
             "isEnrolled" => $isEnrolled,
         ]);
     }
+
+    public function showmycourses()
+    {
+        $enrolledCourses = Purchase::select('course_id')->where('user_id', auth()->user()->id)->get();
+        $enrolledCourseIds = $enrolledCourses->pluck('course_id')->all();
+
+        $courses = Course::select(
+            'courses.id',
+            'courses.slug',
+            'courses.title',
+            'courses.thumbnail',
+            'courses.price',
+            'courses.category_id',
+            'categories.name as category_name',
+            DB::raw('COUNT(chapters.course_id) as chapters_count'),
+            DB::raw('(SELECT COUNT(*) FROM progresses WHERE progresses.course_id = courses.id AND progresses.user_id = ' . auth()->user()->id . ') as progress_count'),
+        )
+            ->leftJoin('chapters', 'courses.id', '=', 'chapters.course_id')
+            ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
+            ->whereIn('courses.id', $enrolledCourseIds) // Filter by enrolled course IDs
+            ->groupBy('courses.id', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', 'categories.name')
+            ->get();
+
+        $completedCoursesCount = $courses->filter(function ($item) {
+            return $item->chapters_count == $item->progress_count;
+        })->count();
+
+        $inProgressCoursesCount = $courses->count() - $completedCoursesCount;
+
+        // dd($completedCoursesCount);
+
+
+        $info = [
+            "user_id" => auth()->user()->id,
+            "course_id" => $courses[0]->id,
+        ];
+
+        // dd($info);
+
+        return view('courses.mycourse', [
+            "courses" => $courses,
+            "completedCoursesCount" => $completedCoursesCount,
+            "inProgressCoursesCount" => $inProgressCoursesCount,
+        ]);
+    }
 }

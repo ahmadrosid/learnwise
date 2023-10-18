@@ -43,9 +43,7 @@ Route::get('/courses/chapter-lock', function () {
     ]);
 });
 
-Route::get('/courses/mycourses', function () {
-    return view('courses.mycourse');
-});
+Route::get('/courses/mycourses', [CourseController::class, 'showmycourses']);
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 
