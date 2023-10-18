@@ -30,6 +30,16 @@ class ProgressSeeder extends Seeder
                 'course_id' => 1,
                 'chapter_id' => 10,
             ],
+            [
+                'user_id' => 2,
+                'course_id' => 2,
+                'chapter_id' => 1,
+            ],
+            [
+                'user_id' => 2,
+                'course_id' => 2,
+                'chapter_id' => 3
+            ],
 
         ];
 
