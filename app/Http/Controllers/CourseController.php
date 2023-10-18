@@ -38,8 +38,9 @@ class CourseController extends Controller
         $chapterData = $course->chapters->collect()->first(function ($item) use ($chapter) {
             return $item->position == $chapter;
         });
-        $isEnrolled = Purchase::where('user_id', auth()->user()->id)
-            ->where('course_id', $course->id)->count() === 1;
+
+        $isEnrolled = auth()->check() ? Purchase::where('user_id', auth()->user()->id)
+            ->where('course_id', $course->id)->count() === 1 : false;
 
         return view('courses.chapter', [
             "course" => $course,
