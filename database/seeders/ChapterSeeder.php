@@ -65,7 +65,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 4,
                 'is_free' => 3,
                 'is_published' => 1,
-                'position' => 1,
+                'position' => 2,
                 'video_url' => 'chapter7_video.mp4',
             ],
             [
@@ -74,7 +74,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 4,
                 'is_free' => 1,
                 'is_published' => 1,
-                'position' => 6,
+                'position' => 3,
                 'video_url' => 3,
             ],
 

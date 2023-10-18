@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserCourseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,9 +44,7 @@ Route::get('/courses/chapter-lock', function () {
     ]);
 });
 
-Route::get('/courses/mycourses', function () {
-    return view('courses.mycourse');
-});
+Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 
