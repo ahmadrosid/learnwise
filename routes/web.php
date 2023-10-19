@@ -53,6 +53,8 @@ Route::get('/teacher', [TeacherController::class, 'index']);
 
 Route::get('/teacher/course/create', [TeacherController::class, 'create']);
 
+Route::post('/teacher/course', [TeacherController::class, 'store']);
+
 Route::get('/teacher/course/setup', function () {
     return view('teachers.course.setup');
 });
