@@ -10,11 +10,24 @@ class TeacherController extends Controller
     public function index()
     {
 
-        $courses = Course::select('*')->where('user_id', auth()->user()->id)->get();
+        $isATeacher = false;
+        $courses = null;
 
-        return view('teachers.index', [
-            'courses' => $courses,
-        ]);
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($user->role === 'teacher') {
+                $isATeacher = true;
+                $courses = Course::select('*')->where('user_id', $user->id)->get();
+            }
+        }
+        if ($isATeacher) {
+
+            return view('teachers.index', [
+                'courses' => $courses,
+            ]);
+        } else {
+            return redirect("/");
+        }
     }
 
     public function create()

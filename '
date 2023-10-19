@@ -36,7 +36,6 @@ class UserSeeder extends Seeder
                 'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'role' => 'student',
             ],
             [
                 'name' => 'Emily Johnson',
@@ -44,14 +43,12 @@ class UserSeeder extends Seeder
                 'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'role' => 'student',
             ],
             [
                 'name' => 'Michael Davis',
                 'email' => 'michaeldavis@mail.com',
                 'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
-                'role' => 'student',
                 'updated_at' => now(),
             ],
 
