@@ -62,11 +62,15 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <x-trix-editor :text="$course->description" />
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                                @csrf
+                                @method('put')
+                                <x-trix-editor :input_name="'description'" :text="$course->description" />
+                                <button class="btn btn-primary">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            {{ $course->description}}
+                            {!! $course->description !!}
                         </div>
                     </div>
                 </div>
