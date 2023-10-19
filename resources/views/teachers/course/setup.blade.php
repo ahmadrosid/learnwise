@@ -65,10 +65,7 @@
                             <form action="/teacher/course/{{$course->id}}" method="POST">
                                 @csrf
                                 @method('put')
-                                @php
-                                $input_name = 'description'
-                                @endphp
-                                <x-trix-editor :input_name="$input_name" :text="$course->description" />
+                                <x-trix-editor :input_name="'description'" :text="$course->description" />
                                 <button class="btn btn-primary">Save</button>
                             </form>
                         </div>
