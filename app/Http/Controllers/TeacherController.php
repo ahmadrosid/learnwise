@@ -41,7 +41,8 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
         $slugify = new Slugify();
-        $request['slug'] = $slugify->slugify($request->title) . "-" . round(microtime(true) * 1000);
+        $request['slug'] = $slugify->slugify($request->title);
+
         $formFields = $request->validate([
             'title' => 'required',
             'slug' => ['required', Rule::unique('courses', 'slug')],

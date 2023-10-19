@@ -12,15 +12,19 @@
 
                 <div class="d-flex flex-column gap-2">
                     <label>Course title</label>
-                    <input placeholder="e.g: 'Advanced web development'" value="" type="text" class="form-control" id="course-title" aria-describedby="course-name-helper" name="title" />
+                    <input placeholder="e.g: 'Advanced web development'" value="{{old('title')}}" type="text" class="form-control" id="course-title" aria-describedby="course-name-helper" name="title" />
                     <p class="text-muted fs-sm" id="course-name-helper"> What will you teach in this course? </p>
                 </div>
-                <div>
-
+                <div class="my-2">
                     <input type="hidden" name="user_id" value="{{auth()->user()->id}}" />
                     <a href="/teacher" class="btn btn-default"> Cancel </a>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
+
+                @error('slug')
+                <span class="text-danger my-4">This title is already taken. Please choose another one!</span>
+                @enderror
+
             </form>
         </div>
     </div>
