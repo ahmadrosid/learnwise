@@ -35,7 +35,7 @@
                             </div>
                         </li>
                         <li>
-                            <a class="menu-item p-4 active" href="#">
+                            <a class="menu-item p-4 active" href="/teacher">
                                 <x-lucide-list class="w-4 h-4 me-2" />
                                 Courses
                             </a>

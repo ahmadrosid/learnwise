@@ -6,17 +6,6 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserCourseController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', [CourseController::class, 'index']);
 
 Route::get('/dashboard', function () {
@@ -28,6 +17,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/teacher', [TeacherController::class, 'index']);
+    Route::get('/teacher/course/create', [TeacherController::class, 'create']);
+    Route::post('/teacher/course', [TeacherController::class, 'store']);
+});
+
+Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
+Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
+Route::view('/teacher/course/setup', 'teachers.course.setup');
+Route::view('/teacher/chapter/create',  'teachers.chapter.create');
 
 Route::get('/courses/chapter-free', function () {
     return view('courses.chapter', [
@@ -44,25 +44,5 @@ Route::get('/courses/chapter-lock', function () {
         "title" => "Fullstack Saas Laravel"
     ]);
 });
-
-Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
-
-Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
-
-Route::get('/teacher', [TeacherController::class, 'index']);
-
-Route::get('/teacher/course/create', [TeacherController::class, 'create']);
-
-Route::post('/teacher/course', [TeacherController::class, 'store']);
-
-Route::get('/teacher/course/setup', function () {
-    return view('teachers.course.setup');
-});
-
-Route::get('/teacher/chapter/create', function () {
-    return view('teachers.chapter.create');
-});
-
-
 
 require __DIR__ . '/auth.php';

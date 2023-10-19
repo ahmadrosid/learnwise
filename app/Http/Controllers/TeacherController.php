@@ -3,34 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use Cocur\Slugify\Slugify;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-
-        $isATeacher = false;
-        $courses = null;
-
-        if (auth()->check()) {
-            $user = auth()->user();
-            if ($user->role === 'teacher') {
-                $isATeacher = true;
-                $courses = Course::select('*')->where('user_id', $user->id)->get();
-            }
-        }
-        if ($isATeacher) {
-
-            return view('teachers.index', [
-                'courses' => $courses,
-            ]);
-        } else {
-            return redirect("/");
-        }
+        return view('teachers.index', [
+            'courses' => Course::where('user_id', $request->user()->id)->get(),
+        ]);
     }
 
     public function create()
@@ -40,9 +24,7 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        $slugify = new Slugify();
-        $request['slug'] = $slugify->slugify($request->title);
-
+        $request['slug'] = Str::of($request->title)->slug("-");
         $formFields = $request->validate([
             'title' => 'required',
             'slug' => ['required', Rule::unique('courses', 'slug')],

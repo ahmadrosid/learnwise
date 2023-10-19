@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -47,5 +48,10 @@ class User extends Authenticatable
     public function course()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function hasRole($role): bool
+    {
+        return $this->role == $role;
     }
 }
