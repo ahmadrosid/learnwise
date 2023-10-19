@@ -18,7 +18,8 @@ class CourseController extends Controller
         $query = Course::select('courses.id', 'courses.slug', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', DB::raw('COUNT(chapters.course_id) as chapters_count'), 'categories.name as category_name')
             ->leftJoin('chapters', 'courses.id', '=', 'chapters.course_id')
             ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
-            ->groupBy('courses.id', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', 'categories.name');
+            ->groupBy('courses.id', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', 'categories.name')
+            ->where('courses.is_published', true);
 
         if ($categorySlug = $request->input('category')) {
             $category = Category::where('slug', $categorySlug)->first();
