@@ -150,7 +150,7 @@
                         </div>
                         <!-- Alphine drag and drop: https://codepen.io/lgaud/pen/abVEwgz -->
                         <div>
-                            <div class="py-2" x-data="{ items: {{json_encode($chapterTitles)}}, newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                            <div class="py-2" x-data="{ items: {{json_encode($course->chapters)}}, newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
                                 <div class="list-group border border-blue-100 rounded-2 overflow-hidden">
                                     <template x-for="(item, index) in items" :key="index">
                                         <div class="position-relative list-group-item border-bottom border-blue-100 p-0" draggable="true" :class="{'border-bottom-0': items.length-1 === index}" @dragstart="dragging = index" @dragend="dragging = null">
@@ -158,9 +158,9 @@
                                                 <button class="btn border-0 rounded-0 px-2 py-2 border-end border-blue-100 cursor-grab">
                                                     <x-lucide-grip-vertical class="text-neutral-400 w-5 h-5 cursor-pointer" />
                                                 </button>
-                                                <span x-text="item" class="px-2"></span>
+                                                <span x-text="item.title" class="px-2"></span>
                                                 <div class="float-end d-flex px-2 pt-1">
-                                                    <a href="/teacher/chapter/create">
+                                                    <a x-bind:href="'/teacher/chapter/create/' + item.id">
                                                         <button type="button" class="btn px-1">
                                                             <x-lucide-pencil class="w-3 h-3" style="margin-right: 8px;" />
                                                         </button>

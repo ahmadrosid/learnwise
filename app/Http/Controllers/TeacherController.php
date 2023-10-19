@@ -72,7 +72,6 @@ class TeacherController extends Controller
         }
 
 
-        // my issue is in this following block
         if ($request['category_id']) {
             $formFields = $request->validate([
                 'category_id' => 'required|exists:categories,id',

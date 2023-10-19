@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="px-4 py-2">
-        <a class="btn" href="/teacher/course/setup">
+        <a class="btn" href="/teacher/course/setup/{{$slug}}">
             <x-lucide-move-left class="h-5" />
             <span class="font-bold px-2">Back to course setup</span>
         </a>
@@ -37,12 +37,12 @@
                         </div>
                         <div class="py-2" x-show="open">
                             <div class="input-group py-2">
-                                <input value="Fullstack Saas Laravel" type="text" class="form-control" id="chapter-title" aria-describedby="basic-addon3" />
+                                <input value="{{$chapter->title}}" type="text" class="form-control" id="chapter-title" aria-describedby="basic-addon3" />
                             </div>
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            Fullstack Saas Laravel
+                            {{$chapter->title}}
                         </div>
                     </div>
                 </div>
@@ -57,11 +57,11 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <x-trix-editor />
+                            <x-trix-editor :text="$chapter->description" />
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
-                            No description yet.
+                            {{$chapter->description}}
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         <div class="py-2" x-show="open">
                             <div class="rounded-2 border border-2 px-2 py-2 my-2 bg-white">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked="{{$chapter->is_free}}" />
                                     <label class="form-check-label fs-sm" for="flexCheckDefault">
                                         Check this box if you want to make this chapter free for preview
                                     </label>
@@ -93,7 +93,7 @@
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
-                            This chapter are not free.
+                            {{ $chapter->is_free ? "This chapter is free for preview."  :"This chapter is not free."}}
                         </div>
                     </div>
                 </div>
