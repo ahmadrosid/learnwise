@@ -26,7 +26,7 @@
 
             <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                     this.closest('form').submit();">
-                <button class="btn btn-primary">{{ __('Log Out') }}</button>
+                <button class="btn btn-outline-primary">{{ __('Log Out') }}</button>
             </x-responsive-nav-link>
         </form>
         @endif
