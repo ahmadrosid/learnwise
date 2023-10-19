@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -33,5 +34,21 @@ class TeacherController extends Controller
 
         Course::create($formFields);
         return redirect('/teacher/course/setup');
+    }
+
+    public function edit($slug)
+    {
+
+        $course = Course::where('slug', $slug)->firstOrFail();
+        $categories = Category::all();
+        // $categoryNames = $categories->pluck('name')->all();
+        $chapterTitles = $course->chapters->pluck('title')->all();
+
+        return view('teachers.course.setup', [
+            'course' => $course,
+            'categories' => $categories,
+            // 'categoryNames' => $categoryNames,
+            'chapterTitles' => $chapterTitles,
+        ]);
     }
 }

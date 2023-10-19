@@ -22,11 +22,11 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher', [TeacherController::class, 'index']);
     Route::get('/teacher/course/create', [TeacherController::class, 'create']);
     Route::post('/teacher/course', [TeacherController::class, 'store']);
+    Route::get('/teacher/course/setup/{slug}', [TeacherController::class, 'edit']);
 });
 
 Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
-Route::view('/teacher/course/setup', 'teachers.course.setup');
 Route::view('/teacher/chapter/create',  'teachers.chapter.create');
 
 Route::get('/courses/chapter-free', function () {

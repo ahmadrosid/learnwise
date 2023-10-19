@@ -24,12 +24,12 @@
                         </div>
                         <div class="py-2" x-show="open">
                             <div class="input-group py-2">
-                                <input value="Fullstack Saas Laravel" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                <input value="{{$course->title}}" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
                             </div>
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            Fullstack Saas Laravel
+                            {{$course->title }}
                         </div>
                     </div>
                 </div>
@@ -44,11 +44,11 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <x-trix-editor />
+                            <x-trix-editor :text="$course->description" />
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            Fullstack Saas Laravel
+                            {{ $course->description}}
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
-                            <img src="/images/example-course.png" class="img-fluid rounded-3" style="max-height: 300px;" />
+                            <img src="{{$course->thumbnail}}" class="img-fluid rounded-3" style="max-height: 300px;" />
                         </div>
                     </div>
                 </div>
@@ -92,20 +92,18 @@
                         </div>
                         <div class="py-2" x-show="open">
                             <div class="py-2">
-                                <select multiple class="form-select border select-choice" aria-label="Select catgories">
+                                <select class="form-select border select-choice" aria-label="Select catgories">
+
                                     <option value="">Select category</option>
-                                    <option value="1">Laravel</option>
-                                    <option value="2">CSS</option>
-                                    <option value="3">Tailwindcss</option>
-                                    <option value="4">Bootstrap</option>
-                                    <option value="5">Saas</option>
-                                    <option value="6">Fullstack</option>
+                                    @foreach ($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            Laravel
+                            {{$course->category->name}}
                         </div>
                     </div>
                 </div>
@@ -129,7 +127,7 @@
                         </div>
                         <!-- Alphine drag and drop: https://codepen.io/lgaud/pen/abVEwgz -->
                         <div>
-                            <div class="py-2" x-data="{ items: ['Intro', 'Deep dive', 'Setup project', 'Outro'], newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                            <div class="py-2" x-data="{ items: {{json_encode($chapterTitles)}}, newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
                                 <div class="list-group border border-blue-100 rounded-2 overflow-hidden">
                                     <template x-for="(item, index) in items" :key="index">
                                         <div class="position-relative list-group-item border-bottom border-blue-100 p-0" draggable="true" :class="{'border-bottom-0': items.length-1 === index}" @dragstart="dragging = index" @dragend="dragging = null">
@@ -183,12 +181,12 @@
                         </div>
                         <div class="py-2" x-show="open">
                             <div class="input-group py-2">
-                                <input value="$19" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                <input value="{{$course->price}}" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
                             </div>
                             <button class="btn btn-primary">Save</button>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            $19
+                            $ {{$course->price}}
                         </div>
                     </div>
                 </div>
