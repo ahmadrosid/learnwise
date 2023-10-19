@@ -42,8 +42,4 @@ class UserCourseController extends Controller
             "inProgressCoursesCount" => $inProgressCoursesCount,
         ]);
     }
-
-    public function store()
-    {
-    }
 }

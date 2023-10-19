@@ -49,7 +49,10 @@ Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 
-Route::get('/teacher', [TeacherController::class, 'index']);
+Route::middleware('teacher')->group(function () {
+    Route::get('/teacher', [TeacherController::class, 'index']);
+});
+
 
 Route::get('/teacher/course/create', [TeacherController::class, 'create']);
 
