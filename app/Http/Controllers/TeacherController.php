@@ -69,9 +69,10 @@ class TeacherController extends Controller
             $formFields = $request->validate([
                 'price' => 'required',
             ]);
-            dd($formFields);
         }
 
+
+        // my issue is in this following block
         if ($request['category_id']) {
             $formFields = $request->validate([
                 'category_id' => 'required|exists:categories,id',
