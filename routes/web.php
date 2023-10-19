@@ -22,6 +22,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher', [TeacherController::class, 'index']);
     Route::get('/teacher/course/create', [TeacherController::class, 'create']);
     Route::post('/teacher/course', [TeacherController::class, 'store']);
+    Route::put('/teacher/course/{course}', [TeacherController::class, 'update'])->name('teacher.course.update');
     Route::get('/teacher/course/setup/{slug}', [TeacherController::class, 'edit']);
 });
 

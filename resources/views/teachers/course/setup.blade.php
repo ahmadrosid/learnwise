@@ -4,6 +4,7 @@
             <h2>Course setup</h2>
             <p class="text-neutral-100">Complete all field 6/6</p>
         </div>
+
         <div class="row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 py-5 g-5">
             <div class="col">
                 <div class="d-flex gap-4 align-items-center py-2">
@@ -11,6 +12,18 @@
                         <x-lucide-layout-dashboard class="text-blue-400" />
                     </div>
                     <div class="fs-5">Customize your course</div>
+                </div>
+
+                <div>
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                 </div>
                 <div class="py-4" x-data="{ open: false }">
                     <div class="p-2 px-3 rounded-2 bg-neutral-30 border border-neutral-40">
@@ -23,10 +36,15 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="input-group py-2">
-                                <input value="{{$course->title}}" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="input-group py-2">
+                                    <input name="title" value="{{$course->title}}" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                </div>
+                                <input type="hidden" name="slug" value="{{$course->slug}}" />
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
                             {{$course->title }}
@@ -91,16 +109,21 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="py-2">
-                                <select class="form-select border select-choice" aria-label="Select catgories">
+                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="py-2">
+                                    <select class="form-select border select-choice" aria-label="Select category" name="category_id">
+                                        <option value="">Select category</option>
 
-                                    <option value="">Select category</option>
-                                    @foreach ($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                                        @foreach ($categories as $category)
+                                        <option value="{{$category->id}}" {{ $course->category_id == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" name="slug" value="{{$course->slug}}" />
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
                             {{$course->category->name}}
@@ -180,10 +203,15 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="input-group py-2">
-                                <input value="{{$course->price}}" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/course/{{$course->id}}" method="post">
+                                @csrf
+                                @method('put')
+                                <div class="input-group py-2">
+                                    <input value="{{$course->price}}" name="price" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                </div>
+                                <input type="hidden" value="{{$course->slug}}" name="slug" />
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
                             $ {{$course->price}}
