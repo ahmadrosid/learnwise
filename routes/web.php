@@ -51,20 +51,5 @@ Route::get('/courses/chapter-lock', function () {
 });
 
 Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
-// Route::put('/teacher/chapter/updateorders', function () { return response()->json(['message' => 'request accepted!']); });
-
-Route::get("/test", function () {
-    $response = [
-        [
-            'id' => 1,
-            'task' => 'do nothing',
-        ],
-        [
-            'id' => 2,
-            'task' => 'do something'
-        ],
-    ];
-    return json_encode($response);
-});
 
 require __DIR__ . '/auth.php';

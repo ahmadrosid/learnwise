@@ -191,10 +191,6 @@
                                         </div>
                                         <input type="hidden" name="course_id" value="{{$course->id}}" />
                                         <button type="submit" class="btn btn-primary">Save</button>
-                                        <!--
-
-                                        <button type="submit" class="btn btn-primary" @click="if (newItem.length >= 2) { items.push(newItem);newItem='';open = !open}">Save</button>
-                                        -->
                                     </form>
                                 </div>
                             </div>

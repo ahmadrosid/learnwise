@@ -70,18 +70,13 @@ class ChapterController extends Controller
 
     public function delete(Chapter $chapter)
     {
-        // TODO: update next_chapter_id
 
         $isReferenced = Chapter::where('next_chapter_id', $chapter->id)->exists();
 
-        // $isReferenced = Chapter::where('next_chapter_id', $chapter->id)->firstOrFail();
         if ($isReferenced) {
             Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $chapter->next_chapter_id]);
         }
 
-        // dd($isReferenced, $chapter->id);
-
-        // Chapter::where('next_chapter_id', $chapter->id);
         $chapter->delete();
         return  back();
     }
