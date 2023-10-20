@@ -86,19 +86,24 @@
                         </div>
                         <div class="pt-2" x-show="open" style="min-height: 305px;">
                             <div x-data="imgPreview" x-cloak>
-                                <input class="form-control" type="file" id="imgSelect" accept="image/*" x-ref="myFile" @change="previewFile">
-                                <template x-if="imgsrc">
-                                    <div class="py-2">
-                                        <img :src="imgsrc" class="imgPreview img-fluid rounded-3">
+                                <form action="/teacher/course/update/{{$course->id}}/thumbnail" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('put')
+                                    <input name="thumbnail" class="form-control" type="file" id="imgSelect" accept="image/*" x-ref="myFile" @change="previewFile">
+                                    <p class="text-muted fs-xs p-2">16:9 aspect ratio recommended!</p>
+                                    <template x-if="imgsrc">
                                         <div class="py-2">
-                                            <button class="btn btn-primary">Save</button>
+                                            <img :src="imgsrc" class="imgPreview img-fluid rounded-3">
+                                            <div class="py-2">
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </template>
+                                    </template>
+                                </form>
                             </div>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
-                            <img src="{{$course->thumbnail}}" class="img-fluid rounded-3" style="max-height: 300px;" />
+                            <img src="{{asset('storage/'.$course->thumbnail)}}" class="img-fluid rounded-3" style="max-height: 300px;" />
                         </div>
                     </div>
                 </div>

@@ -57,4 +57,20 @@ class TeacherController extends Controller
 
         return redirect("/teacher/course/setup/" . $course->slug);
     }
+
+    public function updatethumbnail(Request $request, Course $course)
+    {
+        /*
+         * TODO: remove thumbnail stored when user upload a new one, we don't want them to just pile up our storage
+         * We also might want to put this function inside `update` above
+         **/
+
+        $formFields = null;
+        if ($request->hasFile('thumbnail')) {
+            $formFields['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
+
+        $course->update($formFields);
+        return redirect()->back();
+    }
 }
