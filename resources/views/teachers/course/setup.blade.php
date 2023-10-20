@@ -164,7 +164,7 @@
                                                 </button>
                                                 <span x-text="item.title" class="px-2"></span>
                                                 <div class="float-end d-flex px-2 pt-1">
-                                                    <a x-bind:href="'/teacher/chapter/create/' + item.id">
+                                                    <a x-bind:href="'/teacher/chapter/edit/' + item.id">
                                                         <button type="button" class="btn px-1">
                                                             <x-lucide-pencil class="w-3 h-3" style="margin-right: 8px;" />
                                                         </button>
@@ -179,10 +179,18 @@
                                     </template>
                                 </div>
                                 <div class="pb-2" x-show="open" x-trap="open">
-                                    <div class="input-group py-2">
-                                        <input value="Fullstack Saas Laravel" x-model="newItem" type="text" class="form-control" id="course-title" aria-describedby="basic-addon3" />
-                                    </div>
-                                    <button class="btn btn-primary" @click="if (newItem.length >= 2) { items.push(newItem);newItem='';open = !open}">Save</button>
+                                    <form action="/teacher/chapter/create" method="POST">
+                                        @csrf
+                                        <div class="input-group py-2">
+                                            <input value="" x-model="newItem" type="text" class="form-control" name="title" />
+                                        </div>
+                                        <input type="hidden" name="course_id" value="{{$course->id}}" />
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <!--
+
+                                        <button type="submit" class="btn btn-primary" @click="if (newItem.length >= 2) { items.push(newItem);newItem='';open = !open}">Save</button>
+                                        -->
+                                    </form>
                                 </div>
                             </div>
                         </div>

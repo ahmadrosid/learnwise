@@ -36,10 +36,15 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="input-group py-2">
-                                <input value="{{$chapter->title}}" type="text" class="form-control" id="chapter-title" aria-describedby="basic-addon3" />
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/chapter/update/{{$chapter->id}}" method="post">
+                                @csrf
+                                @method('put')
+
+                                <div class="input-group py-2">
+                                    <input value="{{$chapter->title}}" type="text" class="form-control" id="chapter-title" name="title" aria-describedby="basic-addon3" />
+                                </div>
+                                <button class="btn btn-primary">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
                             {{$chapter->title}}
@@ -57,8 +62,12 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <x-trix-editor :text="$chapter->description" />
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/chapter/update/{{$chapter->id}}" method="POST">
+                                @csrf
+                                @method('put')
+                                <x-trix-editor :text="$chapter->description" />
+                                <button class="btn btn-primary">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
                             {{$chapter->description}}
@@ -82,15 +91,19 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="rounded-2 border border-2 px-2 py-2 my-2 bg-white">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked="{{$chapter->is_free}}" />
-                                    <label class="form-check-label fs-sm" for="flexCheckDefault">
-                                        Check this box if you want to make this chapter free for preview
-                                    </label>
+                            <form action="/teacher/chapter/update/{{$chapter->id}}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="rounded-2 border border-2 px-2 py-2 my-2 bg-white">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @if($chapter->is_free) checked @endif />
+                                        <label class="form-check-label fs-sm" for="flexCheckDefault">
+                                            Check this box if you want to make this chapter free for preview
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
                             {{ $chapter->is_free ? "This chapter is free for preview."  :"This chapter is not free."}}

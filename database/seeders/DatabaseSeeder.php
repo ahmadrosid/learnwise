@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ChapterSeeder::class,
             PurchaseSeeder::class,
             ProgressSeeder::class,
+            ChapterOrderSeeder::class,
         ]);
     }
 }

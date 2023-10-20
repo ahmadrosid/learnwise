@@ -4,6 +4,7 @@ import "fastbootstrap";
 import Alpine from "alpinejs";
 import Choices from "choices.js";
 import focus from "@alpinejs/focus";
+import axios from "axios";
 Alpine.plugin(focus);
 
 window.Alpine = Alpine;
@@ -49,7 +50,44 @@ window.dragDropList = function (items, dragging, dropping) {
         }
         dropping = null;
     }
+
+    updateChapterOrders(items);
+
     return items;
 };
+
+function updateChapterOrders(items) {
+    const oldItems = items.map((item) => ({
+        id: item.id,
+        next_chapter_id: item.next_chapter_id,
+    }));
+
+    const updatedItems = items.map((item, idx) => {
+        let next_chapter_id = null;
+        if (idx !== items.length - 1) {
+            next_chapter_id = items[idx + 1].id;
+        }
+        return {
+            id: item.id,
+            next_chapter_id: next_chapter_id,
+        };
+    });
+
+    const apiUrl = "/teacher/chapter/updateorders";
+
+    axios
+        .put(apiUrl, {
+            chapter_order: updatedItems,
+        })
+        .then((anything) => {
+            console.log("anything on then", JSON.stringify(anything));
+        })
+        .catch((error) => {
+            console.log("error", error);
+        })
+        .finally((lastThing) => {
+            console.log("finally", JSON.stringify(lastThing));
+        });
+}
 
 Alpine.start();

@@ -12,12 +12,66 @@ class ChapterController extends Controller
     {
         $chapter = Chapter::where('id', $id)->firstOrFail();
         $course = Course::select('id', 'title', 'slug')->where('id', $chapter->course_id)->firstOrFail();
-        // dd($course);
-
 
         return view('teachers.chapter.create', [
             'chapter' => $chapter,
             'slug' => $course->slug,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $course_id = $request['course_id'];
+
+        // This determines whether we need to update the 'next_chapter_id' column on another row during the insertion
+        $isFirstChapter = !Chapter::where('course_id', $course_id)->exists();
+        $previousChapter = null;
+
+        $formFields = $request->validate([
+            'title' => 'required',
+            'course_id' => 'required|numeric|exists:courses,id',
+        ]);
+        $newChapter = Chapter::create($formFields);
+        if (!$isFirstChapter) {
+            $previousChapter = Chapter::where('course_id', $request['course_id'])
+                ->whereNull('next_chapter_id')
+                ->first();
+
+            // Chapter::where('id', $previousChapter->id)->update(['next_chapter_id' => $newChapter->id]);
+            $this->updateOrder($previousChapter->id, $newChapter->id);
+        }
+        return back();
+    }
+
+    public function updateorders(Request $request)
+    {
+        $chapterOrderData = $request->input('chapter_order');
+
+        foreach ($chapterOrderData as $order) {
+            $chapter = Chapter::find($order['id']);
+            if ($chapter) {
+                $chapter->update(['next_chapter_id' => $order['next_chapter_id']]);
+            }
+        }
+        return response()->json(['message' => "Orders updated successfully"]);
+    }
+
+    private function updateOrder($id, $nextChapterId)
+    {
+        return Chapter::where('id', $id)->update(['next_chapter_id' => $nextChapterId]);
+    }
+
+    public function update(Request $request, Chapter $chapter)
+    {
+
+        $formFields = [];
+
+
+        // $chapter->update();
+        return back();
+    }
+
+    public function destroy()
+    {
     }
 }

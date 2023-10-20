@@ -25,7 +25,9 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::post('/teacher/course', [TeacherController::class, 'store']);
     Route::put('/teacher/course/{course}', [TeacherController::class, 'update'])->name('teacher.course.update');
     Route::get('/teacher/course/setup/{slug}', [TeacherController::class, 'edit']);
-    Route::get('/teacher/chapter/create/{id}',  [ChapterController::class, 'index']);
+    Route::get('/teacher/chapter/edit/{id}',  [ChapterController::class, 'index']);
+    Route::put('/teacher/chapter/update/{chapter}', [ChapterController::class, 'update']);
+    Route::post('/teacher/chapter/create', [ChapterController::class, 'store']);
 });
 
 Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
@@ -45,6 +47,23 @@ Route::get('/courses/chapter-lock', function () {
         "isLocked" => true,
         "title" => "Fullstack Saas Laravel"
     ]);
+});
+
+Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
+// Route::put('/teacher/chapter/updateorders', function () { return response()->json(['message' => 'request accepted!']); });
+
+Route::get("/test", function () {
+    $response = [
+        [
+            'id' => 1,
+            'task' => 'do nothing',
+        ],
+        [
+            'id' => 2,
+            'task' => 'do something'
+        ],
+    ];
+    return json_encode($response);
 });
 
 require __DIR__ . '/auth.php';
