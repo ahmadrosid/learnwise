@@ -139,7 +139,7 @@
                                 <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
                                     <!--
  <input accept="video/*" type="file" name="chapter_video" title="" x-ref="file" @change="fileName = $refs.file.files[0].name" class="dropzone-input-file" @dragover="$refs.dnd.classList.add('bg-blue-50')" @dragleave="$refs.dnd.classList.remove('bg-blue-50')" @drop="$refs.dnd.classList.remove('bg-blue-50')" /> -->
-                                    <input type="file" accept="video/*" name="chapter_video_2" />
+                                    <input type="file" accept="video/*" name="chapter_video" />
 
                                     <div class="dropzone-content">
                                         <x-lucide-upload-cloud class="w-5 h-5" />
@@ -151,7 +151,9 @@
                             </form>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
-                            <img src="/images/example-course.png" class="img-fluid rounded-3" style="max-height: 300px;" />
+                            <video controls class="img-fluid rounded-3" style="max-height: 300px;">
+                                <source src="{{asset('storage/'.$chapter->video_url)}}" type="video/mp4" />
+                            </video>
                         </div>
                     </div>
                 </div>
