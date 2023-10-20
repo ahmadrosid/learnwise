@@ -28,6 +28,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/chapter/edit/{id}',  [ChapterController::class, 'index']);
     Route::put('/teacher/chapter/update/{chapter}', [ChapterController::class, 'update']);
     Route::post('/teacher/chapter/create', [ChapterController::class, 'store']);
+    Route::delete('/teacher/chapter/delete/{chapter}', [ChapterController::class, 'delete']);
 });
 
 Route::get('/courses/mycourses', [UserCourseController::class, 'show']);

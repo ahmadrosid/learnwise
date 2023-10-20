@@ -169,9 +169,14 @@
                                                             <x-lucide-pencil class="w-3 h-3" style="margin-right: 8px;" />
                                                         </button>
                                                     </a>
-                                                    <button type="button" class="btn px-1" aria-label="Delete" @click="items.splice(index, 1);">
-                                                        <x-lucide-trash class="text-neutral-400 w-3 h-3 cursor-pointer" />
-                                                    </button>
+                                                    <form x-bind:action="'/teacher/chapter/delete/' + item.id" method="POST">
+
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn px-1" aria-label="Delete">
+                                                            <x-lucide-trash class="text-neutral-400 w-3 h-3 cursor-pointer" />
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                             <div class="position-absolute" style="top: 0; bottom: 0; right: 0; left: 0;" x-show.transition="dragging !== null" :class="{'bg-blue-100': dropping === index, 'cursor-grabbing': dragging === index}" @dragenter.prevent="if(index !== dragging) {dropping = index}" @dragleave="if(dropping === index) dropping = null"></div>
