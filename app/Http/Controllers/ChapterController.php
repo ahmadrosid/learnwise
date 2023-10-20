@@ -63,7 +63,6 @@ class ChapterController extends Controller
     public function update(UpdateChapterRequest $request, Chapter $chapter)
 
     {
-
         $chapter->update($request->validated());
         return back();
     }

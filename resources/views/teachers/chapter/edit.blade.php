@@ -97,8 +97,9 @@
                                 @method('put')
                                 <div class="rounded-2 border border-2 px-2 py-2 my-2 bg-white">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @if($chapter->is_free) checked @endif />
-                                        <label class="form-check-label fs-sm" for="flexCheckDefault">
+                                        <input type="hidden" value="0" name="is_free" />
+                                        <input value="1" name="is_free" class="form-check-input" type="checkbox" id="chapter-access" @if($chapter->is_free) checked @endif />
+                                        <label class="form-check-label fs-sm" for="chapter-access">
                                             Check this box if you want to make this chapter free for preview
                                         </label>
                                     </div>

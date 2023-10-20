@@ -23,7 +23,7 @@ class UpdateChapterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_free' => 'nullable|boolean',
+            'is_free' => 'boolean',
             'title' => 'nullable|string|min:3|max:255',
             'category_id' => 'nullable|numeric|exists:categories,id',
             'description' => 'nullable|string',
