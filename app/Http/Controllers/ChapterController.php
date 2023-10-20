@@ -80,4 +80,17 @@ class ChapterController extends Controller
         $chapter->delete();
         return  back();
     }
+
+    public function updatevideo(Request $request, Chapter $chapter)
+    {
+
+        $formFields = null;
+
+        if ($request->hasFile('chapter_video')) {
+            $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
+        }
+
+        $chapter->update($formFields);
+        return redirect()->back();
+    }
 }

@@ -123,7 +123,7 @@
                 <div class="py-4" x-data="{ open: false }">
                     <div class="p-2 px-3 rounded-2 bg-neutral-30 border border-neutral-40">
                         <div class="d-flex justify-content-between align-items-center">
-                            <label for="course-description" class="form-label text-dark">Course image</label>
+                            <label for="course-description" class="form-label text-dark">Chapter video</label>
                             <button class="btn p-1 d-flex align-items-center gap-1 btn--s," x-on:click="open = ! open">
                                 <x-lucide-pencil class="text-neutral-400 w-3 h-3 cursor-pointer" x-show="!open" />
                                 <span x-show="!open">Edit</span>
@@ -131,15 +131,23 @@
                             </button>
                         </div>
                         <div x-data="{ fileName: '' }" class="dropzone-area" x-show="open">
-                            <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
-                                <input accept="*" type="file" name="file" title="" x-ref="file" @change="fileName = $refs.file.files[0].name" class="dropzone-input-file" @dragover="$refs.dnd.classList.add('bg-blue-50')" @dragleave="$refs.dnd.classList.remove('bg-blue-50')" @drop="$refs.dnd.classList.remove('bg-blue-50')" />
-                                <div class="dropzone-content">
-                                    <x-lucide-upload-cloud class="w-5 h-5" />
-                                    <p>Drag your file here or click in this area.</p>
-                                    <p x-text="fileName"></p>
+
+                            <form enctype="multipart/form-data" action="/teacher/chapter/update/{{$chapter->id}}/video" method="POST">
+                                @csrf
+                                @method('put')
+                                <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
+                                    <!--
+ <input accept="video/*" type="file" name="chapter_video" title="" x-ref="file" @change="fileName = $refs.file.files[0].name" class="dropzone-input-file" @dragover="$refs.dnd.classList.add('bg-blue-50')" @dragleave="$refs.dnd.classList.remove('bg-blue-50')" @drop="$refs.dnd.classList.remove('bg-blue-50')" /> -->
+                                    <input type="file" accept="video/*" name="chapter_video_2" />
+
+                                    <div class="dropzone-content">
+                                        <x-lucide-upload-cloud class="w-5 h-5" />
+                                        <p>Drag your file here or click in this area.</p>
+                                        <p x-text="fileName"></p>
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="btn btn-primary mt-4 w-full">Save</button>
+                                <button class="btn btn-primary mt-4 w-full" type="submit">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
                             <img src="/images/example-course.png" class="img-fluid rounded-3" style="max-height: 300px;" />
