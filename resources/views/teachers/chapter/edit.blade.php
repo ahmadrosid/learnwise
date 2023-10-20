@@ -43,7 +43,7 @@
                                 <div class="input-group py-2">
                                     <input value="{{$chapter->title}}" type="text" class="form-control" id="chapter-title" name="title" aria-describedby="basic-addon3" />
                                 </div>
-                                <button class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
@@ -65,8 +65,9 @@
                             <form action="/teacher/chapter/update/{{$chapter->id}}" method="POST">
                                 @csrf
                                 @method('put')
-                                <x-trix-editor :text="$chapter->description" />
-                                <button class="btn btn-primary">Save</button>
+
+                                <x-trix-editor :input_name="'description'" :text="$chapter->description" />
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">

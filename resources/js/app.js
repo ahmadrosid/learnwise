@@ -79,14 +79,12 @@ function updateChapterOrders(items) {
         .put(apiUrl, {
             chapter_order: updatedItems,
         })
-        .then((anything) => {
-            console.log("anything on then", JSON.stringify(anything));
-        })
+        .then((response) => {})
         .catch((error) => {
             console.log("error", error);
         })
-        .finally((lastThing) => {
-            console.log("finally", JSON.stringify(lastThing));
+        .finally(() => {
+            console.log("Orders updated successfully");
         });
 }
 

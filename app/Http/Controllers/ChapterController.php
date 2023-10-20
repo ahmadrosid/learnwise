@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class ChapterController extends Controller
         $chapter = Chapter::where('id', $id)->firstOrFail();
         $course = Course::select('id', 'title', 'slug')->where('id', $chapter->course_id)->firstOrFail();
 
-        return view('teachers.chapter.create', [
+        return view('teachers.chapter.edit', [
             'chapter' => $chapter,
             'slug' => $course->slug,
         ]);
@@ -22,8 +23,6 @@ class ChapterController extends Controller
     public function store(Request $request)
     {
         $course_id = $request['course_id'];
-
-        // This determines whether we need to update the 'next_chapter_id' column on another row during the insertion
         $isFirstChapter = !Chapter::where('course_id', $course_id)->exists();
         $previousChapter = null;
 
@@ -36,8 +35,6 @@ class ChapterController extends Controller
             $previousChapter = Chapter::where('course_id', $request['course_id'])
                 ->whereNull('next_chapter_id')
                 ->first();
-
-            // Chapter::where('id', $previousChapter->id)->update(['next_chapter_id' => $newChapter->id]);
             $this->updateOrder($previousChapter->id, $newChapter->id);
         }
         return back();
@@ -50,7 +47,9 @@ class ChapterController extends Controller
         foreach ($chapterOrderData as $order) {
             $chapter = Chapter::find($order['id']);
             if ($chapter) {
-                $chapter->update(['next_chapter_id' => $order['next_chapter_id']]);
+                if ($chapter && $chapter->next_chapter_id !== $order['next_chapter_id']) {
+                    $this->updateOrder($chapter->id, $order['next_chapter_id']);
+                }
             }
         }
         return response()->json(['message' => "Orders updated successfully"]);
@@ -61,13 +60,11 @@ class ChapterController extends Controller
         return Chapter::where('id', $id)->update(['next_chapter_id' => $nextChapterId]);
     }
 
-    public function update(Request $request, Chapter $chapter)
+    public function update(UpdateChapterRequest $request, Chapter $chapter)
+
     {
 
-        $formFields = [];
-
-
-        // $chapter->update();
+        $chapter->update($request->validated());
         return back();
     }
 

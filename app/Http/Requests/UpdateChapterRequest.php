@@ -23,25 +23,12 @@ class UpdateChapterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_free' => 'nullable|numeric',
+            'is_free' => 'nullable|boolean',
             'title' => 'nullable|string|min:3|max:255',
             'category_id' => 'nullable|numeric|exists:categories,id',
             'description' => 'nullable|string',
-            'position' => 'required|numeric',
+            'position' => 'nullable|numeric',
+            'next_chapter_id' => 'nullable|numeric|exists:chapters,id',
         ];
     }
 }
-
-
-/*
-            $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable();
-            $table->integer('course_id')->nullable()->constrained('courses');
-            $table->boolean('is_free')->default(false);
-            $table->boolean('is_published')->default(false);
-            $table->integer('position')->nullable();
-            $table->string('video_url')->nullable();
- * */
