@@ -76,7 +76,6 @@ class ChapterController extends Controller
     }
 
     public function update(UpdateChapterRequest $request, Chapter $chapter)
-
     {
         $chapter->update($request->validated());
         return back();
@@ -84,26 +83,20 @@ class ChapterController extends Controller
 
     public function delete(Chapter $chapter)
     {
-
         $isReferenced = Chapter::where('next_chapter_id', $chapter->id)->exists();
-
         if ($isReferenced) {
             Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $chapter->next_chapter_id]);
         }
-
         $chapter->delete();
         return  back();
     }
 
     public function updatevideo(Request $request, Chapter $chapter)
     {
-
         $formFields = null;
-
         if ($request->hasFile('chapter_video')) {
             $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
         }
-
         $chapter->update($formFields);
         return redirect()->back();
     }
