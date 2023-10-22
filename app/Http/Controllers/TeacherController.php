@@ -33,8 +33,8 @@ class TeacherController extends Controller
             'user_id' => 'required'
         ]);
 
-        Course::create($formFields);
-        return redirect('/teacher/course/setup');
+        $course = Course::create($formFields);
+        return redirect(route('course.setup', $course->slug));
     }
 
     public function edit($slug)
