@@ -6,6 +6,8 @@ use App\Http\Requests\UpdateChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ChapterController extends Controller
 {
@@ -42,17 +44,30 @@ class ChapterController extends Controller
 
     public function updateorders(Request $request)
     {
-        $chapterOrderData = $request->input('chapter_order');
+        $affectedChapters = new Collection();
+        $chapterOrders = $request->input('chapter_order');
 
-        foreach ($chapterOrderData as $order) {
-            $chapter = Chapter::find($order['id']);
-            if ($chapter) {
-                if ($chapter && $chapter->next_chapter_id !== $order['next_chapter_id']) {
-                    $this->updateOrder($chapter->id, $order['next_chapter_id']);
+        DB::beginTransaction();
+        try {
+
+            foreach ($chapterOrders as $order) {
+                $chapter = Chapter::where('id', $order['id'])->firstOrFail();
+                if ($chapter->next_chapter_id !== $order['next_chapter_id']) {
+                    $chapter->update(['next_chapter_id' => null]);
+                    $affectedChapters->push($order);
                 }
+            };
+
+            foreach ($affectedChapters as $item) {
+                $chapter = Chapter::where('id', $item['id'])->firstOrFail();
+                $chapter->update(['next_chapter_id' => $item['next_chapter_id']]);
             }
+            DB::commit();
+            return response()->json(['message' => "Chapters updated"]);
+        } catch (\Exception $er) {
+            DB::rollback();
+            return response()->json(['message' => "Error occured! {$er->getMessage()}"]);
         }
-        return response()->json(['message' => "Orders updated successfully"]);
     }
 
     private function updateOrder($id, $nextChapterId)

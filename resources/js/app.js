@@ -31,7 +31,7 @@ document.addEventListener("alpine:init", () => {
     }));
 });
 
-window.dragDropList = function (items, dragging, dropping) {
+window.dragDropList = function(items, dragging, dropping) {
     if (dragging !== null && dropping !== null) {
         if (dragging < dropping) {
             items = [
@@ -57,11 +57,6 @@ window.dragDropList = function (items, dragging, dropping) {
 };
 
 function updateChapterOrders(items) {
-    const oldItems = items.map((item) => ({
-        id: item.id,
-        next_chapter_id: item.next_chapter_id,
-    }));
-
     const updatedItems = items.map((item, idx) => {
         let next_chapter_id = null;
         if (idx !== items.length - 1) {
@@ -79,7 +74,7 @@ function updateChapterOrders(items) {
         .put(apiUrl, {
             chapter_order: updatedItems,
         })
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
             console.log("error", error);
         })

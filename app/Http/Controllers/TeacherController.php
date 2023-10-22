@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
@@ -41,16 +40,17 @@ class TeacherController extends Controller
 
     private function sortChapters($chapters)
     {
-        $chapterMap = $chapters->keyBy('id');
-        $chaptersSorted = new Collection();
-        $minChapterId = $chapters->min('id');
-        $currentChapter = $chapterMap[$minChapterId];
+
+        $sortedChapters = [];
+        $chapterLookup = collect($chapters->keyBy('id'));
+
+        $currentChapter = $chapterLookup->where('next_chapter_id', null)->first();
+
         while ($currentChapter) {
-            $chaptersSorted->push($currentChapter);
-            $nextChapterId = $currentChapter['next_chapter_id'];
-            $currentChapter = $nextChapterId !== null ? $chapterMap[$nextChapterId] : null;
+            $sortedChapters[] = $currentChapter;
+            $currentChapter = $chapterLookup->where('next_chapter_id', $currentChapter->id)->first();
         }
-        return $chaptersSorted;
+        return array_reverse($sortedChapters);
     }
 
     public function edit($slug)
