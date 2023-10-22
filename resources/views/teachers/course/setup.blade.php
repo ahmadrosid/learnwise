@@ -159,7 +159,7 @@
                         </div>
                         <!-- Alphine drag and drop: https://codepen.io/lgaud/pen/abVEwgz -->
                         <div>
-                            <div class="py-2" x-data="{ items: {{json_encode($course->chapters)}}, newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                            <div class="py-2" x-data="{ items: {{json_encode($chapters)}}, newItem:'', dragging: null, dropping: null}" @drop.prevent="items=dragDropList(items, dragging, dropping)" @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
                                 <div class="list-group border border-blue-100 rounded-2 overflow-hidden">
                                     <template x-for="(item, index) in items" :key="index">
                                         <div class="position-relative list-group-item border-bottom border-blue-100 p-0" draggable="true" :class="{'border-bottom-0': items.length-1 === index}" @dragstart="dragging = index" @dragend="dragging = null">

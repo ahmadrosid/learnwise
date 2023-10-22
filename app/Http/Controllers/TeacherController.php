@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Category;
+use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
@@ -37,17 +39,34 @@ class TeacherController extends Controller
         return redirect(route('course.setup', $course->slug));
     }
 
+    private function sortChapters($chapters)
+    {
+        $chapterMap = $chapters->keyBy('id');
+        $chaptersSorted = new Collection();
+        $minChapterId = $chapters->min('id');
+        $currentChapter = $chapterMap[$minChapterId];
+        while ($currentChapter) {
+            $chaptersSorted->push($currentChapter);
+            $nextChapterId = $currentChapter['next_chapter_id'];
+            $currentChapter = $nextChapterId !== null ? $chapterMap[$nextChapterId] : null;
+        }
+        return $chaptersSorted;
+    }
+
     public function edit($slug)
     {
 
         $course = Course::where('slug', $slug)->firstOrFail();
         $categories = Category::all();
-        $chapterTitles = $course->chapters->pluck('title')->all();
-
+        $chapterData = Chapter::where('course_id', $course->id)->get();
+        $chapters = [];
+        if ($chapterData->count() > 0) {
+            $chapters = $this->sortChapters($chapterData);
+        }
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => $categories,
-            'chapterTitles' => $chapterTitles,
+            'chapters' => $chapters,
         ]);
     }
 
