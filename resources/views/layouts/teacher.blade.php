@@ -41,7 +41,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="menu-item p-4" href="/courses/mycourses">
+                            <a class="menu-item p-4" href="/teacher/analytics">
                                 <x-lucide-bar-chart class="w-4 h-4 me-2" />
                                 Analytics
                             </a>
