@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
@@ -22,12 +23,18 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher', [TeacherController::class, 'index']);
     Route::get('/teacher/course/create', [TeacherController::class, 'create']);
     Route::post('/teacher/course', [TeacherController::class, 'store']);
+    Route::put('/teacher/course/{course}', [TeacherController::class, 'update'])->name('teacher.course.update');
+    Route::put('/teacher/course/update/{course}/thumbnail', [TeacherController::class, 'updatethumbnail']);
+    Route::get('/teacher/course/setup/{course:slug}', [TeacherController::class, 'edit'])->name('course.setup');
+    Route::get('/teacher/chapter/edit/{id}',  [ChapterController::class, 'index']);
+    Route::put('/teacher/chapter/update/{chapter}', [ChapterController::class, 'update']);
+    Route::put('/teacher/chapter/update/{chapter}/video', [ChapterController::class, 'updatevideo']);
+    Route::post('/teacher/chapter/create', [ChapterController::class, 'store']);
+    Route::delete('/teacher/chapter/delete/{chapter}', [ChapterController::class, 'delete']);
 });
 
 Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
-Route::view('/teacher/course/setup', 'teachers.course.setup');
-Route::view('/teacher/chapter/create',  'teachers.chapter.create');
 
 Route::get('/courses/chapter-free', function () {
     return view('courses.chapter', [
@@ -44,5 +51,7 @@ Route::get('/courses/chapter-lock', function () {
         "title" => "Fullstack Saas Laravel"
     ]);
 });
+
+Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
 
 require __DIR__ . '/auth.php';

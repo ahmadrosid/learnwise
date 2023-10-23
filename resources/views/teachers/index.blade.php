@@ -25,7 +25,7 @@
 
                     <tr>
                         <td>
-                            <a href="/teacher/course/setup">{{$course->title}}</a>
+                            <a href="/teacher/course/setup/{{$course->slug}}">{{$course->title}}</a>
                         </td>
                         <td>${{$course->price}}</td>
                         <td>

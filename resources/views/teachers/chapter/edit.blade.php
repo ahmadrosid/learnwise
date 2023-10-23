@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="px-4 py-2">
-        <a class="btn" href="/teacher/course/setup">
+        <a class="btn" href="/teacher/course/setup/{{$slug}}">
             <x-lucide-move-left class="h-5" />
             <span class="font-bold px-2">Back to course setup</span>
         </a>
@@ -36,13 +36,18 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="input-group py-2">
-                                <input value="Fullstack Saas Laravel" type="text" class="form-control" id="chapter-title" aria-describedby="basic-addon3" />
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/chapter/update/{{$chapter->id}}" method="post">
+                                @csrf
+                                @method('put')
+
+                                <div class="input-group py-2">
+                                    <input value="{{$chapter->title}}" type="text" class="form-control" id="chapter-title" name="title" aria-describedby="basic-addon3" />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            Fullstack Saas Laravel
+                            {{$chapter->title}}
                         </div>
                     </div>
                 </div>
@@ -57,11 +62,16 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <x-trix-editor />
-                            <button class="btn btn-primary">Save</button>
+                            <form action="/teacher/chapter/update/{{$chapter->id}}" method="POST">
+                                @csrf
+                                @method('put')
+
+                                <x-trix-editor :input_name="'description'" :text="$chapter->description" />
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
-                            No description yet.
+                            {{$chapter->description}}
                         </div>
                     </div>
                 </div>
@@ -82,18 +92,23 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <div class="rounded-2 border border-2 px-2 py-2 my-2 bg-white">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label class="form-check-label fs-sm" for="flexCheckDefault">
-                                        Check this box if you want to make this chapter free for preview
-                                    </label>
+                            <form action="/teacher/chapter/update/{{$chapter->id}}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="rounded-2 border border-2 px-2 py-2 my-2 bg-white">
+                                    <div class="form-check">
+                                        <input type="hidden" value="0" name="is_free" />
+                                        <input value="1" name="is_free" class="form-check-input" type="checkbox" id="chapter-access" @if($chapter->is_free) checked @endif />
+                                        <label class="form-check-label fs-sm" for="chapter-access">
+                                            Check this box if you want to make this chapter free for preview
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
-                            This chapter are not free.
+                            {{ $chapter->is_free ? "This chapter is free for preview."  :"This chapter is not free."}}
                         </div>
                     </div>
                 </div>
@@ -109,7 +124,7 @@
                 <div class="py-4" x-data="{ open: false }">
                     <div class="p-2 px-3 rounded-2 bg-neutral-30 border border-neutral-40">
                         <div class="d-flex justify-content-between align-items-center">
-                            <label for="course-description" class="form-label text-dark">Course image</label>
+                            <label for="course-description" class="form-label text-dark">Chapter video</label>
                             <button class="btn p-1 d-flex align-items-center gap-1 btn--s," x-on:click="open = ! open">
                                 <x-lucide-pencil class="text-neutral-400 w-3 h-3 cursor-pointer" x-show="!open" />
                                 <span x-show="!open">Edit</span>
@@ -117,18 +132,28 @@
                             </button>
                         </div>
                         <div x-data="{ fileName: '' }" class="dropzone-area" x-show="open">
-                            <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
-                                <input accept="*" type="file" name="file" title="" x-ref="file" @change="fileName = $refs.file.files[0].name" class="dropzone-input-file" @dragover="$refs.dnd.classList.add('bg-blue-50')" @dragleave="$refs.dnd.classList.remove('bg-blue-50')" @drop="$refs.dnd.classList.remove('bg-blue-50')" />
-                                <div class="dropzone-content">
-                                    <x-lucide-upload-cloud class="w-5 h-5" />
-                                    <p>Drag your file here or click in this area.</p>
-                                    <p x-text="fileName"></p>
+
+                            <form enctype="multipart/form-data" action="/teacher/chapter/update/{{$chapter->id}}/video" method="POST">
+                                @csrf
+                                @method('put')
+                                <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
+                                    <!--
+ <input accept="video/*" type="file" name="chapter_video" title="" x-ref="file" @change="fileName = $refs.file.files[0].name" class="dropzone-input-file" @dragover="$refs.dnd.classList.add('bg-blue-50')" @dragleave="$refs.dnd.classList.remove('bg-blue-50')" @drop="$refs.dnd.classList.remove('bg-blue-50')" /> -->
+                                    <input type="file" accept="video/*" name="chapter_video" />
+
+                                    <div class="dropzone-content">
+                                        <x-lucide-upload-cloud class="w-5 h-5" />
+                                        <p>Drag your file here or click in this area.</p>
+                                        <p x-text="fileName"></p>
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="btn btn-primary mt-4 w-full">Save</button>
+                                <button class="btn btn-primary mt-4 w-full" type="submit">Save</button>
+                            </form>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
-                            <img src="/images/example-course.png" class="img-fluid rounded-3" style="max-height: 300px;" />
+                            <video controls class="img-fluid rounded-3" style="max-height: 300px;">
+                                <source src="{{asset('storage/'.$chapter->video_url)}}" type="video/mp4" />
+                            </video>
                         </div>
                     </div>
                 </div>

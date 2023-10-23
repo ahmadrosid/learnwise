@@ -4,6 +4,7 @@ import "fastbootstrap";
 import Alpine from "alpinejs";
 import Choices from "choices.js";
 import focus from "@alpinejs/focus";
+import axios from "axios";
 Alpine.plugin(focus);
 
 window.Alpine = Alpine;
@@ -30,7 +31,7 @@ document.addEventListener("alpine:init", () => {
     }));
 });
 
-window.dragDropList = function (items, dragging, dropping) {
+window.dragDropList = function(items, dragging, dropping) {
     if (dragging !== null && dropping !== null) {
         if (dragging < dropping) {
             items = [
@@ -49,7 +50,37 @@ window.dragDropList = function (items, dragging, dropping) {
         }
         dropping = null;
     }
+
+    updateChapterOrders(items);
+
     return items;
 };
+
+function updateChapterOrders(items) {
+    const updatedItems = items.map((item, idx) => {
+        let next_chapter_id = null;
+        if (idx !== items.length - 1) {
+            next_chapter_id = items[idx + 1].id;
+        }
+        return {
+            id: item.id,
+            next_chapter_id: next_chapter_id,
+        };
+    });
+
+    const apiUrl = "/teacher/chapter/updateorders";
+
+    axios
+        .put(apiUrl, {
+            chapter_order: updatedItems,
+        })
+        .then((response) => { })
+        .catch((error) => {
+            console.log("error", error);
+        })
+        .finally(() => {
+            console.log("Orders updated successfully");
+        });
+}
 
 Alpine.start();

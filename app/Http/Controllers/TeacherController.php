@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateCourseRequest;
+use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -31,7 +33,54 @@ class TeacherController extends Controller
             'user_id' => 'required'
         ]);
 
-        Course::create($formFields);
-        return redirect('/teacher/course/setup');
+        $course = Course::create($formFields);
+        return redirect(route('course.setup', $course->slug));
+    }
+
+    private function sortChapters($chapters)
+    {
+        if ($chapters->count() === 0) {
+            return [];
+        }
+
+        $sortedChapters = [];
+        $chapterLookup = collect($chapters->keyBy('id'));
+        $currentChapter = $chapterLookup->where('next_chapter_id', null)->first();
+        while ($currentChapter) {
+            $sortedChapters[] = $currentChapter;
+            $currentChapter = $chapterLookup->where('next_chapter_id', $currentChapter->id)->first();
+        }
+        return array_reverse($sortedChapters);
+    }
+
+    public function edit(Course $course)
+    {
+        return view('teachers.course.setup', [
+            'course' => $course,
+            'categories' => Category::all(),
+            'chapters' => $this->sortChapters($course->chapters),
+        ]);
+    }
+
+    public function update(UpdateCourseRequest $request, Course $course)
+    {
+        $course->update($request->validated());
+        return redirect("/teacher/course/setup/" . $course->slug);
+    }
+
+    public function updatethumbnail(Request $request, Course $course)
+    {
+        /*
+         * TODO: remove thumbnail stored when user upload a new one, we don't want them to just pile up our storage
+         * We also might want to put this function inside `update` above
+         **/
+
+        $formFields = null;
+        if ($request->hasFile('thumbnail')) {
+            $formFields['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
+
+        $course->update($formFields);
+        return redirect()->back();
     }
 }

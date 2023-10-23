@@ -9,7 +9,7 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'user_id', 'is_published', 'price', 'thumbnail', 'slug'];
+    protected $fillable = ['title', 'description', 'user_id', 'is_published', 'price', 'thumbnail', 'slug', 'category_id'];
 
 
     public function user()
@@ -25,5 +25,13 @@ class Course extends Model
     public function chapters()
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

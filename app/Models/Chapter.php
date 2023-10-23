@@ -10,7 +10,7 @@ class Chapter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description',  'course_id', 'is_published', 'is_free', 'position', 'video_url'
+        'title', 'description',  'course_id', 'is_published', 'is_free', 'position', 'video_url', 'next_chapter_id'
     ];
 
     public function course()

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('progresses', function (Blueprint $table) {
-            $table->index(['user_id', 'course_id'], 'idx_user_course_id');
+        Schema::table('chapters', function (Blueprint $table) {
+            $table->unique(['course_id', 'next_chapter_id'])->whereNotNull('next_chapter_id');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('progresses', function (Blueprint $table) {
-            $table->dropIndex('idx_user_course_id');
+        Schema::table('chapters', function (Blueprint $table) {
+            $table->dropUnique(['course_id', 'next_chapter_id']);
         });
     }
 };
