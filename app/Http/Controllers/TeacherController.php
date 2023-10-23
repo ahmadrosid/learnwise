@@ -39,6 +39,10 @@ class TeacherController extends Controller
 
     private function sortChapters($chapters)
     {
+        if ($chapters->count() === 0) {
+            return [];
+        }
+
         $sortedChapters = [];
         $chapterLookup = collect($chapters->keyBy('id'));
         $currentChapter = $chapterLookup->where('next_chapter_id', null)->first();
@@ -49,21 +53,12 @@ class TeacherController extends Controller
         return array_reverse($sortedChapters);
     }
 
-    public function edit($slug)
+    public function edit(Course $course)
     {
-
-        $course = Course::where('slug', $slug)->firstOrFail();
-        $categories = Category::all();
-        $chapters = [];
-
-        if ($course->chapters->count() > 0) {
-            $chapters = $this->sortChapters($course->chapters);
-        }
-
         return view('teachers.course.setup', [
             'course' => $course,
-            'categories' => $categories,
-            'chapters' => $chapters,
+            'categories' => Category::all(),
+            'chapters' => $this->sortChapters($course->chapters),
         ]);
     }
 
