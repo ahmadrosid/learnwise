@@ -8,10 +8,7 @@ use App\Http\Controllers\UserCourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CourseController::class, 'index']);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [CourseController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
