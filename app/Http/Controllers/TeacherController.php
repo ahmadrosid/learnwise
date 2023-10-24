@@ -86,7 +86,7 @@ class TeacherController extends Controller
         return redirect()->back();
     }
 
-    public function grouprevenue()
+    public function revenue()
     {
         $groupRevenue = Course::select('courses.title', DB::raw('SUM(courses.price) as revenue'))
             ->join('purchases', 'courses.id', '=', 'purchases.course_id')

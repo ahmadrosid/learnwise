@@ -87,7 +87,7 @@ function updateChapterOrders(items) {
 
 window.chart = (async function () {
     try {
-        const { data } = await axios.get("/api/teacher/grouprevenue");
+        const { data } = await axios.get("/api/teacher/revenue");
         const canvas = document.getElementById("totalRevenue");
 
         if (Array.isArray(data.data)) {

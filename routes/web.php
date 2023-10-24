@@ -32,7 +32,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::post('/teacher/chapter/create', [ChapterController::class, 'store']);
     Route::delete('/teacher/chapter/delete/{chapter}', [ChapterController::class, 'delete']);
     Route::get('/teacher/analytics', [TeacherController::class, 'analytics']);
-    Route::get('/api/teacher/grouprevenue', [TeacherController::class,  'grouprevenue']);
+    Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue']);
 });
 
 
