@@ -24,7 +24,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/course/create', [TeacherController::class, 'create']);
     Route::post('/teacher/course', [TeacherController::class, 'store']);
     Route::put('/teacher/course/{course}', [TeacherController::class, 'update'])->name('teacher.course.update');
-    Route::put('/teacher/course/update/{course}/thumbnail', [TeacherController::class, 'updatethumbnail']);
+    Route::put('/teacher/course/update/{course}/thumbnail', [TeacherController::class, 'updatethumbnail'])->name("teacher.course.update.thumbnail");
     Route::get('/teacher/course/setup/{course:slug}', [TeacherController::class, 'edit'])->name('course.setup');
     Route::get('/teacher/chapter/edit/{id}',  [ChapterController::class, 'index']);
     Route::put('/teacher/chapter/update/{chapter}', [ChapterController::class, 'update']);

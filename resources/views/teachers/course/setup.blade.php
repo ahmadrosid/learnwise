@@ -86,7 +86,7 @@
                         </div>
                         <div class="pt-2" x-show="open" style="min-height: 305px;">
                             <div x-data="imgPreview" x-cloak>
-                                <form action="/teacher/course/update/{{$course->id}}/thumbnail" method="POST" enctype="multipart/form-data">
+                                <form action="{{route('teacher.course.update.thumbnail', $course->slug)}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
                                     <input name="thumbnail" class="form-control" type="file" id="imgSelect" accept="image/*" x-ref="myFile" @change="previewFile">
