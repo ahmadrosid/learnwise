@@ -25,7 +25,7 @@ class ChapterController extends Controller
     public function store(Request $request)
     {
         $course_id = $request['course_id'];
-        $isFirstChapter = !Chapter::where('course_id', $course_id)->exists();
+        $isFirstChapter = ! Chapter::where('course_id', $course_id)->exists();
         $previousChapter = null;
 
         $formFields = $request->validate([
@@ -33,12 +33,13 @@ class ChapterController extends Controller
             'course_id' => 'required|numeric|exists:courses,id',
         ]);
         $newChapter = Chapter::create($formFields);
-        if (!$isFirstChapter) {
+        if (! $isFirstChapter) {
             $previousChapter = Chapter::where('course_id', $request['course_id'])
                 ->whereNull('next_chapter_id')
                 ->first();
             $this->updateOrder($previousChapter->id, $newChapter->id);
         }
+
         return back();
     }
 
@@ -56,16 +57,18 @@ class ChapterController extends Controller
                     $chapter->update(['next_chapter_id' => null]);
                     $affectedChapters->push($order);
                 }
-            };
+            }
 
             foreach ($affectedChapters as $item) {
                 $chapter = Chapter::where('id', $item['id'])->firstOrFail();
                 $chapter->update(['next_chapter_id' => $item['next_chapter_id']]);
             }
             DB::commit();
-            return response()->json(['message' => "Chapters updated"]);
+
+            return response()->json(['message' => 'Chapters updated']);
         } catch (\Exception $er) {
             DB::rollback();
+
             return response()->json(['message' => "Error occured! {$er->getMessage()}"]);
         }
     }
@@ -78,17 +81,21 @@ class ChapterController extends Controller
     public function update(UpdateChapterRequest $request, Chapter $chapter)
     {
         $chapter->update($request->validated());
+
         return back();
     }
 
-    public function delete(Chapter $chapter)
+    public function delete(Request $request, Chapter $chapter)
     {
+
+        $slug = $request['slug'];
         $isReferenced = Chapter::where('next_chapter_id', $chapter->id)->exists();
         if ($isReferenced) {
             Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $chapter->next_chapter_id]);
         }
         $chapter->delete();
-        return  back();
+
+        return redirect('/teacher/course/setup/'.$slug);
     }
 
     public function updatevideo(Request $request, Chapter $chapter)
@@ -98,6 +105,14 @@ class ChapterController extends Controller
             $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
         }
         $chapter->update($formFields);
+
+        return redirect()->back();
+    }
+
+    public function publish(Chapter $chapter)
+    {
+        $chapter->update(['is_published' => ! $chapter->is_published]);
+
         return redirect()->back();
     }
 }

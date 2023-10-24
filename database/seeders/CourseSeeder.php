@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,8 +23,8 @@ class CourseSeeder extends Seeder
                 'price' => 49.99,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'is_published' => 1,
-                'thumbnail' => 'https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80',
+                'is_published' => false,
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Art Appreciation and Techniques',
@@ -36,8 +35,8 @@ class CourseSeeder extends Seeder
                 'price' => 59.99,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'is_published' => 1,
-                'thumbnail' => 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1pYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'is_published' => 0,
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Business Strategies for Success',
@@ -48,8 +47,8 @@ class CourseSeeder extends Seeder
                 'price' => 39.99,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'is_published' => 1,
-                'thumbnail' => 'https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80',
+                'is_published' => false,
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Web Developments| Where to start?',
@@ -61,7 +60,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80'
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Absolute Beginner Guide to Calligraphy and Beautiful Handwriting',
@@ -73,7 +72,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1564630322990-4a9e93d13946?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80',
+                'thumbnail' => '',
             ],
 
             [
@@ -86,7 +85,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1502691876148-a84978e59af8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => '34 Indonesian recipes that you can try at home',
@@ -98,7 +97,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Photography - Become a pro shooter in 20 hours',
@@ -110,7 +109,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Making Soto - One of the most iconic indonesian cuisine.',
@@ -122,7 +121,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1572656306390-40a9fc3899f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Learn Python Programming Language to Automate your daily tasks.',
@@ -134,7 +133,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1628853210688-acf6bfeb5daf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Understanding kids',
@@ -146,7 +145,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://plus.unsplash.com/premium_photo-1686836995180-06df3b20884e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'How to sell anything?',
@@ -158,7 +157,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1556742212-5b321f3c261b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Understanding Women',
@@ -170,7 +169,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1590650046871-92c887180603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'thumbnail' => '',
             ],
             [
                 'title' => 'Understanding Men',
@@ -182,7 +181,7 @@ class CourseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
-                'thumbnail' => 'https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+                'thumbnail' => '',
             ],
         ];
 

@@ -6,12 +6,11 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class TeacherController extends Controller
 {
-
     public function index(Request $request)
     {
         return view('teachers.index', [
@@ -26,14 +25,15 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        $request['slug'] = Str::of($request->title)->slug("-");
+        $request['slug'] = Str::of($request->title)->slug('-');
         $formFields = $request->validate([
             'title' => 'required',
             'slug' => ['required', Rule::unique('courses', 'slug')],
-            'user_id' => 'required'
+            'user_id' => 'required',
         ]);
 
         $course = Course::create($formFields);
+
         return redirect(route('course.setup', $course->slug));
     }
 
@@ -50,6 +50,7 @@ class TeacherController extends Controller
             $sortedChapters[] = $currentChapter;
             $currentChapter = $chapterLookup->where('next_chapter_id', $currentChapter->id)->first();
         }
+
         return array_reverse($sortedChapters);
     }
 
@@ -65,7 +66,8 @@ class TeacherController extends Controller
     public function update(UpdateCourseRequest $request, Course $course)
     {
         $course->update($request->validated());
-        return redirect("/teacher/course/setup/" . $course->slug);
+
+        return redirect('/teacher/course/setup/'.$course->slug);
     }
 
     public function updatethumbnail(Request $request, Course $course)
@@ -81,6 +83,26 @@ class TeacherController extends Controller
         }
 
         $course->update($formFields);
+
         return redirect()->back();
+    }
+
+    public function publish(Request $request)
+    {
+        $id = $request['id'];
+        $course = Course::where('id', $id)->first();
+
+        if ($course) {
+            $course->update(['is_published' => ! $course->is_published]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function delete(Request $request, Course $course)
+    {
+        $course->delete();
+
+        return redirect('/teacher');
     }
 }
