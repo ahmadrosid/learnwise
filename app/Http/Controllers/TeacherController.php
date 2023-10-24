@@ -99,19 +99,14 @@ class TeacherController extends Controller
 
     public function analytics()
     {
-
         $purchasesData = Purchase::select(
             'purchases.id',
-            'purchases.user_id as cust_id',
             'purchases.course_id',
             'courses.title',
             'courses.price'
         )->join('courses', 'courses.id', 'purchases.course_id')
             ->where('courses.user_id', auth()->user()->id)
             ->get();
-
-
-
 
         $totalRevenue = Purchase::join('courses', 'purchases.course_id', 'courses.id')
             ->where('courses.user_id', auth()->user()->id)
