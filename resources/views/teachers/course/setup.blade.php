@@ -47,7 +47,7 @@
                             </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            {{$course->title }}
+                            {{ $course->title }}
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,11 @@
                             </div>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
-                            <img src="{{asset('storage/'.$course->thumbnail)}}" class="img-fluid rounded-3" style="max-height: 300px;" />
+                            @if(!$course->thumbnail)
+                            <img src="{{asset('thumbnail-placehoder-image.jpg')}}" class="img-fluid rounded-3" style="max-height: 350px;" />
+                            @else
+                            <img src="{{asset('storage/'.$course->thumbnail)}}" class="img-fluid rounded-3" style="max-height: 350px;" />
+                            @endif
                         </div>
                     </div>
                 </div>
