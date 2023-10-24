@@ -24,7 +24,7 @@
         <div class="p-5">
             <div class="pb-2">
                 @if ($isEnrolled || $chapter->is_free)
-                    <video src="{{ asset('/storage' . $chapter->video_url) }}" class="rounded card-img-top"
+                    <video src="{{ asset('/storage/' . $chapter->video_url) }}" class="rounded card-img-top"
                         controls></video>
                 @else
                     <div class="rounded card-img-top bg-neutral-800 ratio-16x9" style="height: 600px;">
