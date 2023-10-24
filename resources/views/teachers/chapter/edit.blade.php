@@ -71,7 +71,7 @@
                             </form>
                         </div>
                         <div class="text-sm pt-1 text-neutral-100 fs-sm" x-show="!open">
-                            {{$chapter->description}}
+                            {!!$chapter->description!!}
                         </div>
                     </div>
                 </div>
