@@ -36,7 +36,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="input-group py-2">
@@ -62,7 +62,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <x-trix-editor :input_name="'description'" :text="$course->description" />
@@ -118,7 +118,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="py-2">
@@ -221,7 +221,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="post">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <div class="input-group py-2">

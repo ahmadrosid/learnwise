@@ -1,7 +1,7 @@
 <x-teacher-layout>
-    <div class="d-flex w-100 vh-100 align-items-center justify-content-center">
+    <div class="d-flex w-100 align-items-center justify-content-center">
         <div class="p-6">
-            <form method="POST" action="/teacher/course">
+            <form method="POST" action="{{ route('teacher.course.store') }}">
                 @csrf
                 <h2>Name your course</h2>
                 <p class="lead">
