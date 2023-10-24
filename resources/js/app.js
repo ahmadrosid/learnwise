@@ -33,7 +33,7 @@ document.addEventListener("alpine:init", () => {
     }));
 });
 
-window.dragDropList = function(items, dragging, dropping) {
+window.dragDropList = function (items, dragging, dropping) {
     if (dragging !== null && dropping !== null) {
         if (dragging < dropping) {
             items = [
@@ -76,7 +76,7 @@ function updateChapterOrders(items) {
         .put(apiUrl, {
             chapter_order: updatedItems,
         })
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
             console.log("error", error);
         })
@@ -85,7 +85,7 @@ function updateChapterOrders(items) {
         });
 }
 
-window.chart = (async function() {
+window.chart = (async function () {
     try {
         const { data } = await axios.get("/api/teacher/grouprevenue");
         const canvas = document.getElementById("totalRevenue");
@@ -95,7 +95,9 @@ window.chart = (async function() {
             new Chart(canvas, {
                 type: "bar",
                 data: {
-                    labels: revenueData.map((row) => row.title),
+                    labels: revenueData.map(
+                        (row) => row.title.slice(0, 25) + "..."
+                    ),
                     datasets: [
                         {
                             label: "Total revenue",

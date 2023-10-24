@@ -12,7 +12,7 @@
 
     <div class="d-flex p-4 gap-2">
         <div class="flex-grow-1 border rounded p-3">
-            <canvas id="totalRevenue" class="w-75" style="height: 320px; margin:auto"></canvas>
+            <canvas id="totalRevenue" class="w-full" style="height: 320px; margin:auto"></canvas>
         </div>
     </div>
 </x-teacher-layout>
