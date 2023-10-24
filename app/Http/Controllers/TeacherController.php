@@ -94,8 +94,6 @@ class TeacherController extends Controller
             ->where('courses.user_id', auth()->user()->id)
             ->get();
 
-        logger($groupRevenue);
-
         return response()->json(['data' => $groupRevenue]);
     }
 
