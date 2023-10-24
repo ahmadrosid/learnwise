@@ -30,9 +30,8 @@
                 <div class="col">
                     <div class="border shadow-none card rounded-4">
                         <a href="/courses/{{ $item->slug }}/chapter/1" class="p-2">
-                            <img src="{{ asset('/storage/' . $item->thumbnail) }}"
-                                class="object-cover rounded-3 ratio ratio-4x3" alt="{{ $item->title }}"
-                                style="max-height: 160px;;" />
+                            <img src="@thumbnail($item)" class="object-cover rounded-3 ratio ratio-4x3"
+                                alt="{{ $item->title }}" style="max-height: 160px;;" />
                         </a>
                         <div class="p-3 pt-0 card-body">
                             <a href="/courses/{{ $item->slug }}/chapter/1" class="text-black">
