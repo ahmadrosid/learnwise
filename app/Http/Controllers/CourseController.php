@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
@@ -33,22 +34,24 @@ class CourseController extends Controller
 
     public function show($slug, $chapter)
     {
-        $course = Course::select('courses.*')->with(['chapters' => function ($query) {
-            $query->where('is_published', true);
-        }])->where('slug', $slug)->firstOrFail();
-        $chapterData = $course->chapters->collect()->first(function ($item) use ($chapter) {
-            return $item->position == $chapter;
-        });
+        $chapterModel = new Chapter();
 
+        /*
+         * We indeed need to grab all courses in order to order them accordingly,
+         * as opposed to taking only published ones
+         **/
+        $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
+        $chapterData = $chapterModel->sortChapters($course->chapters, 'student');
         $isEnrolled = auth()->check() ? Purchase::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->count() === 1 : false;
 
         return view('courses.chapter', [
             'course' => $course,
             'slug' => $slug,
-            'chapter' => $chapterData,
+            'chapter' => $chapterData[0],
             'chapterPosition' => $chapter,
             'isEnrolled' => $isEnrolled,
+            'chapters' => $chapterData,
         ]);
     }
 }

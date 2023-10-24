@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Category;
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
@@ -39,29 +40,14 @@ class TeacherController extends Controller
         return redirect(route('course.setup', $course->slug));
     }
 
-    private function sortChapters($chapters)
-    {
-        if ($chapters->count() === 0) {
-            return [];
-        }
-
-        $sortedChapters = [];
-        $chapterLookup = collect($chapters->keyBy('id'));
-        $currentChapter = $chapterLookup->where('next_chapter_id', null)->first();
-        while ($currentChapter) {
-            $sortedChapters[] = $currentChapter;
-            $currentChapter = $chapterLookup->where('next_chapter_id', $currentChapter->id)->first();
-        }
-
-        return array_reverse($sortedChapters);
-    }
-
     public function edit(Course $course)
     {
+        $chapterModel = new Chapter();
+
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
-            'chapters' => $this->sortChapters($course->chapters),
+            'chapters' => $chapterModel->sortChapters($course->chapters, 'teacher'),
         ]);
     }
 

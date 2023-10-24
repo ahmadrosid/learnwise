@@ -3,7 +3,7 @@
         <div class="sidenav show border-end">
             <div class="menu accordion">
                 <ul class="menu-list">
-                    @foreach ($course->chapters as $item)
+                    @foreach ($chapters as $item)
                         <li>
                             <a class="menu-item p-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
                                 href="/courses/{{ $slug }}/chapter/{{ $item->position }}">

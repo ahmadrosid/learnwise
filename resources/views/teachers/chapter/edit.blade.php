@@ -175,7 +175,7 @@
                         style="width: 35px; height: 35px; padding: 6px;">
                         <x-lucide-video class="text-blue-400" />
                     </div>
-                    <div class="fs-5">Customize your course</div>
+                    <div class="fs-5">Upload Chapter Video</div>
                 </div>
 
                 <div class="py-4" x-data="{ open: false }">
@@ -189,7 +189,7 @@
                                 <span x-show="open">Cancel</span>
                             </button>
                         </div>
-                        <div x-data="{ fileName: '' }" class="dropzone-area" x-show="open">
+                        <div x-data="{ fileName: '', chapterVideoFile: null }" class="dropzone-area" x-show="open">
 
                             <form enctype="multipart/form-data"
                                 action="/teacher/chapter/update/{{ $chapter->id }}/video" method="POST">
@@ -197,7 +197,13 @@
                                 @method('put')
                                 <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
                                     <div class="py-4">
-                                        <input accept="video/*" type="file" name="chapter_video" title="" x-ref="file" @change="fileName = $refs.file.files[0].name" class="dropzone-input-file" @dragover="$refs.dnd.classList.add('bg-blue-50')" @dragleave="$refs.dnd.classList.remove('bg-blue-50')" @drop="$refs.dnd.classList.remove('bg-blue-50')" />
+                                        <input accept="video/*" type="file" name="chapter_video" title=""
+                                            x-ref="file"
+                                            @change="fileName = $refs.file.files[0].name; chapterVideoFile = $refs.file.files[0]"
+                                            class="dropzone-input-file"
+                                            @dragover="$refs.dnd.classList.add('bg-blue-50')"
+                                            @dragleave="$refs.dnd.classList.remove('bg-blue-50')"
+                                            @drop="$refs.dnd.classList.remove('bg-blue-50')" />
                                     </div>
 
                                     <div class="dropzone-content">
@@ -206,7 +212,8 @@
                                         <p x-text="fileName"></p>
                                     </div>
                                 </div>
-                                <button class="mt-4 w-full btn btn-primary" type="submit">Save</button>
+                                <button class="mt-4 w-full btn btn-primary" type="submit"
+                                    :disabled="!chapterVideoFile">Save</button>
                             </form>
                         </div>
                         <div class="py-2 text-sm" x-show="!open">
