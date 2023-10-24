@@ -36,7 +36,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="input-group py-2">
@@ -47,7 +47,7 @@
                             </form>
                         </div>
                         <div class="text-sm pt-1" x-show="!open">
-                            {{$course->title }}
+                            {{ $course->title }}
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <x-trix-editor :input_name="'description'" :text="$course->description" />
@@ -86,7 +86,7 @@
                         </div>
                         <div class="pt-2" x-show="open" style="min-height: 305px;">
                             <div x-data="imgPreview" x-cloak>
-                                <form action="/teacher/course/update/{{$course->id}}/thumbnail" method="POST" enctype="multipart/form-data">
+                                <form action="{{route('teacher.course.update.thumbnail', $course->slug)}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
                                     <input name="thumbnail" class="form-control" type="file" id="imgSelect" accept="image/*" x-ref="myFile" @change="previewFile">
@@ -103,7 +103,11 @@
                             </div>
                         </div>
                         <div class="text-sm py-2" x-show="!open">
-                            <img src="{{asset('storage/'.$course->thumbnail)}}" class="img-fluid rounded-3" style="max-height: 300px;" />
+                            @if(!$course->thumbnail)
+                            <img src="{{asset('thumbnail-placehoder-image.jpg')}}" class="img-fluid rounded-3" style="max-height: 350px;" />
+                            @else
+                            <img src="@thumbnail($course)" class="img-fluid rounded-3" style="max-height: 350px;" />
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -118,7 +122,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="POST">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="py-2">
@@ -221,7 +225,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/course/{{$course->id}}" method="post">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <div class="input-group py-2">
