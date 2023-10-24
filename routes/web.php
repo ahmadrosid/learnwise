@@ -32,7 +32,6 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue']);
 });
 
-
 Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 

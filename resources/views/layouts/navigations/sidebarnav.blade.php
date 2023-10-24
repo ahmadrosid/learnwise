@@ -42,12 +42,14 @@
                         </ul>
                     </div>
                 </li>
+                @if(Auth::check() && Auth::user()->hasRole("teacher"))
                 <li>
                     <a class="menu-item p-4" href="/teacher">
                         <x-lucide-graduation-cap class="w-4 h-4 me-2" />
                         Teach
                     </a>
                 </li>
+                @endif
             </ul>
         </div>
     </div>
