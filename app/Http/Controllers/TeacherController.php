@@ -88,43 +88,15 @@ class TeacherController extends Controller
 
     public function grouprevenue()
     {
-
-        // dummy data that resembles accumulated group sales based on individual course,
-        // the query function is working fine, we just don't have enough purchases yet,
-
-
-        $sampleRevenue = [
-            [
-                'title' => 'Introduction to Psycology and Human Behaviour',
-                'revenue' => 120,
-            ],
-            [
-                'title' => 'Getting started on Python Programming Language',
-                'revenue' => 98,
-            ],
-            [
-                'title' => 'The Art of Selling - Everybody can sell',
-                'revenue' => 12,
-            ],
-            [
-                'title' => 'Learn to cook from everything you have in the fridge',
-                'revenue' => 21,
-            ],
-            [
-                'title' => 'How to decorate your living room',
-                'revenue' => 161,
-            ]
-        ];
-
         $groupRevenue = Course::select('courses.title', DB::raw('SUM(courses.price) as revenue'))
             ->join('purchases', 'courses.id', '=', 'purchases.course_id')
             ->groupBy('courses.title')
             ->where('courses.user_id', auth()->user()->id)
             ->get();
 
-        // return response()->json(['data' => $groupRevenue]);
+        logger($groupRevenue);
 
-        return response()->json(['data' => $sampleRevenue]);
+        return response()->json(['data' => $groupRevenue]);
     }
 
     public function analytics()
