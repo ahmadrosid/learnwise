@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -104,5 +106,38 @@ class TeacherController extends Controller
         $course->delete();
 
         return redirect('/teacher');
+    }
+
+    public function revenue()
+    {
+        $groupRevenue = Course::select('courses.title', DB::raw('SUM(courses.price) as revenue'))
+            ->join('purchases', 'courses.id', '=', 'purchases.course_id')
+            ->groupBy('courses.title')
+            ->where('courses.user_id', auth()->user()->id)
+            ->get();
+
+        return response()->json(['data' => $groupRevenue]);
+    }
+
+    public function analytics()
+    {
+        $purchasesData = Purchase::select(
+            'purchases.id',
+            'purchases.course_id',
+            'courses.title',
+            'courses.price'
+        )->join('courses', 'courses.id', 'purchases.course_id')
+            ->where('courses.user_id', auth()->user()->id)
+            ->get();
+
+        $totalRevenue = Purchase::join('courses', 'purchases.course_id', 'courses.id')
+            ->where('courses.user_id', auth()->user()->id)
+            ->sum('courses.price');
+
+        return view('teachers.analytics.index', [
+            'data' => $purchasesData,
+            'salesCount' => $purchasesData->count(),
+            'totalRevenue' => $totalRevenue,
+        ]);
     }
 }

@@ -178,7 +178,7 @@
                                 <img src="{{ asset('thumbnail-placehoder-image.jpg') }}" class="img-fluid rounded-3"
                                     style="max-height: 350px;" />
                             @else
-                                <img src="{{ asset('storage/' . $course->thumbnail) }}" class="img-fluid rounded-3"
+                                <img src="@thumbnail($course)" class="img-fluid rounded-3"
                                     style="max-height: 350px;" />
                             @endif
                         </div>

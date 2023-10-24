@@ -35,13 +35,13 @@
                             </div>
                         </li>
                         <li>
-                            <a class="menu-item p-4 active" href="/teacher">
+                            <a class="menu-item p-4 {{ request()->is('teacher') ? 'active' : '' }}" href="/teacher">
                                 <x-lucide-list class="w-4 h-4 me-2" />
                                 Courses
                             </a>
                         </li>
                         <li>
-                            <a class="menu-item p-4" href="/courses/mycourses">
+                            <a class="menu-item p-4 {{ request()->is('teacher/analytics') ? 'active' : '' }}" href="/teacher/analytics">
                                 <x-lucide-bar-chart class="w-4 h-4 me-2" />
                                 Analytics
                             </a>

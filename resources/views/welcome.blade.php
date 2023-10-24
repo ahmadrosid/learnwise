@@ -30,7 +30,7 @@
         <div class="col">
             <div class="card border shadow-none rounded-4">
                 <a href="/courses/{{$item->slug}}/chapter/1" class="p-2">
-                    <img src="{{$item->thumbnail}}" class="rounded-3 ratio ratio-4x3 object-cover" alt="{{$item->title}}" style="max-height: 160px;;" />
+                    <img src="@thumbnail($item)" class="rounded-3 ratio ratio-4x3 object-cover" alt="{{$item->title}}" style="max-height: 160px;;" />
                 </a>
                 <div class="card-body p-3 pt-0">
                     <a href="/courses/{{$item->slug}}/chapter/1" class="text-black">

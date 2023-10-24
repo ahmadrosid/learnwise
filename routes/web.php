@@ -8,10 +8,7 @@ use App\Http\Controllers\UserCourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CourseController::class, 'index']);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [CourseController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,7 +31,12 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::put('/teacher/chapter/update/{chapter}/video', [ChapterController::class, 'updatevideo']);
     Route::post('/teacher/chapter/create', [ChapterController::class, 'store']);
     Route::delete('/teacher/chapter/delete/{chapter}', [ChapterController::class, 'delete']);
+<<<<<<< HEAD
     Route::put('/teacher/chapter/publish/{chapter}', [ChapterController::class, 'publish']);
+=======
+    Route::get('/teacher/analytics', [TeacherController::class, 'analytics']);
+    Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue']);
+>>>>>>> main
 });
 
 Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
