@@ -42,12 +42,10 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
-        $chapterModel = new Chapter();
-
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
-            'chapters' => $chapterModel->sort($course->chapters, 'teacher'),
+            'chapters' => Chapter::sort($course->chapters, 'teacher'),
         ]);
     }
 
@@ -55,7 +53,7 @@ class TeacherController extends Controller
     {
         $course->update($request->validated());
 
-        return redirect('/teacher/course/setup/'.$course->slug);
+        return redirect('/teacher/course/setup/' . $course->slug);
     }
 
     public function updatethumbnail(Request $request, Course $course)
@@ -81,7 +79,7 @@ class TeacherController extends Controller
         $course = Course::where('id', $id)->first();
 
         if ($course) {
-            $course->update(['is_published' => ! $course->is_published]);
+            $course->update(['is_published' => !$course->is_published]);
         }
 
         return redirect()->back();

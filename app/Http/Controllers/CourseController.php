@@ -34,14 +34,12 @@ class CourseController extends Controller
 
     public function show($slug, $chapter)
     {
-        $chapterModel = new Chapter();
-
         /*
          * We indeed need to grab all courses in order to order them accordingly,
          * as opposed to taking only published ones
          **/
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
-        $chapters = $chapterModel->sort($course->chapters, 'student');
+        $chapters = Chapter::sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         if (count($chapterData) == 0) {
             return view('404');

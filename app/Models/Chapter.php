@@ -23,7 +23,7 @@ class Chapter extends Model
      * with teacher having all the records, and student with only those that are published
      **/
 
-    public function sort($chapters, $type)
+    public static function sort($chapters, $type)
     {
         if ($chapters->count() === 0) {
             return [];
