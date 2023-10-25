@@ -14,7 +14,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         $category = null;
-        $query = Course::select('courses.id', 'courses.slug', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', DB::raw('SUM(CASE WHEN chapters.is_published = true THEN 1 ELSE 0 END) as chapters_count'), 'categories.name as category_name')
+        $query = Course::select('courses.id', 'courses.slug', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', DB::raw('SUM(IF(chapters.is_published, 1, 0)) as chapters_count'), 'categories.name as category_name')
             ->leftJoin('chapters', 'courses.id', '=', 'chapters.course_id')
             ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
             ->groupBy('courses.id', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', 'categories.name')
