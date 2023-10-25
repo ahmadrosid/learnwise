@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -20,8 +19,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 2,
                 'is_free' => 1,
                 'is_published' => 1,
-                'position' => 1,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 2 -> 4
@@ -30,8 +28,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 3,
                 'is_free' => 1,
                 'is_published' => 1,
-                'position' => 1,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 3 -> null
@@ -40,8 +37,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 2,
                 'is_free' => 0,
                 'is_published' => 1,
-                'position' => 2,
-                'video_url' => 'chapter2_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 4 -> null
@@ -50,8 +46,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 3,
                 'is_free' => 1,
                 'is_published' => 1,
-                'position' => 2,
-                'video_url' => 'chapter2_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 5 -> 6
@@ -60,8 +55,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 4,
                 'is_free' => 1,
                 'is_published' => 1,
-                'position' => 1,
-                'video_url' => 'chapter6_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 6 -> 7
@@ -70,8 +64,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 4,
                 'is_free' => 3,
                 'is_published' => 1,
-                'position' => 2,
-                'video_url' => 'chapter7_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 7 -> null
@@ -80,19 +73,17 @@ class ChapterSeeder extends Seeder
                 'course_id' => 4,
                 'is_free' => 1,
                 'is_published' => 1,
-                'position' => 3,
                 'video_url' => 3,
                 'next_chapter_id' => null,
             ],
 
             [ // 8 -> 9
-                'title' =>  'Exploring the Basics',
+                'title' => 'Exploring the Basics',
                 'description' => 'An Introduction to Psychology and Human Behavior',
                 'course_id' => 1,
                 'is_free' => true,
                 'is_published' => false,
-                'position' => 1,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 9 -> 10
@@ -101,8 +92,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 1,
                 'is_free' => false,
                 'is_published' => false,
-                'position' => 2,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 10 -> 11
@@ -111,8 +101,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 1,
                 'is_free' => false,
                 'is_published' => false,
-                'position' => 3,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 11 -> 12
@@ -121,8 +110,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 1,
                 'is_free' => false,
                 'is_published' => false,
-                'position' => 4,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 12 -> 13
@@ -131,8 +119,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 1,
                 'is_free' => false,
                 'is_published' => false,
-                'position' => 5,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [  // 13 -> 14
@@ -141,8 +128,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 1,
                 'is_free' => false,
                 'is_published' => false,
-                'position' => 6,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
             [ // 14 -> null
@@ -152,10 +138,9 @@ class ChapterSeeder extends Seeder
                 'course_id' => 1,
                 'is_free' => false,
                 'is_published' => false,
-                'position' => 7,
-                'video_url' => 'chapter1_video.mp4',
+                'video_url' => '',
                 'next_chapter_id' => null,
-            ]
+            ],
 
         ];
 
