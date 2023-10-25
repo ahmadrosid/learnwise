@@ -47,7 +47,7 @@ class TeacherController extends Controller
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
-            'chapters' => $chapterModel->sortChapters($course->chapters, 'teacher'),
+            'chapters' => $chapterModel->sort($course->chapters, 'teacher'),
         ]);
     }
 
