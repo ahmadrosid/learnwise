@@ -41,17 +41,18 @@ class CourseController extends Controller
          * as opposed to taking only published ones
          **/
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
-        $chapterData = $chapterModel->sort($course->chapters, 'student');
+        $chapters = $chapterModel->sort($course->chapters, 'student');
+        $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         $isEnrolled = auth()->check() ? Purchase::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->count() === 1 : false;
 
         return view('courses.chapter', [
             'course' => $course,
             'slug' => $slug,
-            'chapter' => $chapterData[0],
+            'chapter' => reset($chapterData),
             'chapterPosition' => $chapter,
             'isEnrolled' => $isEnrolled,
-            'chapters' => $chapterData,
+            'chapters' => $chapters,
         ]);
     }
 }

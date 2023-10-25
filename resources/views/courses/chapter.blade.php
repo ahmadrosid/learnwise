@@ -52,11 +52,7 @@
             </div>
             <div class="py-2">
                 <x-markdown :options="['commonmark' => ['enable_strong' => false]]" theme="github-dark">
-                    ### {{ $chapter->description }}
-
-                    ```js
-                    console.log("this is working");
-                    ```
+                    {!! $chapter->description !!}
                 </x-markdown>
 
             </div>
