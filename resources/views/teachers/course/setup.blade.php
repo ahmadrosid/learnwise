@@ -63,8 +63,7 @@
                     @csrf
                     @method('put')
                     <input type="hidden" value="{{ $course->id }}" name="id" />
-                    <button class="btn btn-secondary" type="submit"
-                        {{ $completionProgressValue < 6 ? 'disabled' : '' }}>
+                    <button class="btn btn-primary" type="submit" {{ $completionProgressValue < 6 ? 'disabled' : '' }}>
                         {{ $course->is_published ? 'Unpublish' : 'Publish' }}
                     </button>
                 </form>
@@ -77,7 +76,7 @@
                     @method('delete')
                     <input type="hidden" name="id" value="{{ $course->id }}" />
 
-                    <button disabled type="submit" class="btn btn-outline-warning" title="Delete course">
+                    <button disabled type="submit" class="btn btn-outline-danger" title="Delete course">
                         <x-lucide-trash class="w-4 h-4" />
                     </button>
                 </form>
@@ -259,10 +258,16 @@
                                                 </button>
                                                 <span x-text="item.title" class="px-2"></span>
                                                 <div class="px-2 pt-1 float-end d-flex align-items-center">
+                                                    <template x-if="item.is_published">
+                                                        <span class="px-1 text-white rounded bg-success"
+                                                            style="font-size:small;">Published</span>
+                                                    </template>
+
                                                     <template x-if="!item.is_published">
                                                         <span class="px-1 text-white rounded bg-dark"
                                                             style="font-size:small;">Draft</span>
                                                     </template>
+
                                                     <a x-bind:href="'/teacher/chapter/edit/' + item.id">
                                                         <button type="button" class="px-1 btn">
                                                             <x-lucide-pencil class="w-3 h-3"

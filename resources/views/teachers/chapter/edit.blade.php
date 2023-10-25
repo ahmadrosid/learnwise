@@ -46,8 +46,7 @@
                     @csrf
                     @method('put')
 
-                    <button {{ $completionProgressValue < 3 ? 'disabled' : '' }} class="btn btn-secondary"
-                        type="submit">
+                    <button {{ $completionProgressValue < 3 ? 'disabled' : '' }} class="btn btn-primary" type="submit">
                         {{ $chapter->is_published ? 'Unpublish' : 'Publish' }}
                     </button>
                 </form>
@@ -61,7 +60,7 @@
                     @method('delete')
                     <input type="hidden" name="slug" value="{{ $slug }}" />
 
-                    <button class="btn btn-outline-warning" title="Delete chapter">
+                    <button class="btn btn-outline-danger" title="Delete chapter">
                         <x-lucide-trash class="w-4 h-4" />
                     </button>
                 </form>

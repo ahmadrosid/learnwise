@@ -43,6 +43,9 @@ class CourseController extends Controller
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = $chapterModel->sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
+        if (count($chapterData) == 0) {
+            return view('404');
+        }
         $isEnrolled = auth()->check() ? Purchase::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->count() === 1 : false;
 
