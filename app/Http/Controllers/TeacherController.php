@@ -37,13 +37,11 @@ class TeacherController extends Controller
 
         $course = Course::create($formFields);
 
-        return redirect(route('course.setup', $course->slug));
+        return redirect(route('teacher.course.setup', $course->slug));
     }
 
     public function edit(Course $course)
     {
-        logger($course->chapters);
-        // logger(Chapter::sort($course->chapters, 'teacher'));
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),

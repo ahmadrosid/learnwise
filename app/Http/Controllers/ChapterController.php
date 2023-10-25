@@ -35,7 +35,7 @@ class ChapterController extends Controller
 
         $newChapter = Chapter::create($formFields);
         if ($previousChapter) {
-            $this->updateOrder($previousChapter->id, $newChapter->id);
+            $previousChapter->update(['next_chapter_id' => $newChapter->id]);
         }
 
         return back();
@@ -71,11 +71,6 @@ class ChapterController extends Controller
         }
     }
 
-    private function updateOrder($id, $nextChapterId)
-    {
-        return Chapter::where('id', $id)->update(['next_chapter_id' => $nextChapterId]);
-    }
-
     public function update(UpdateChapterRequest $request, Chapter $chapter)
     {
         $chapter->update($request->validated());
@@ -83,17 +78,17 @@ class ChapterController extends Controller
         return back();
     }
 
-    public function delete(Request $request, Chapter $chapter)
+    public function delete(Chapter $chapter)
     {
-
-        $slug = $request['slug'];
-        $isReferenced = Chapter::where('next_chapter_id', $chapter->id)->exists();
-        if ($isReferenced) {
-            Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $chapter->next_chapter_id]);
+        $next_chapter_id = $chapter->next_chapter_id;
+        if ($next_chapter_id) {
+            $chapter->update(['next_chapter_id' => null]);
         }
+
+        Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $next_chapter_id]);
         $chapter->delete();
 
-        return redirect('/teacher/course/setup/' . $slug);
+        return redirect(route("teacher.course.setup", $chapter->course->slug));
     }
 
     public function updatevideo(Request $request, Chapter $chapter)
