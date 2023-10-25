@@ -63,11 +63,11 @@
                     @csrf
                     @method('put')
                     <input type="hidden" value="{{ $course->id }}" name="id" />
-                    <button class="btn btn-primary" type="submit" {{ $completionProgressValue < 6 ? 'disabled' : '' }}>
+                    <button class="btn btn-primary" type="submit"
+                        {{ $completionProgressValue < 6 || $hasBeenSold ? 'disabled' : '' }}>
                         {{ $course->is_published ? 'Unpublish' : 'Publish' }}
                     </button>
                 </form>
-
                 <!-- regarding the following action below, we might want to have a confirmation pop-up or
                      something similar just to notify the user that the action they are about to take
                      could have irreversible impact -->
@@ -76,7 +76,8 @@
                     @method('delete')
                     <input type="hidden" name="id" value="{{ $course->id }}" />
 
-                    <button disabled type="submit" class="btn btn-outline-danger" title="Delete course">
+                    <button {{ $hasBeenSold ? 'disabled' : '' }} type="submit" class="btn btn-outline-danger"
+                        title="Delete course">
                         <x-lucide-trash class="w-4 h-4" />
                     </button>
                 </form>
@@ -137,8 +138,10 @@
                                 <button class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 text-sm" x-show="!open">
-                            {!! $course->description !!}
+                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
+                            x-show="!open">
+
+                            {!! $course->description ? $course->description : 'Tell your candidate students about this course!' !!}
                         </div>
                     </div>
                 </div>
@@ -215,8 +218,9 @@
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 text-sm" x-show="!open">
-                            {{ $course->category->name }}
+                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
+                            x-show="!open">
+                            {{ $course->category_id ? $course->category->name : 'No category defined.' }}
                         </div>
                     </div>
                 </div>

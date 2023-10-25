@@ -51,9 +51,6 @@
                     </button>
                 </form>
 
-                <!-- regarding the following action below, we might want to have a confirmation pop-up or
-                     something similar just to notify the user that the action they are about to take
-                     could have irreversible impact -->
                 <form action="/teacher/chapter/delete/{{ $chapter->id }}" method="POST">
 
                     @csrf

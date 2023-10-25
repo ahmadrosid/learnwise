@@ -43,10 +43,12 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
+
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
             'chapters' => Chapter::sort($course->chapters, 'teacher'),
+            'hasBeenSold' => $course->purchases->count() > 0,
         ]);
     }
 
@@ -61,7 +63,9 @@ class TeacherController extends Controller
     {
         $formFields = null;
         if ($request->hasFile('thumbnail')) {
-            Storage::disk('public')->delete($course->thumbnail);
+            if ($course->thumbnail) {
+                Storage::disk('public')->delete($course->thumbnail);
+            }
             $formFields['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
@@ -84,9 +88,38 @@ class TeacherController extends Controller
 
     public function delete(Request $request, Course $course)
     {
-        $course->delete();
+        $course_id = $request['id'];
 
-        return redirect('/teacher');
+        DB::beginTransaction();
+
+        try {
+
+            $chapters = Chapter::where('course_id', $course_id)->get();
+            foreach ($chapters as $chapter) {
+                $chapter->update(['next_chapter_id' => null]);
+                if ($chapter->video_url) {
+                    Storage::disk('public')->delete($chapter->video_url);
+                }
+            }
+            Chapter::where('course_id', $course_id)->delete();
+
+            $course = Course::find($course_id);
+
+            if ($course) {
+                if ($course->thumbnail) {
+                    Storage::disk('public')->delete($course->thumbnail);
+                }
+                $course->delete();
+            }
+
+            DB::commit();
+
+            return redirect('/teacher');
+        } catch (\Exception $err) {
+            DB::rollBack();
+
+            return redirect()->back();
+        }
     }
 
     public function revenue()

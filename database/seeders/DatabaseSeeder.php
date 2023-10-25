@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +16,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             CourseSeeder::class,
             ChapterSeeder::class,
-            PurchaseSeeder::class,
+            // PurchaseSeeder::class,
             ProgressSeeder::class,
             ChapterOrderSeeder::class,
         ]);

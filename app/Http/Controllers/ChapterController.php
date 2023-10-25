@@ -92,17 +92,13 @@ class ChapterController extends Controller
         return redirect(route('teacher.course.setup', $chapter->course->slug));
     }
 
-    public function deleteChapters($course_id)
-    {
-
-    }
-
     public function updatevideo(Request $request, Chapter $chapter)
     {
         $formFields = null;
         if ($request->hasFile('chapter_video')) {
-
-            Storage::disk('public')->delete($chapter->video_url);
+            if ($chapter->video_url) {
+                Storage::disk('public')->delete($chapter->video_url);
+            }
             $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
         }
         $chapter->update($formFields);
