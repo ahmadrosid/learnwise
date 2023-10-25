@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -53,18 +54,14 @@ class TeacherController extends Controller
     {
         $course->update($request->validated());
 
-        return redirect('/teacher/course/setup/' . $course->slug);
+        return redirect('/teacher/course/setup/'.$course->slug);
     }
 
     public function updatethumbnail(Request $request, Course $course)
     {
-        /*
-         * TODO: remove thumbnail stored when user upload a new one, we don't want them to just pile up our storage
-         * We also might want to put this function inside `update` above
-         **/
-
         $formFields = null;
         if ($request->hasFile('thumbnail')) {
+            Storage::disk('public')->delete($course->thumbnail);
             $formFields['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
@@ -79,7 +76,7 @@ class TeacherController extends Controller
         $course = Course::where('id', $id)->first();
 
         if ($course) {
-            $course->update(['is_published' => !$course->is_published]);
+            $course->update(['is_published' => ! $course->is_published]);
         }
 
         return redirect()->back();

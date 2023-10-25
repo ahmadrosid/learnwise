@@ -8,6 +8,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ChapterController extends Controller
 {
@@ -88,13 +89,20 @@ class ChapterController extends Controller
         Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $next_chapter_id]);
         $chapter->delete();
 
-        return redirect(route("teacher.course.setup", $chapter->course->slug));
+        return redirect(route('teacher.course.setup', $chapter->course->slug));
+    }
+
+    public function deleteChapters($course_id)
+    {
+
     }
 
     public function updatevideo(Request $request, Chapter $chapter)
     {
         $formFields = null;
         if ($request->hasFile('chapter_video')) {
+
+            Storage::disk('public')->delete($chapter->video_url);
             $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
         }
         $chapter->update($formFields);
@@ -104,7 +112,7 @@ class ChapterController extends Controller
 
     public function publish(Chapter $chapter)
     {
-        $chapter->update(['is_published' => !$chapter->is_published]);
+        $chapter->update(['is_published' => ! $chapter->is_published]);
 
         return redirect()->back();
     }

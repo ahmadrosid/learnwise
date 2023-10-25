@@ -73,7 +73,7 @@ class ChapterSeeder extends Seeder
                 'course_id' => 4,
                 'is_free' => 1,
                 'is_published' => 1,
-                'video_url' => 3,
+                'video_url' => '',
                 'next_chapter_id' => null,
             ],
 
