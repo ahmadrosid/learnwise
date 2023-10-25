@@ -24,19 +24,17 @@ class ChapterController extends Controller
 
     public function store(Request $request)
     {
-        $course_id = $request['course_id'];
-        $isFirstChapter = ! Chapter::where('course_id', $course_id)->exists();
-        $previousChapter = null;
-
         $formFields = $request->validate([
             'title' => 'required',
             'course_id' => 'required|numeric|exists:courses,id',
         ]);
+
+        $previousChapter = Chapter::where('course_id', $request['course_id'])
+            ->whereNull('next_chapter_id')
+            ->first();
+
         $newChapter = Chapter::create($formFields);
-        if (! $isFirstChapter) {
-            $previousChapter = Chapter::where('course_id', $request['course_id'])
-                ->whereNull('next_chapter_id')
-                ->first();
+        if ($previousChapter) {
             $this->updateOrder($previousChapter->id, $newChapter->id);
         }
 
@@ -95,7 +93,7 @@ class ChapterController extends Controller
         }
         $chapter->delete();
 
-        return redirect('/teacher/course/setup/'.$slug);
+        return redirect('/teacher/course/setup/' . $slug);
     }
 
     public function updatevideo(Request $request, Chapter $chapter)
@@ -111,7 +109,7 @@ class ChapterController extends Controller
 
     public function publish(Chapter $chapter)
     {
-        $chapter->update(['is_published' => ! $chapter->is_published]);
+        $chapter->update(['is_published' => !$chapter->is_published]);
 
         return redirect()->back();
     }

@@ -42,6 +42,8 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
+        logger($course->chapters);
+        // logger(Chapter::sort($course->chapters, 'teacher'));
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
