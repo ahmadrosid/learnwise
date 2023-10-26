@@ -105,12 +105,10 @@ class TeacherController extends Controller
 
             $course = Course::find($course_id);
 
-            if ($course) {
-                if ($course->thumbnail) {
-                    Storage::disk('public')->delete($course->thumbnail);
-                }
-                $course->delete();
+            if ($course->thumbnail) {
+                Storage::disk('public')->delete($course->thumbnail);
             }
+            $course->delete();
 
             DB::commit();
 

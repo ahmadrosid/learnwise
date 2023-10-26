@@ -138,10 +138,10 @@
                                 <button class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
+                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic fs-xs' : ' fs-sm ' }}"
                             x-show="!open">
 
-                            {!! $course->description ? $course->description : 'Tell your candidate students about this course!' !!}
+                            {!! $course->description ? $course->description : 'Tell your candidate students about this course.' !!}
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                                     @method('put')
                                     <input name="thumbnail" class="form-control" type="file" id="imgSelect"
                                         accept="image/*" x-ref="myFile" @change="previewFile">
-                                    <p class="p-2 text-muted fs-xs">16:9 aspect ratio recommended!</p>
+                                    <p class="p-2 text-muted fs-xs">16:9 aspect ratio recommended.</p>
                                     <template x-if="imgsrc">
                                         <div class="py-2">
                                             <img :src="imgsrc" class="imgPreview img-fluid rounded-3">
@@ -218,7 +218,7 @@
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
+                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic fs-xs' : ' fs-sm ' }}"
                             x-show="!open">
                             {{ $course->category_id ? $course->category->name : 'No category defined.' }}
                         </div>
@@ -249,6 +249,10 @@
                             <div class="py-2" x-data="{ items: {{ json_encode($chapters) }}, newItem: '', dragging: null, dropping: null }"
                                 @drop.prevent="items=dragDropList(items, dragging, dropping)"
                                 @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+
+                                <template x-if="items.length === 0">
+                                    <div class="fst-italic fs-xs">This course has no chapter yet. <div>
+                                </template>
                                 <div class="overflow-hidden border border-blue-100 list-group rounded-2">
                                     <template x-for="(item, index) in items" :key="index">
                                         <div class="p-0 border-blue-100 position-relative list-group-item border-bottom"
