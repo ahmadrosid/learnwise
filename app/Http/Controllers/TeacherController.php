@@ -86,9 +86,8 @@ class TeacherController extends Controller
         return redirect()->back();
     }
 
-    public function delete(Request $request, Course $course)
+    public function delete(Course $course)
     {
-
         try {
             DB::beginTransaction();
             foreach ($course->chapters as $chapter) {
