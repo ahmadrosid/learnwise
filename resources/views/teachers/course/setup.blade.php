@@ -251,7 +251,7 @@
                                 @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
 
                                 <template x-if="items.length === 0">
-                                    <div class="fst-italic fs-xs">This course has no chapter yet. <div>
+                                    <div class="fst-italic fs-xs text-muted">This course has no chapter yet. <div>
                                 </template>
                                 <div class="overflow-hidden border border-blue-100 list-group rounded-2">
                                     <template x-for="(item, index) in items" :key="index">
