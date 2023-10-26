@@ -1,11 +1,24 @@
 @php
 
-    $requiredFields = [$chapter->title, $chapter->description, $chapter->video_url];
+    $requiredFields = [
+        [
+            'label' => 'Title',
+            'value' => $chapter->title,
+        ],
+        [
+            'label' => 'Description',
+            'value' => $chapter->description,
+        ],
+        [
+            'label' => 'Video',
+            'value' => $chapter->video_url,
+        ],
+    ];
 
     $completedFields = array_reduce(
         $requiredFields,
         function ($carry, $field) {
-            return $carry + (!empty($field) ? 1 : 0);
+            return $carry + (!empty($field['value']) ? 1 : 0);
         },
         0,
     );
@@ -37,10 +50,9 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h2>Chapter Creation</h2>
-                <div>Complete all fields ({{ $completedFields . '/' . count($requiredFields) }})</div>
             </div>
             <div class="gap-1 d-flex">
-                <form action="/teacher/chapter/publish/{{ $chapter->id }}" method="POST">
+                <form action="{{ route('teacher.chapter.publish', $chapter->id) }}" method="POST">
                     @csrf
                     @method('put')
 
@@ -49,7 +61,7 @@
                     </button>
                 </form>
 
-                <form action="/teacher/chapter/delete/{{ $chapter->id }}" method="POST">
+                <form action="{{ route('teacher.chapter.delete', $chapter->id) }}" method="POST">
 
                     @csrf
                     @method('delete')
@@ -61,6 +73,32 @@
                 </form>
             </div>
         </div>
+
+        @if (!$chapter->is_published)
+            <div>
+                <div class="flex-wrap gap-2 py-2 d-flex">
+                    @foreach ($requiredFields as $field)
+                        <div
+                            class="p-1 bg-light fs-sm d-flex gap-1 align-items-center {{ $field['value'] ? 'text-success' : 'text-danger' }}">
+                            @if ($field['value'])
+                                <x-lucide-check-square class="w-3 h-3" />
+                            @else
+                                <x-lucide-x-square class="w-3 h-3" />
+                            @endif
+                            {{ $field['label'] }}
+                        </div>
+                    @endforeach
+                </div>
+                @if (in_array(false, array_column($requiredFields, 'value')))
+                    <p class="text-muted fs-xs fst-italic"> To publish the chapter, you must complete all the required
+                        fields.
+                    </p>
+                @else
+                    <p class="text-muted fs-xs fst-italic"> All required fields are now filled. The chapter is ready to
+                        publish!</p>
+                @endif
+            </div>
+        @endif
 
         <div class="py-5 row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 g-5">
             <div class="col">
@@ -82,7 +120,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/chapter/update/{{ $chapter->id }}" method="post">
+                            <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                 @csrf
                                 @method('put')
 
@@ -109,7 +147,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/chapter/update/{{ $chapter->id }}" method="POST">
+                            <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                 @csrf
                                 @method('put')
 
@@ -117,9 +155,15 @@
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 text-sm text-neutral-100 fs-sm" x-show="!open">
-                            {!! $chapter->description !!}
-                        </div>
+                        @if ($chapter->description)
+                            <div class="pt-1 text-sm text-neutral-100 fs-sm" x-show="!open">
+                                {!! $chapter->description !!}
+                            </div>
+                        @else
+                            <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">
+                                No description provided.
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="gap-4 py-4 d-flex align-items-center">
@@ -140,7 +184,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/chapter/update/{{ $chapter->id }}" method="POST">
+                            <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <div class="py-2 px-2 my-2 bg-white border-2 border rounded-2">
@@ -186,7 +230,7 @@
                         <div x-data="{ fileName: '', chapterVideoFile: null }" class="dropzone-area" x-show="open">
 
                             <form enctype="multipart/form-data"
-                                action="/teacher/chapter/update/{{ $chapter->id }}/video" method="POST">
+                                action="{{ route('teacher.chapter.update.video', $chapter->id) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
@@ -217,7 +261,7 @@
                                     <source src="{{ asset('storage/' . $chapter->video_url) }}" type="video/mp4" />
                                 </video>
                             @else
-                                <div class="pt-1 text-sm text-neutral-100 fs-sm">
+                                <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">
                                     Upload the chapter Video
                                 </div>
                             @endif

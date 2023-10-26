@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +17,7 @@ class CategorySeeder extends Seeder
                 'name' => 'Psychology',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'slug' => 'psychology'
+                'slug' => 'psychology',
             ],
             [
                 'name' => 'Art',
@@ -48,14 +47,14 @@ class CategorySeeder extends Seeder
                 'name' => 'Programming',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'slug' => 'programming'
+                'slug' => 'programming',
             ],
             [
                 'name' => 'Food and Beverages',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'slug' => 'food-and beverages'
-            ]
+                'slug' => 'food-and-beverages',
+            ],
         ];
 
         DB::table('categories')->insert($categoriesData);

@@ -13,12 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite([
-    "node_modules/fastbootstrap/dist/css/fastbootstrap.min.css",
-    "node_modules/choices.js/public/assets/styles/choices.min.css",
-    "resources/css/app.css",
-    "resources/js/app.js",
-    ])
+    @vite(['node_modules/fastbootstrap/dist/css/fastbootstrap.min.css', 'node_modules/choices.js/public/assets/styles/choices.min.css', 'resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -28,7 +23,7 @@
                 <div class="menu accordion">
                     <ul class="menu-list">
                         <li class="position-sticky">
-                            <div class="brand py-3 px-2">
+                            <div class="py-3 px-2 brand">
                                 <a class="navbar-brand fw-bold" href="/">
                                     <img src="/images/learnwise.svg" width="36" alt="Logo" /> Learnwise
                                 </a>
@@ -41,7 +36,8 @@
                             </a>
                         </li>
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('teacher/analytics') ? 'active' : '' }}" href="/teacher/analytics">
+                            <a class="menu-item p-4 {{ request()->is('teacher/analytics') ? 'active' : '' }}"
+                                href="{{ route('teacher.analytics') }}">
                                 <x-lucide-bar-chart class="w-4 h-4 me-2" />
                                 Analytics
                             </a>

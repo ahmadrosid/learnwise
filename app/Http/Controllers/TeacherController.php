@@ -55,7 +55,7 @@ class TeacherController extends Controller
     {
         $course->update($request->validated());
 
-        return redirect('/teacher/course/setup/' . $course->slug);
+        return redirect(route('teacher.course.setup', $course->slug));
     }
 
     public function updatethumbnail(Request $request, Course $course)
@@ -79,7 +79,7 @@ class TeacherController extends Controller
         $course = Course::where('id', $id)->first();
 
         if ($course) {
-            $course->update(['is_published' => !$course->is_published]);
+            $course->update(['is_published' => ! $course->is_published]);
         }
 
         return redirect()->back();
@@ -103,7 +103,7 @@ class TeacherController extends Controller
 
             DB::commit();
 
-            return redirect('/teacher');
+            return redirect(route('teacher'));
         } catch (\Exception $err) {
             DB::rollBack();
 
