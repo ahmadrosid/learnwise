@@ -50,7 +50,6 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h2>Chapter Creation</h2>
-                {{-- <div>Complete all fields ({{ $completedFields . '/' . count($requiredFields) }})</div> --}}
             </div>
             <div class="gap-1 d-flex">
                 <form action="{{ route('teacher.chapter.publish', $chapter->id) }}" method="POST">

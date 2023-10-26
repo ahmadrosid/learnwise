@@ -409,7 +409,7 @@
                                 </div>
                             @else
                                 <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
-                                    You have not defined the price of this course.
+                                    You have not defined the price for this course.
                                     <div>
                             @endif
                         </div>
