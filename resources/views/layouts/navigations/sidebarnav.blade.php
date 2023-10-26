@@ -53,7 +53,7 @@
                 <li>
                     <a class="menu-item p-4" href="/teacher/signup">
                         <x-lucide-graduation-cap class="w-5 h-5 me-2" />
-                        Teach on Learnwise
+                        Teaching
                     </a>
                 </li>
                 @endif
