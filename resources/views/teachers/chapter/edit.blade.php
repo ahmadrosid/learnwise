@@ -1,19 +1,17 @@
 @php
-    function completionProgress($chapter)
-    {
-        $count = 0;
-        if (!empty($chapter['title'])) {
-            $count++;
-        }
-        if (!empty($chapter['description'])) {
-            $count++;
-        }
-        if (!empty($chapter['video_url'])) {
-            $count++;
-        }
-        return $count;
-    }
-    $completionProgressValue = completionProgress($chapter);
+
+    $requiredFields = [$chapter->title, $chapter->description, $chapter->video_url];
+
+    $completedFields = array_reduce(
+        $requiredFields,
+        function ($carry, $field) {
+            return $carry + (!empty($field) ? 1 : 0);
+        },
+        0,
+    );
+
+    $isReadytoPublish = $completedFields === count($requiredFields);
+
 @endphp
 <x-teacher-layout>
 
@@ -39,14 +37,14 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h2>Chapter Creation</h2>
-                <div>Complete all fields ({{ $completionProgressValue }}/3)</div>
+                <div>Complete all fields ({{ $completedFields . '/' . count($requiredFields) }})</div>
             </div>
             <div class="gap-1 d-flex">
                 <form action="/teacher/chapter/publish/{{ $chapter->id }}" method="POST">
                     @csrf
                     @method('put')
 
-                    <button {{ $completionProgressValue < 3 ? 'disabled' : '' }} class="btn btn-primary" type="submit">
+                    <button {{ !$isReadytoPublish ? 'disabled' : '' }} class="btn btn-primary" type="submit">
                         {{ $chapter->is_published ? 'Unpublish' : 'Publish' }}
                     </button>
                 </form>
