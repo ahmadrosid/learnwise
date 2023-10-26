@@ -20,7 +20,7 @@ class PurchaseSeeder extends Seeder
             [
                 'user_id' => 2,
                 'course_id' => 2,
-            ]
+            ],
         ];
 
         DB::table('purchases')->insert($purchasesData);

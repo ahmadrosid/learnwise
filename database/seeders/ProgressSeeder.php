@@ -38,11 +38,11 @@ class ProgressSeeder extends Seeder
             [
                 'user_id' => 2,
                 'course_id' => 2,
-                'chapter_id' => 3
+                'chapter_id' => 3,
             ],
 
         ];
 
-        DB::table('progresses')->insert($progressData);
+        // DB::table('progresses')->insert($progressData);
     }
 }

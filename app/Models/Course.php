@@ -11,7 +11,6 @@ class Course extends Model
 
     protected $fillable = ['title', 'description', 'user_id', 'is_published', 'price', 'thumbnail', 'slug', 'category_id'];
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -25,6 +24,11 @@ class Course extends Model
     public function chapters()
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 
     /**

@@ -38,6 +38,7 @@ class CourseSeeder extends Seeder
                 'is_published' => 0,
                 'thumbnail' => '',
             ],
+            /*
             [
                 'title' => 'Business Strategies for Success',
                 'slug' => 'business-strategies-for-success',
@@ -183,6 +184,7 @@ class CourseSeeder extends Seeder
                 'is_published' => 0,
                 'thumbnail' => '',
             ],
+            */
         ];
 
         DB::table('courses')->insert($coursesData);

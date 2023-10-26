@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -42,10 +43,12 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
+
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
             'chapters' => Chapter::sort($course->chapters, 'teacher'),
+            'hasBeenSold' => $course->purchases->count() > 0,
         ]);
     }
 
@@ -58,13 +61,11 @@ class TeacherController extends Controller
 
     public function updatethumbnail(Request $request, Course $course)
     {
-        /*
-         * TODO: remove thumbnail stored when user upload a new one, we don't want them to just pile up our storage
-         * We also might want to put this function inside `update` above
-         **/
-
         $formFields = null;
         if ($request->hasFile('thumbnail')) {
+            if ($course->thumbnail) {
+                Storage::disk('public')->delete($course->thumbnail);
+            }
             $formFields['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
@@ -85,11 +86,30 @@ class TeacherController extends Controller
         return redirect()->back();
     }
 
-    public function delete(Request $request, Course $course)
+    public function delete(Course $course)
     {
-        $course->delete();
+        try {
+            DB::beginTransaction();
+            foreach ($course->chapters as $chapter) {
+                $chapter->update(['next_chapter_id' => null]);
+                if ($chapter->video_url) {
+                    Storage::disk('public')->delete($chapter->video_url);
+                }
+            }
 
-        return redirect('/teacher');
+            if ($course->thumbnail) {
+                Storage::disk('public')->delete($course->thumbnail);
+            }
+            $course->delete();
+
+            DB::commit();
+
+            return redirect('/teacher');
+        } catch (\Exception $err) {
+            DB::rollBack();
+
+            return redirect()->back();
+        }
     }
 
     public function revenue()
