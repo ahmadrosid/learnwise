@@ -1,41 +1,21 @@
 @php
-
-    function publishedChapterExists($chapters)
-    {
-        foreach ($chapters as $chapter) {
-            if (isset($chapter['is_published']) && ($chapter['is_published'] === true || $chapter['is_published'] === 1)) {
-                return true;
-            }
+    $requiredFields = [$course->description, $course->title, $course->thumbnail, $course->category_id, $course->price, false];
+    foreach ($course->chapters as $chapter) {
+        if (isset($chapter['is_published']) && ($chapter['is_published'] === true || $chapter['is_published'] === 1)) {
+            $requiredFields[5] = true;
+            break;
         }
-
-        return false;
     }
+    $completedFields = array_reduce(
+        $requiredFields,
+        function ($carry, $field) {
+            return $carry + (!empty($field) ? 1 : 0);
+        },
+        0,
+    );
 
-    function completionProgress($course)
-    {
-        $count = 0;
-        if (!empty($course['title'])) {
-            $count++;
-        }
-        if (!empty($course['description'])) {
-            $count++;
-        }
-        if (!empty($course['thumbnail'])) {
-            $count++;
-        }
-        if (!empty($course['category_id'])) {
-            $count++;
-        }
-        if (!empty($course['price'])) {
-            $count++;
-        }
-        if (publishedChapterExists($course->chapters)) {
-            $count++;
-        }
-        return $count;
-    }
+    $isReadyToPublish = $completedFields === count($requiredFields);
 
-    $completionProgressValue = completionProgress($course);
 @endphp
 
 <x-teacher-layout>
@@ -56,7 +36,7 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h2>Course setup</h2>
-                <p class="text-neutral-100">Complete all field {{ $completionProgressValue }}/6</p>
+                <p class="text-neutral-100">Complete all field {{ $completedFields . '/' . count($requiredFields) }}
             </div>
             <div class="gap-1 d-flex">
                 <form action="/teacher/course/{{ $course->id }}/publish" method="POST">
@@ -64,7 +44,7 @@
                     @method('put')
                     <input type="hidden" value="{{ $course->id }}" name="id" />
                     <button class="btn btn-primary" type="submit"
-                        {{ $completionProgressValue < 6 || $hasBeenSold ? 'disabled' : '' }}>
+                        {{ !$isReadyToPublish || $hasBeenSold ? 'disabled' : '' }}>
                         {{ $course->is_published ? 'Unpublish' : 'Publish' }}
                     </button>
                 </form>
