@@ -71,7 +71,7 @@
                 <!-- regarding the following action below, we might want to have a confirmation pop-up or
                      something similar just to notify the user that the action they are about to take
                      could have irreversible impact -->
-                <form action="/teacher/course/{{ $course->id }}/delete" method="POST">
+                <form action="/teacher/course/{{ $course->slug }}/delete" method="POST">
                     @csrf
                     @method('delete')
                     <input type="hidden" name="id" value="{{ $course->id }}" />
@@ -138,7 +138,7 @@
                                 <button class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic fs-xs' : ' fs-sm ' }}"
+                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
                             x-show="!open">
 
                             {!! $course->description ? $course->description : 'Tell your candidate students about this course.' !!}
@@ -163,7 +163,7 @@
                                     @method('put')
                                     <input name="thumbnail" class="form-control" type="file" id="imgSelect"
                                         accept="image/*" x-ref="myFile" @change="previewFile">
-                                    <p class="p-2 text-muted fs-xs">16:9 aspect ratio recommended.</p>
+                                    <p class="p-2 text-muted fs-xs">16:9 aspect ratio recommended!</p>
                                     <template x-if="imgsrc">
                                         <div class="py-2">
                                             <img :src="imgsrc" class="imgPreview img-fluid rounded-3">
@@ -218,7 +218,7 @@
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic fs-xs' : ' fs-sm ' }}"
+                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
                             x-show="!open">
                             {{ $course->category_id ? $course->category->name : 'No category defined.' }}
                         </div>
@@ -253,115 +253,120 @@
                                 <template x-if="items.length === 0">
                                     <div class="fst-italic fs-xs text-muted">This course has no chapter yet. <div>
                                 </template>
-                                <div class="overflow-hidden border border-blue-100 list-group rounded-2">
-                                    <template x-for="(item, index) in items" :key="index">
-                                        <div class="p-0 border-blue-100 position-relative list-group-item border-bottom"
-                                            draggable="true" :class="{ 'border-bottom-0': items.length - 1 === index }"
-                                            @dragstart="dragging = index" @dragend="dragging = null">
-                                            <div>
-                                                <button
-                                                    class="py-2 px-2 border-0 border-blue-100 btn rounded-0 border-end cursor-grab">
-                                                    <x-lucide-grip-vertical
-                                                        class="w-5 h-5 cursor-pointer text-neutral-400" />
-                                                </button>
-                                                <span x-text="item.title" class="px-2"></span>
-                                                <div class="px-2 pt-1 float-end d-flex align-items-center">
-                                                    <template x-if="item.is_published">
-                                                        <span class="px-1 text-white rounded bg-success"
-                                                            style="font-size:small;">Published</span>
-                                                    </template>
+                                <div class="py-2" x-data="{ items: {{ json_encode($chapters) }}, newItem: '', dragging: null, dropping: null }"
+                                    @drop.prevent="items=dragDropList(items, dragging, dropping)"
+                                    @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                                    <div class="overflow-hidden border border-blue-100 list-group rounded-2">
+                                        <template x-for="(item, index) in items" :key="index">
+                                            <div class="p-0 border-blue-100 position-relative list-group-item border-bottom"
+                                                draggable="true"
+                                                :class="{ 'border-bottom-0': items.length - 1 === index }"
+                                                @dragstart="dragging = index" @dragend="dragging = null">
+                                                <div>
+                                                    <button
+                                                        class="py-2 px-2 border-0 border-blue-100 btn rounded-0 border-end cursor-grab">
+                                                        <x-lucide-grip-vertical
+                                                            class="w-5 h-5 cursor-pointer text-neutral-400" />
+                                                    </button>
+                                                    <span x-text="item.title" class="px-2"></span>
+                                                    <div class="px-2 pt-1 float-end d-flex align-items-center">
+                                                        <template x-if="item.is_published">
+                                                            <span class="px-1 text-white rounded bg-success"
+                                                                style="font-size:small;">Published</span>
+                                                        </template>
 
-                                                    <template x-if="!item.is_published">
-                                                        <span class="px-1 text-white rounded bg-dark"
-                                                            style="font-size:small;">Draft</span>
-                                                    </template>
+                                                        <template x-if="!item.is_published">
+                                                            <span class="px-1 text-white rounded bg-dark"
+                                                                style="font-size:small;">Draft</span>
+                                                        </template>
 
-                                                    <a x-bind:href="'/teacher/chapter/edit/' + item.id">
-                                                        <button type="button" class="px-1 btn">
-                                                            <x-lucide-pencil class="w-3 h-3"
-                                                                style="margin-right: 8px;" />
-                                                        </button>
-                                                    </a>
-                                                    <form x-bind:action="'/teacher/chapter/delete/' + item.id"
-                                                        method="POST">
+                                                        <a x-bind:href="'/teacher/chapter/edit/' + item.id">
+                                                            <button type="button" class="px-1 btn">
+                                                                <x-lucide-pencil class="w-3 h-3"
+                                                                    style="margin-right: 8px;" />
+                                                            </button>
+                                                        </a>
+                                                        <form x-bind:action="'/teacher/chapter/delete/' + item.id"
+                                                            method="POST">
 
-                                                        @csrf
-                                                        @method('delete')
-                                                        <input type="hidden" name="slug"
-                                                            value="{{ $course->slug }}" />
-                                                        <button type="submit" class="px-1 btn" aria-label="Delete">
-                                                            <x-lucide-trash
-                                                                class="w-3 h-3 cursor-pointer text-neutral-400" />
-                                                        </button>
-                                                    </form>
+                                                            @csrf
+                                                            @method('delete')
+                                                            <input type="hidden" name="slug"
+                                                                value="{{ $course->slug }}" />
+                                                            <button type="submit" class="px-1 btn"
+                                                                aria-label="Delete">
+                                                                <x-lucide-trash
+                                                                    class="w-3 h-3 cursor-pointer text-neutral-400" />
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
+                                                <div class="position-absolute"
+                                                    style="top: 0; bottom: 0; right: 0; left: 0;"
+                                                    x-show.transition="dragging !== null"
+                                                    :class="{
+                                                        'bg-blue-100': dropping === index,
+                                                        'cursor-grabbing': dragging ===
+                                                            index
+                                                    }"
+                                                    @dragenter.prevent="if(index !== dragging) {dropping = index}"
+                                                    @dragleave="if(dropping === index) dropping = null"></div>
                                             </div>
-                                            <div class="position-absolute"
-                                                style="top: 0; bottom: 0; right: 0; left: 0;"
-                                                x-show.transition="dragging !== null"
-                                                :class="{
-                                                    'bg-blue-100': dropping === index,
-                                                    'cursor-grabbing': dragging ===
-                                                        index
-                                                }"
-                                                @dragenter.prevent="if(index !== dragging) {dropping = index}"
-                                                @dragleave="if(dropping === index) dropping = null"></div>
-                                        </div>
-                                    </template>
-                                </div>
-                                <div class="pb-2" x-show="open" x-trap="open">
-                                    <form action="/teacher/chapter/create" method="POST">
-                                        @csrf
-                                        <div class="py-2 input-group">
-                                            <input value="" x-model="newItem" type="text"
-                                                class="form-control" name="title" />
-                                        </div>
-                                        <input type="hidden" name="course_id" value="{{ $course->id }}" />
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </form>
+                                        </template>
+                                    </div>
+                                    <div class="pb-2" x-show="open" x-trap="open">
+                                        <form action="/teacher/chapter/create" method="POST">
+                                            @csrf
+                                            <div class="py-2 input-group">
+                                                <input value="" x-model="newItem" type="text"
+                                                    class="form-control" name="title" />
+                                            </div>
+                                            <input type="hidden" name="course_id" value="{{ $course->id }}" />
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="gap-4 py-2 d-flex align-items-center">
-                    <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
-                        style="width: 35px; height: 35px; padding: 6px;">
-                        <x-lucide-dollar-sign class="text-blue-400" />
+                    <div class="gap-4 py-2 d-flex align-items-center">
+                        <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
+                            style="width: 35px; height: 35px; padding: 6px;">
+                            <x-lucide-dollar-sign class="text-blue-400" />
+                        </div>
+                        <div class="fs-5">Sell your course</div>
                     </div>
-                    <div class="fs-5">Sell your course</div>
-                </div>
 
-                <div class="py-4" x-data="{ open: false }">
-                    <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <label for="course-title" class="form-label text-dark">Course price</label>
-                            <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
-                                x-on:click="open = ! open">
-                                <x-lucide-pencil class="w-3 h-3 cursor-pointer text-neutral-400" x-show="!open" />
-                                <span x-show="!open">Edit</span>
-                                <span x-show="open">Cancel</span>
-                            </button>
-                        </div>
-                        <div class="py-2" x-show="open">
-                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="post">
-                                @csrf
-                                @method('put')
-                                <div class="py-2 input-group">
-                                    <input value="{{ $course->price }}" name="price" type="text"
-                                        class="form-control" id="course-title" aria-describedby="basic-addon3" />
-                                </div>
-                                <input type="hidden" value="{{ $course->slug }}" name="slug" />
-                                <button class="btn btn-primary" type="submit">Save</button>
-                            </form>
-                        </div>
-                        <div class="pt-1 text-sm" x-show="!open">
-                            $ {{ $course->price }}
+                    <div class="py-4" x-data="{ open: false }">
+                        <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label for="course-title" class="form-label text-dark">Course price</label>
+                                <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
+                                    x-on:click="open = ! open">
+                                    <x-lucide-pencil class="w-3 h-3 cursor-pointer text-neutral-400" x-show="!open" />
+                                    <span x-show="!open">Edit</span>
+                                    <span x-show="open">Cancel</span>
+                                </button>
+                            </div>
+                            <div class="py-2" x-show="open">
+                                <form action="{{ route('teacher.course.update', $course->slug) }}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <div class="py-2 input-group">
+                                        <input value="{{ $course->price }}" name="price" type="text"
+                                            class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                    </div>
+                                    <input type="hidden" value="{{ $course->slug }}" name="slug" />
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                </form>
+                            </div>
+                            <div class="pt-1 text-sm" x-show="!open">
+                                $ {{ $course->price }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </x-teacher-layout>

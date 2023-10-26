@@ -33,7 +33,6 @@ class Chapter extends Model
         $chapterLookup = collect($chapters->keyBy('id'));
         $position = $chapters->count();
         $currentChapter = $chapterLookup->where('next_chapter_id', null)->first();
-        logger($currentChapter);
         while ($currentChapter) {
             $currentChapter['position'] = $position;
             $sortedChapters[] = $currentChapter;

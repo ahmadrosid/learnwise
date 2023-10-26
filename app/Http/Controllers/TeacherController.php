@@ -56,7 +56,7 @@ class TeacherController extends Controller
     {
         $course->update($request->validated());
 
-        return redirect('/teacher/course/setup/'.$course->slug);
+        return redirect('/teacher/course/setup/' . $course->slug);
     }
 
     public function updatethumbnail(Request $request, Course $course)
@@ -80,30 +80,22 @@ class TeacherController extends Controller
         $course = Course::where('id', $id)->first();
 
         if ($course) {
-            $course->update(['is_published' => ! $course->is_published]);
+            $course->update(['is_published' => !$course->is_published]);
         }
 
         return redirect()->back();
     }
 
-    public function delete(Request $request, Course $course)
+    public function delete(Course $course)
     {
-        $course_id = $request['id'];
-
-        DB::beginTransaction();
-
         try {
-
-            $chapters = Chapter::where('course_id', $course_id)->get();
-            foreach ($chapters as $chapter) {
+            DB::beginTransaction();
+            foreach ($course->chapters as $chapter) {
                 $chapter->update(['next_chapter_id' => null]);
                 if ($chapter->video_url) {
                     Storage::disk('public')->delete($chapter->video_url);
                 }
             }
-            Chapter::where('course_id', $course_id)->delete();
-
-            $course = Course::find($course_id);
 
             if ($course->thumbnail) {
                 Storage::disk('public')->delete($course->thumbnail);
