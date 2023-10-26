@@ -261,11 +261,12 @@
                         @else
                             <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
                                 No category defined
-                                <div>
+                            </div>
                         @endif
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="gap-4 py-2 d-flex align-items-center">
                     <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
@@ -410,7 +411,7 @@
                             @else
                                 <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
                                     You have not defined the price for this course.
-                                    <div>
+                                </div>
                             @endif
                         </div>
                     </div>
