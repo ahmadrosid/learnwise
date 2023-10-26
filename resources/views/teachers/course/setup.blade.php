@@ -87,24 +87,31 @@
         </div>
 
 
-        <div>
-            <div class="flex-wrap gap-2 py-2 d-flex">
-                @foreach ($requiredFields as $field)
-                    <div
-                        class="p-1 bg-light fs-sm d-flex gap-1 align-items-center {{ $field['value'] ? 'text-success' : 'text-danger' }}">
-                        @if ($field['value'])
-                            <x-lucide-check-square class="w-3 h-3" />
-                        @endif
-                        @if (!$field['value'])
-                            <x-lucide-x-square class="w-3 h-3" />
-                        @endif
-                        {{ $field['label'] }}
-                    </div>
-                @endforeach
+        @if (!$course->is_published)
+            <div>
+                <div class="flex-wrap gap-2 py-2 d-flex">
+                    @foreach ($requiredFields as $field)
+                        <div
+                            class="p-1 bg-light fs-sm d-flex gap-1 align-items-center {{ $field['value'] ? 'text-success' : 'text-danger' }}">
+                            @if ($field['value'])
+                                <x-lucide-check-square class="w-3 h-3" />
+                            @else
+                                <x-lucide-x-square class="w-3 h-3" />
+                            @endif
+                            {{ $field['label'] }}
+                        </div>
+                    @endforeach
+                </div>
+                @if (in_array(false, array_column($requiredFields, 'value')))
+                    <p class="text-muted fs-xs fst-italic"> To publish the course, you must complete all the required
+                        fields.
+                    </p>
+                @else
+                    <p class="text-muted fs-xs fst-italic"> All required fields are now filled. Your course is ready to
+                        publish!</p>
+                @endif
             </div>
-            <p class="text-muted fs-xs fst-italic">You are unable to publish the course without firstly complete all
-                the required fields.</p>
-        </div>
+        @endif
 
         <div class="py-5 row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 g-5">
             <div class="col">
