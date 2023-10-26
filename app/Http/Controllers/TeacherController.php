@@ -43,7 +43,6 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
-
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),

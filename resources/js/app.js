@@ -58,7 +58,16 @@ window.dragDropList = function (items, dragging, dropping) {
     return items;
 };
 
+let abortController = null;
+
 function updateChapterOrders(items) {
+    if (!abortController) {
+        abortController = new AbortController();
+    } else {
+        console.log("Console, request can only executed once!");
+        return;
+    }
+
     const updatedItems = items.map((item, idx) => {
         let next_chapter_id = null;
         if (idx !== items.length - 1) {
@@ -76,16 +85,19 @@ function updateChapterOrders(items) {
         .put(apiUrl, {
             chapter_order: updatedItems,
         })
-        .then((response) => {})
+        .then((response) => {
+            abortController = null;
+        })
         .catch((error) => {
             console.log("error", error);
-        })
-        .finally(() => {
-            console.log("Orders updated successfully");
         });
 }
 
 window.chart = (async function () {
+    if (!document.querySelector("#totalRevenue")) {
+        return;
+    }
+
     try {
         const { data } = await axios.get("/api/teacher/revenue");
         const canvas = document.getElementById("totalRevenue");
