@@ -82,11 +82,17 @@ class ChapterController extends Controller
     public function delete(Chapter $chapter)
     {
         $next_chapter_id = $chapter->next_chapter_id;
+        $video_url = $chapter->video_url;
         if ($next_chapter_id) {
             $chapter->update(['next_chapter_id' => null]);
         }
 
+        if ($video_url) {
+            Storage::disk('public')->delete($video_url);
+        }
+
         Chapter::where('next_chapter_id', $chapter->id)->update(['next_chapter_id' => $next_chapter_id]);
+
         $chapter->delete();
 
         return redirect(route('teacher.course.setup', $chapter->course->slug));
