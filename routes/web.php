@@ -18,23 +18,23 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/teacher', [TeacherController::class, 'index']);
-    Route::get('/teacher/course/create', [TeacherController::class, 'create']);
+    Route::get('/teacher', [TeacherController::class, 'index'])->name('teacher');
+    Route::get('/teacher/course/create', [TeacherController::class, 'create'])->name('teacher.course.create');
     Route::post('/teacher/course', [TeacherController::class, 'store'])->name('teacher.course.store');
     Route::put('/teacher/course/{course}', [TeacherController::class, 'update'])->name('teacher.course.update');
     Route::put('/teacher/course/update/{course}/thumbnail', [TeacherController::class, 'updatethumbnail'])->name('teacher.course.update.thumbnail');
     Route::get('/teacher/course/setup/{course}', [TeacherController::class, 'edit'])->name('teacher.course.setup');
 
-    Route::put('/teacher/course/{course}/publish', [TeacherController::class, 'publish']);
-    Route::delete('/teacher/course/{course}/delete', [TeacherController::class, 'delete']);
+    Route::put('/teacher/course/{course}/publish', [TeacherController::class, 'publish'])->name('teacher.course.publish');
+    Route::delete('/teacher/course/{course}/delete', [TeacherController::class, 'delete'])->name('teacher.course.delete');
     Route::get('/teacher/chapter/edit/{id}', [ChapterController::class, 'index']);
-    Route::put('/teacher/chapter/update/{chapter}', [ChapterController::class, 'update']);
-    Route::put('/teacher/chapter/update/{chapter}/video', [ChapterController::class, 'updatevideo']);
-    Route::post('/teacher/chapter/create', [ChapterController::class, 'store']);
-    Route::delete('/teacher/chapter/delete/{chapter}', [ChapterController::class, 'delete']);
-    Route::put('/teacher/chapter/publish/{chapter}', [ChapterController::class, 'publish']);
-    Route::get('/teacher/analytics', [TeacherController::class, 'analytics']);
-    Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue']);
+    Route::put('/teacher/chapter/update/{chapter}', [ChapterController::class, 'update'])->name('teacher.chapter.update');
+    Route::put('/teacher/chapter/update/{chapter}/video', [ChapterController::class, 'updatevideo'])->name('teacher.chapter.update.video');
+    Route::post('/teacher/chapter/store', [ChapterController::class, 'store'])->name('teacher.chapter.store');
+    Route::delete('/teacher/chapter/delete/{chapter}', [ChapterController::class, 'delete'])->name('teacher.chapter.delete');
+    Route::put('/teacher/chapter/publish/{chapter}', [ChapterController::class, 'publish'])->name('teacher.chapter.publish');
+    Route::get('/teacher/analytics', [TeacherController::class, 'analytics'])->name('teacher.analytics');
+    Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue'])->name('api.teacher.revenue');
 });
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
@@ -57,4 +57,4 @@ Route::get('/courses/chapter-lock', function () {
 
 Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

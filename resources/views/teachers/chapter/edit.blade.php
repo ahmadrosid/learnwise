@@ -40,7 +40,7 @@
                 <div>Complete all fields ({{ $completedFields . '/' . count($requiredFields) }})</div>
             </div>
             <div class="gap-1 d-flex">
-                <form action="/teacher/chapter/publish/{{ $chapter->id }}" method="POST">
+                <form action="{{ route('teacher.chapter.publish', $chapter->id) }}" method="POST">
                     @csrf
                     @method('put')
 
@@ -49,7 +49,7 @@
                     </button>
                 </form>
 
-                <form action="/teacher/chapter/delete/{{ $chapter->id }}" method="POST">
+                <form action="{{ route('teacher.chapter.delete', $chapter->id) }}" method="POST">
 
                     @csrf
                     @method('delete')
@@ -82,7 +82,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/chapter/update/{{ $chapter->id }}" method="post">
+                            <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                 @csrf
                                 @method('put')
 
@@ -109,7 +109,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/chapter/update/{{ $chapter->id }}" method="POST">
+                            <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                 @csrf
                                 @method('put')
 
@@ -117,9 +117,15 @@
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 text-sm text-neutral-100 fs-sm" x-show="!open">
-                            {!! $chapter->description !!}
-                        </div>
+                        @if ($chapter->description)
+                            <div class="pt-1 text-sm text-neutral-100 fs-sm" x-show="!open">
+                                {!! $chapter->description !!}
+                            </div>
+                        @else
+                            <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">
+                                No description provided
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="gap-4 py-4 d-flex align-items-center">
@@ -140,7 +146,7 @@
                             </button>
                         </div>
                         <div class="py-2" x-show="open">
-                            <form action="/teacher/chapter/update/{{ $chapter->id }}" method="POST">
+                            <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <div class="py-2 px-2 my-2 bg-white border-2 border rounded-2">
@@ -186,7 +192,7 @@
                         <div x-data="{ fileName: '', chapterVideoFile: null }" class="dropzone-area" x-show="open">
 
                             <form enctype="multipart/form-data"
-                                action="/teacher/chapter/update/{{ $chapter->id }}/video" method="POST">
+                                action="{{ route('teacher.chapter.update.video', $chapter->id) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">

@@ -114,7 +114,7 @@ class ChapterController extends Controller
 
     public function publish(Chapter $chapter)
     {
-        $chapter->update(['is_published' => !$chapter->is_published]);
+        $chapter->update(['is_published' => ! $chapter->is_published]);
 
         return redirect()->back();
     }

@@ -1,15 +1,40 @@
 @php
-    $requiredFields = [$course->description, $course->title, $course->thumbnail, $course->category_id, $course->price, false];
+    $requiredFields = [
+        [
+            'label' => 'Title',
+            'value' => $course->title,
+        ],
+        [
+            'label' => 'Description',
+            'value' => $course->description,
+        ],
+        [
+            'label' => 'Thumbnail',
+            'value' => $course->thumbnail,
+        ],
+        [
+            'label' => 'Category',
+            'value' => $course->category_id,
+        ],
+        [
+            'label' => 'Price',
+            'value' => $course->price,
+        ],
+        [
+            'label' => 'At least one chapter published',
+            'value' => false,
+        ],
+    ];
     foreach ($course->chapters as $chapter) {
         if (isset($chapter['is_published']) && ($chapter['is_published'] === true || $chapter['is_published'] === 1)) {
-            $requiredFields[5] = true;
+            $requiredFields[5]['value'] = true;
             break;
         }
     }
     $completedFields = array_reduce(
         $requiredFields,
         function ($carry, $field) {
-            return $carry + (!empty($field) ? 1 : 0);
+            return $carry + (!empty($field['value']) ? 1 : 0);
         },
         0,
     );
@@ -36,10 +61,10 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h2>Course setup</h2>
-                <p class="text-neutral-100">Complete all field {{ $completedFields . '/' . count($requiredFields) }}
             </div>
+
             <div class="gap-1 d-flex">
-                <form action="/teacher/course/{{ $course->id }}/publish" method="POST">
+                <form action="{{ route('teacher.course.publish', $course->id) }}" method="POST">
                     @csrf
                     @method('put')
                     <input type="hidden" value="{{ $course->id }}" name="id" />
@@ -48,10 +73,7 @@
                         {{ $course->is_published ? 'Unpublish' : 'Publish' }}
                     </button>
                 </form>
-                <!-- regarding the following action below, we might want to have a confirmation pop-up or
-                     something similar just to notify the user that the action they are about to take
-                     could have irreversible impact -->
-                <form action="/teacher/course/{{ $course->slug }}/delete" method="POST">
+                <form action="{{ route('teacher.course.delete', $course->slug) }}" method="POST">
                     @csrf
                     @method('delete')
                     <input type="hidden" name="id" value="{{ $course->id }}" />
@@ -62,6 +84,26 @@
                     </button>
                 </form>
             </div>
+        </div>
+
+
+        <div>
+            <div class="flex-wrap gap-2 py-2 d-flex">
+                @foreach ($requiredFields as $field)
+                    <div
+                        class="p-1 bg-light fs-sm d-flex gap-1 align-items-center {{ $field['value'] ? 'text-success' : 'text-danger' }}">
+                        @if ($field['value'])
+                            <x-lucide-check-square class="w-3 h-3" />
+                        @endif
+                        @if (!$field['value'])
+                            <x-lucide-x-square class="w-3 h-3" />
+                        @endif
+                        {{ $field['label'] }}
+                    </div>
+                @endforeach
+            </div>
+            <p class="text-muted fs-xs fst-italic">You are unable to publish the course without firstly complete all
+                the required fields.</p>
         </div>
 
         <div class="py-5 row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 g-5">
@@ -118,11 +160,17 @@
                                 <button class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
-                            x-show="!open">
 
-                            {!! $course->description ? $course->description : 'Tell your candidate students about this course.' !!}
-                        </div>
+                        @if ($course->description)
+                            <div class="pt-1 fs-sm" x-show="!open">
+
+                                {!! $course->description !!}
+                            </div>
+                        @else
+                            <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
+                                Tell your candidate students about this course.
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="py-4" x-data="{ open: false }">
@@ -198,10 +246,16 @@
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
-                        <div class="pt-1 {{ !$course->category_id ? 'text-muted fst-italic text-xs' : ' text-sm ' }}"
-                            x-show="!open">
-                            {{ $course->category_id ? $course->category->name : 'No category defined.' }}
-                        </div>
+
+                        @if ($course->category_id)
+                            <div class="pt-1 fs-sm" x-show="!open">
+                                {{ $course->category_id ? $course->category->name : 'No category defined.' }}
+                            </div>
+                        @else
+                            <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
+                                No category defined
+                                <div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -295,7 +349,7 @@
                                         </template>
                                     </div>
                                     <div class="pb-2" x-show="open" x-trap="open">
-                                        <form action="/teacher/chapter/create" method="POST">
+                                        <form action="{{ route('teacher.chapter.store') }}" method="POST">
                                             @csrf
                                             <div class="py-2 input-group">
                                                 <input value="" x-model="newItem" type="text"
@@ -341,9 +395,16 @@
                                     <button class="btn btn-primary" type="submit">Save</button>
                                 </form>
                             </div>
-                            <div class="pt-1 text-sm" x-show="!open">
-                                $ {{ $course->price }}
-                            </div>
+
+                            @if ($course->price)
+                                <div class="pt-1 fs-sm" x-show="!open">
+                                    $ {{ $course->price }}
+                                </div>
+                            @else
+                                <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
+                                    You have not defined the price of this course.
+                                    <div>
+                            @endif
                         </div>
                     </div>
                 </div>
