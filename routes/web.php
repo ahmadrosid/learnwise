@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserCourseController;
@@ -38,6 +39,8 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 });
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
+
+Route::post('/enroll', [PaymentController::class, 'purchaseCourse'])->name('enroll');
 
 Route::get('/courses/chapter-free', function () {
     return view('courses.chapter', [
