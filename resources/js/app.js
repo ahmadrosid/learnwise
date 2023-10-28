@@ -108,7 +108,7 @@ window.chart = (async function () {
                 type: "bar",
                 data: {
                     labels: revenueData.map(
-                        (row) => row.title.slice(0, 25) + "..."
+                        (row) => row.title.slice(0, 25) + "...",
                     ),
                     datasets: [
                         {

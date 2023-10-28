@@ -49,6 +49,7 @@
                                     value="{{ 'Payment for ' . $course->title }}" />
                                 <input type="hidden" name="amount" value="{{ $course->price }}" />
                                 <input type="hidden" name="payer_email" value={{ auth()->user()->email }} />
+                                <input type="hidden" name="user_id" value={{ auth()->user()->id }} />
                                 <button type="submit" class="btn btn-primary">Enrol course</button>
                             </form>
                         @else

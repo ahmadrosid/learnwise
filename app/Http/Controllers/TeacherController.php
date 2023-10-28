@@ -113,6 +113,7 @@ class TeacherController extends Controller
 
     public function revenue()
     {
+
         $groupRevenue = Course::select('courses.title', DB::raw('SUM(courses.price) as revenue'))
             ->join('purchases', 'courses.id', '=', 'purchases.course_id')
             ->groupBy('courses.title')

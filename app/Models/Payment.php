@@ -9,5 +9,5 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['checkout_link', 'external_id', 'status'];
+    protected $fillable = ['checkout_link', 'external_id', 'status', 'user_id', 'course_id'];
 }

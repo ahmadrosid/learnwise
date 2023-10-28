@@ -36,11 +36,12 @@ class PaymentController extends Controller
                 'checkout_link' => $invoice['invoice_url'],
                 'status' => 'pending',
                 'external_id' => $params['external_id'],
+                'user_id' => $request['user_id'],
+                'course_id' => $request['course_id'],
             ];
 
             Payment::create($payment);
 
-            // return redirect($invoice['invoice_url']);
             return view('payments.checkout', [
                 'url' => $invoice['invoice_url'],
             ]);
@@ -48,7 +49,6 @@ class PaymentController extends Controller
         } catch (\Xendit\XenditSdkException $err) {
             echo 'Exception when calling InvoiceApi->createInvoice: ', $err->getMessage(), PHP_EOL;
             echo 'Full Error: ', json_encode($err->getFullError()), PHP_EOL;
-
         }
     }
 
@@ -64,9 +64,15 @@ class PaymentController extends Controller
         }
 
         // Update status payment
-        $payment->update(['status' => strtolower($invoice['status'])]);
+        try {
 
-        return view('payments.successful');
+            $payment->update(['status' => strtolower($invoice['status'])]);
+
+            return response()->json(['message' => 'Payment successfully created!']);
+
+        } catch (\Exception $err) {
+            return response()->json(['message' => $err]);
+        }
 
     }
 

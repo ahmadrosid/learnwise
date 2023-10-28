@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
-use App\Models\Purchase;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +45,7 @@ class CourseController extends Controller
         if (count($chapterData) == 0) {
             return abort(404);
         }
-        $isEnrolled = auth()->check() ? Purchase::where('user_id', auth()->user()->id)
+        $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->count() === 1 : false;
 
         return view('courses.chapter', [
