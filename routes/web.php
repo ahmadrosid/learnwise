@@ -50,6 +50,8 @@ Route::get('/courses/chapter-free', function () {
     ]);
 });
 
+Route::put('/chapter/{chapter}/complete', [ChapterController::class, 'finish'])->name('chapter.complete');
+
 Route::get('/courses/chapter-lock', function () {
     return view('courses.chapter', [
         'isFree' => false,

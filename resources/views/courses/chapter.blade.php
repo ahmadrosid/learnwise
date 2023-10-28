@@ -53,8 +53,13 @@
                                 <button type="submit" class="btn btn-primary">Enrol course</button>
                             </form>
                         @else
-                            <button class="btn btn-success">Mark as complete <x-lucide-check-circle
-                                    class="w-4 h-4 ms-2" /></button>
+                            <form action="{{ route('chapter.complete', $chapter->id) }}" method="POST">
+                                @csrf
+                                @method('put')
+                                <input type="hidden" name="course_id" value="{{ $course->id }}" />
+                                <button {{ $isChapterFinished ? ' disabled ' : '' }} class="btn btn-success">Mark as
+                                    complete <x-lucide-check-circle class="w-4 h-4 ms-2" /></button>
+                            </form>
                         @endif
                     @endif
                 </div>

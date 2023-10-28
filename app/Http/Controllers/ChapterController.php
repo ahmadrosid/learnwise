@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -96,6 +97,37 @@ class ChapterController extends Controller
         $chapter->delete();
 
         return redirect(route('teacher.course.setup', $chapter->course->slug));
+    }
+
+    public function finish(Request $request, Chapter $chapter)
+    {
+        $user_id = auth()->user()->id;
+        $course_id = $request['course_id'];
+        $chapter_id = $chapter->id;
+
+        $progress = Progress::where('user_id', $user_id)
+            ->where('chapter_id', $chapter_id)
+            ->where('course_id', $course_id)
+            ->first();
+
+        if ($progress) {
+            return redirect()->back();
+        }
+
+        try {
+
+            Progress::create([
+                'user_id' => $user_id,
+                'chapter_id' => $chapter_id,
+                'course_id' => $course_id,
+            ]);
+
+            return redirect()->back();
+
+        } catch (\Exception $err) {
+            return redirect()->back()->withErrors(['error' => $err]);
+        }
+
     }
 
     public function updatevideo(Request $request, Chapter $chapter)
