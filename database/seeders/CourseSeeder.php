@@ -20,10 +20,10 @@ class CourseSeeder extends Seeder
                 'description' => 'Explore the human mind and behavior in this introductory psychology course.',
                 'user_id' => 1,
                 'category_id' => 1,
-                'price' => 49.99,
+                'price' => 85000,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'is_published' => false,
+                'is_published' => true,
                 'thumbnail' => '',
             ],
             [

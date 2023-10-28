@@ -40,7 +40,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 
-Route::post('/enroll', [PaymentController::class, 'purchaseCourse'])->name('enroll');
+Route::get('/payment/done', [PaymentController::class, 'done']);
 
 Route::get('/courses/chapter-free', function () {
     return view('courses.chapter', [

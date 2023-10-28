@@ -45,8 +45,10 @@
                             <form action="{{ route('enroll') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}" />
-                                <input type="hidden" name="course_title" value="{{ $course->title }}" />
-                                <input type="hidden" name="price" value="{{ $course->price }}" />
+                                <input type="hidden" name="description"
+                                    value="{{ 'Payment for ' . $course->title }}" />
+                                <input type="hidden" name="amount" value="{{ $course->price }}" />
+                                <input type="hidden" name="payer_email" value={{ auth()->user()->email }} />
                                 <button type="submit" class="btn btn-primary">Enrol course</button>
                             </form>
                         @else
