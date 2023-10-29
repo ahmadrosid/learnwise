@@ -39,7 +39,7 @@
                 <h1>{{ $chapter->title }}</h1>
                 <div>
                     @if (!Auth::user())
-                        <button class="btn btn-primary">Start course</button>
+                        <a href="{{ route('login') }}" class="btn btn-primary">Login to Enroll</a>
                     @else
                         @if (!$isEnrolled)
                             <form action="{{ route('enroll') }}" method="POST">
