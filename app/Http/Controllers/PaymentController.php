@@ -26,6 +26,7 @@ class PaymentController extends Controller
             'payer_email' => $request->payer_email,
             'description' => $request->description,
             'amount' => $request->amount,
+            'success_redirect_url' => route('mycourse')
         ];
 
         try {
@@ -42,10 +43,10 @@ class PaymentController extends Controller
 
             Payment::create($payment);
 
+
             return view('payments.checkout', [
                 'url' => $invoice['invoice_url'],
             ]);
-
         } catch (\Xendit\XenditSdkException $err) {
             echo 'Exception when calling InvoiceApi->createInvoice: ', $err->getMessage(), PHP_EOL;
             echo 'Full Error: ', json_encode($err->getFullError()), PHP_EOL;
@@ -65,15 +66,11 @@ class PaymentController extends Controller
 
         // Update status payment
         try {
-
             $payment->update(['status' => strtolower($invoice['status'])]);
-
             return response()->json(['message' => 'Payment successfully created!']);
-
         } catch (\Exception $err) {
             return response()->json(['message' => $err]);
         }
-
     }
 
     public function done()
