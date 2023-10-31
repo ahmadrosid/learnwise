@@ -39,6 +39,7 @@ class CourseController extends Controller
          * We indeed need to grab all courses in order to order them accordingly,
          * as opposed to taking only published ones
          **/
+
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
@@ -50,6 +51,8 @@ class CourseController extends Controller
 
         $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
+
+        $isTheCreator = auth()->check() ? $course['id'] === auth()->user()->id : false;
 
         if ($isEnrolled) {
             $chapterId = reset($chapterData)['id'];
@@ -67,6 +70,7 @@ class CourseController extends Controller
             'isEnrolled' => $isEnrolled,
             'isChapterFinished' => $isChapterFinished,
             'chapters' => $chapters,
+            'isTheCreator' => $isTheCreator,
         ]);
     }
 }
