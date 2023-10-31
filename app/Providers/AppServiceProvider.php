@@ -25,13 +25,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         Blade::directive('currency', function ($expression) {
-            $currency = getenv('CURRENCY');
-
-            if ($currency === 'idr') {
-                return "Rp. <?php echo number_format($expression, 0, ',', '.'); ?>";
-            } elseif ($currency === 'usd') {
-                return "$<?php echo number_format($expression, 2, '.', ','); ?>";
-            }
+            return formatCurrency($expression);
+            // $currency = getenv('CURRENCY');
+            //
 
         });
     }
