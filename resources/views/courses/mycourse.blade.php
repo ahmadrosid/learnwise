@@ -37,7 +37,7 @@
             <div class="col">
                 <div class="card border shadow-none rounded-4">
                     <a href="/courses/{{$item->slug}}/chapter/1" class="p-2">
-                        <img src="{{$item->thumbnail}}" class="card-img-top rounded-3" alt="green iguana" />
+                        <img src="@thumbnail($item)" class="card-img-top rounded-3" alt="green iguana" />
                     </a>
                     <div class="card-body p-3 pt-0">
                         <a href="/courses/{{$item->slug}}/chapter/1" class="text-black">
