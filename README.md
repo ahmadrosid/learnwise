@@ -50,7 +50,7 @@ This project inspired by: https://github.com/AntonioErdeljac/next13-lms-platform
     DB_PASSWORD=
     ```
 
-5. We use Xendit as the payment gateway, so a Xendit account is required. Create one if you haven't already, then update these two variables in the `.env` file:
+5. We use [Xendit](http://xendit.co) as the payment gateway, so a Xendit account is required. Create one if you haven't already, then update these two variables in the `.env` file:
 
     ```
     XENDIT_SECRET_KEY=
