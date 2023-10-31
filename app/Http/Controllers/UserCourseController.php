@@ -10,8 +10,10 @@ class UserCourseController extends Controller
 {
     public function show()
     {
+
         $enrolledCourseIds = Payment::select('course_id')
             ->where('user_id', auth()->user()->id)
+            ->where('status', 'settled')
             ->get()
             ->pluck('course_id')
             ->all();
