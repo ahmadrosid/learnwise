@@ -39,13 +39,27 @@
                 <h1>{{ $chapter->title }}</h1>
                 <div>
                     @if (!Auth::user())
-                        <button class="btn btn-primary">Start course</button>
+                        <a href="{{ route('login') }}" class="btn btn-primary">Login to Enroll</a>
                     @else
                         @if (!$isEnrolled)
-                            <button class="btn btn-primary">Enrol course</button>
+                            <form action="{{ route('enroll') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}" />
+                                <input type="hidden" name="description"
+                                    value="{{ 'Payment for ' . $course->title }}" />
+                                <input type="hidden" name="amount" value="{{ $course->price }}" />
+                                <input type="hidden" name="payer_email" value={{ auth()->user()->email }} />
+                                <input type="hidden" name="user_id" value={{ auth()->user()->id }} />
+                                <button type="submit" class="btn btn-primary">Enrol course</button>
+                            </form>
                         @else
-                            <button class="btn btn-success">Mark as complete <x-lucide-check-circle
-                                    class="w-4 h-4 ms-2" /></button>
+                            <form action="{{ route('chapter.complete', $chapter->id) }}" method="POST">
+                                @csrf
+                                @method('put')
+                                <input type="hidden" name="course_id" value="{{ $course->id }}" />
+                                <button {{ $isChapterFinished ? ' disabled ' : '' }} class="btn btn-success">Mark as
+                                    complete <x-lucide-check-circle class="w-4 h-4 ms-2" /></button>
+                            </form>
                         @endif
                     @endif
                 </div>

@@ -20,12 +20,13 @@ class CourseSeeder extends Seeder
                 'description' => 'Explore the human mind and behavior in this introductory psychology course.',
                 'user_id' => 1,
                 'category_id' => 1,
-                'price' => 49.99,
+                'price' => 85000,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'is_published' => false,
+                'is_published' => true,
                 'thumbnail' => '',
             ],
+            /*
             [
                 'title' => 'Art Appreciation and Techniques',
                 'slug' => 'art-appreciation-and-techniques',
@@ -38,7 +39,6 @@ class CourseSeeder extends Seeder
                 'is_published' => 0,
                 'thumbnail' => '',
             ],
-            /*
             [
                 'title' => 'Business Strategies for Success',
                 'slug' => 'business-strategies-for-success',
@@ -58,18 +58,6 @@ class CourseSeeder extends Seeder
                 'user_id' => 1,
                 'category_id' => 6,
                 'price' => 10.99,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'is_published' => 0,
-                'thumbnail' => '',
-            ],
-            [
-                'title' => 'Absolute Beginner Guide to Calligraphy and Beautiful Handwriting',
-                'slug' => 'absolute-beginner-guide-to-calligraphy-and-beautiful-handwriting',
-                'description' => 'Begin your enchanting journey into the world of calligraphy and the art of beautiful handwriting. This course is tailored for absolute beginners, offering step-by-step guidance in mastering the graceful strokes of calligraphy and the techniques behind creating stunning, artistic handwriting. Join us and unveil the secrets to crafting exquisite letters and elegant script.',
-                'user_id' => 3,
-                'category_id' => 2,
-                'price' => 5,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'is_published' => 0,
@@ -136,6 +124,20 @@ class CourseSeeder extends Seeder
                 'is_published' => 0,
                 'thumbnail' => '',
             ],
+            */
+
+            [
+                'title' => 'Absolute Beginner Guide to Calligraphy and Beautiful Handwriting',
+                'slug' => 'absolute-beginner-guide-to-calligraphy-and-beautiful-handwriting',
+                'description' => 'Begin your enchanting journey into the world of calligraphy and the art of beautiful handwriting. This course is tailored for absolute beginners, offering step-by-step guidance in mastering the graceful strokes of calligraphy and the techniques behind creating stunning, artistic handwriting. Join us and unveil the secrets to crafting exquisite letters and elegant script.',
+                'user_id' => 3,
+                'category_id' => 2,
+                'price' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'is_published' => 0,
+                'thumbnail' => '',
+            ],
             [
                 'title' => 'Understanding kids',
                 'slug' => 'understanding-kids',
@@ -184,7 +186,6 @@ class CourseSeeder extends Seeder
                 'is_published' => 0,
                 'thumbnail' => '',
             ],
-            */
         ];
 
         DB::table('courses')->insert($coursesData);

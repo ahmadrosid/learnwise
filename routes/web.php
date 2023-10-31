@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserCourseController;
@@ -14,7 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/courses/mycourses', [UserCourseController::class, 'show']);
+    Route::get('/courses/mycourses', [UserCourseController::class, 'show'])->name('mycourse');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 
+Route::get('/payment/done', [PaymentController::class, 'done']);
+
 Route::get('/courses/chapter-free', function () {
     return view('courses.chapter', [
         'isFree' => true,
@@ -46,6 +49,8 @@ Route::get('/courses/chapter-free', function () {
         'title' => 'Fullstack Saas Laravel',
     ]);
 });
+
+Route::put('/chapter/{chapter}/complete', [ChapterController::class, 'finish'])->name('chapter.complete');
 
 Route::get('/courses/chapter-lock', function () {
     return view('courses.chapter', [
@@ -57,4 +62,4 @@ Route::get('/courses/chapter-lock', function () {
 
 Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

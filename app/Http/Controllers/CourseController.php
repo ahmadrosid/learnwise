@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
-use App\Models\Purchase;
+use App\Models\Payment;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -41,12 +42,22 @@ class CourseController extends Controller
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
+        $isChapterFinished = false;
 
         if (count($chapterData) == 0) {
             return abort(404);
         }
-        $isEnrolled = auth()->check() ? Purchase::where('user_id', auth()->user()->id)
-            ->where('course_id', $course->id)->count() === 1 : false;
+
+        $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
+            ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
+
+        if ($isEnrolled) {
+            $chapterId = reset($chapterData)['id'];
+            $isChapterFinished = Progress::where('user_id', auth()->user()->id)
+                ->where('course_id', $course->id)
+                ->where('chapter_id', $chapterId)
+                ->exists();
+        }
 
         return view('courses.chapter', [
             'course' => $course,
@@ -54,6 +65,7 @@ class CourseController extends Controller
             'chapter' => reset($chapterData),
             'chapterPosition' => $chapter,
             'isEnrolled' => $isEnrolled,
+            'isChapterFinished' => $isChapterFinished,
             'chapters' => $chapters,
         ]);
     }
