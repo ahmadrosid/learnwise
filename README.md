@@ -1,6 +1,6 @@
 # Learnwise
 
-Learnwise is open source learning management system just like Udemy created with Laravel and Fastbootstrap.
+Learnwise is open source learning management system just like Udemy created with [Laravel](https://laravel.com/) and [Fastbootstrap](https://fastbootstrap.com/).
 
 ![demo](learnwise-demo.png)
 
@@ -10,9 +10,9 @@ This project inspired by: https://github.com/AntonioErdeljac/next13-lms-platform
 
 ### Prerequisites
 
--   PHP 8.1 or above
--   Node.js 16.xx or above
--   A running database server (MySQL, PostgreSQL, SQLite, MongoDB)
+-   PHP >= 8.1
+-   Node.js >= 16.xx
+-   MySQL >= 8.1.0
 
 ### Steps
 
