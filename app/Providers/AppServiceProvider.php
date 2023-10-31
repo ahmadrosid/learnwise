@@ -16,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('thumbnail', function ($expression) {
             return "<?php echo formatThumbnail($expression); ?>";
         });
+        Blade::directive('currency', function ($expression) {
+            return "<?php echo formatCurrency($expression); ?>";
+        });
     }
 
     /**
@@ -24,11 +27,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Blade::directive('currency', function ($expression) {
-            return formatCurrency($expression);
-            // $currency = getenv('CURRENCY');
-            //
-
-        });
     }
 }
