@@ -52,7 +52,7 @@ class CourseController extends Controller
         $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
 
-        $isTheCreator = auth()->check() ? $course['id'] === auth()->user()->id : false;
+        $isTheCreator = auth()->id() === $course['id'];
 
         if ($isEnrolled) {
             $chapterId = reset($chapterData)['id'];
