@@ -46,7 +46,7 @@
                                 <span class="text-neutral-100 fs-sm">{{ $item->chapters_count }} Chapters</span>
                             </div>
                             <div class="fw-bold fs-sm">
-                                {{ $item->price == 0 ? 'Free' : '$ ' . $item->price }}
+                                @currency($item->price)
                             </div>
 
                         </div>
