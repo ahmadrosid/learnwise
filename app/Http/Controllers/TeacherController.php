@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Purchase;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -43,11 +45,14 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
+        $imgUrl = env('PUBLIC_CLOUDINARY_URL');
+
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
             'chapters' => Chapter::sort($course->chapters, 'teacher'),
             'hasBeenSold' => $course->purchases->count() > 0,
+            'imgUrl' => $imgUrl,
         ]);
     }
 
@@ -60,15 +65,24 @@ class TeacherController extends Controller
 
     public function updatethumbnail(Request $request, Course $course)
     {
-        $formFields = null;
-        if ($request->hasFile('thumbnail')) {
-            if ($course->thumbnail) {
-                Storage::disk('public')->delete($course->thumbnail);
-            }
-            $formFields['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
-        }
 
-        $course->update($formFields);
+        Configuration::instance(
+            [
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                    'api_key' => env('CLOUDINARY_API_KEY'),
+                ],
+                'url' => [
+                    'secure' => true,
+                ],
+            ]
+        );
+        $cloudUpload = new UploadApi();
+        if ($request->hasFile('thumbnail')) {
+            $uploadImage = $cloudUpload->upload($request->file('thumbnail')->getRealPath());
+            $course->update(['thumbnail' => $uploadImage['public_id']]);
+        }
 
         return redirect()->back();
     }

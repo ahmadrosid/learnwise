@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.8",
         "spatie/laravel-markdown": "^2.4",
         "technikermathe/blade-lucide-icons": "^2.18",
-        "xendit/xendit-php": "3.4.0"
+        "xendit/xendit-php": "3.4.0",
+        "cloudinary/cloudinary_php": "^2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
