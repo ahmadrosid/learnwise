@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Purchase;
+use Cloudinary\Api\Admin\AdminApi;
 use Cloudinary\Api\Upload\UploadApi;
 use Cloudinary\Configuration\Configuration;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class TeacherController extends Controller
 
     public function edit(Course $course)
     {
-        $imgUrl = env('PUBLIC_CLOUDINARY_URL');
+        $imgUrl = env('PUBLIC_CLOUDINARY_IMAGE_URL');
 
         return view('teachers.course.setup', [
             'course' => $course,
@@ -78,8 +79,15 @@ class TeacherController extends Controller
                 ],
             ]
         );
+
+        $cloudAdmin = new AdminApi();
         $cloudUpload = new UploadApi();
+
         if ($request->hasFile('thumbnail')) {
+
+            if ($course->thumbnail) {
+                $cloudAdmin->deleteAssets($course->thumbnail);
+            }
             $uploadImage = $cloudUpload->upload($request->file('thumbnail')->getRealPath());
             $course->update(['thumbnail' => $uploadImage['public_id']]);
         }
