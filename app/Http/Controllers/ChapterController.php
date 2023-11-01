@@ -6,6 +6,8 @@ use App\Http\Requests\UpdateChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Progress;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -132,14 +134,32 @@ class ChapterController extends Controller
 
     public function updatevideo(Request $request, Chapter $chapter)
     {
+
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+                'api_key' => env('CLOUDINARY_API_KEY'),
+            ],
+            'url' => [
+                'secure' => true,
+            ],
+        ]);
+
+        $cloudUpload = new UploadApi();
         $formFields = null;
         if ($request->hasFile('chapter_video')) {
-            if ($chapter->video_url) {
-                Storage::disk('public')->delete($chapter->video_url);
-            }
-            $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
+            // if ($chapter->video_url) {
+            //     Storage::disk('public')->delete($chapter->video_url);
+            // }
+            // $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
+            $uploadVideo = $cloudUpload->upload($request->file('chapter_video')->getRealPath(), [
+                'resource_type' => 'video',
+                'chunk_size' => 6000000,
+            ]);
+            $chapter->update(['video_url' => $uploadVideo['public_id']]);
         }
-        $chapter->update($formFields);
+        // $chapter->update($formFields);
 
         return redirect()->back();
     }

@@ -258,7 +258,8 @@
 
                             @if ($chapter->video_url)
                                 <video controls class="img-fluid rounded-3" style="max-height: 300px;">
-                                    <source src="{{ asset('storage/' . $chapter->video_url) }}" type="video/mp4" />
+                                    <source src="{{ env('PUBLIC_CLOUDINARY_VIDEO_URL') . $chapter->video_url }}"
+                                        type="video/mp4" />
                                 </video>
                             @else
                                 <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">
