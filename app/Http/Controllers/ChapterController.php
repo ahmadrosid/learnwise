@@ -6,6 +6,9 @@ use App\Http\Requests\UpdateChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Progress;
+use Cloudinary\Api\Admin\AdminApi;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -132,14 +135,37 @@ class ChapterController extends Controller
 
     public function updatevideo(Request $request, Chapter $chapter)
     {
-        $formFields = null;
+
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+                'api_key' => env('CLOUDINARY_API_KEY'),
+            ],
+            'url' => [
+                'secure' => true,
+            ],
+        ]);
+
+        $cloudUpload = new UploadApi();
+        $cloudAdmin = new AdminApi();
+        $oldVideo = $chapter->video_url;
         if ($request->hasFile('chapter_video')) {
-            if ($chapter->video_url) {
-                Storage::disk('public')->delete($chapter->video_url);
-            }
-            $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
+            // this doesn't work
+            // if ($chapter->video_url) {
+            //     $cloudAdmin->deleteAssets($chapter->video_url);
+            // }
+            $uploadVideo = $cloudUpload->upload($request->file('chapter_video')->getRealPath(), [
+                'resource_type' => 'video',
+                'chunk_size' => 6000000,
+            ]);
+
+            // this one does not work either
+            // if ($oldVideo) {
+            //     $cloudAdmin->deleteAssets($chapter->video_url);
+            // }
+            $chapter->update(['video_url' => $uploadVideo['public_id']]);
         }
-        $chapter->update($formFields);
 
         return redirect()->back();
     }
