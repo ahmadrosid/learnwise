@@ -3,7 +3,7 @@
         <div class="gap-2 p-4 d-flex">
             <div class="p-3 rounded border flex-grow-1">
                 <p>Balance</p>
-                <p class="fw-bold fs-3"> @currency(12000)</p>
+                <p class="fw-bold fs-3"> @currency($balance)</p>
             </div>
 
             <div class="p-3 rounded border flex-grow-1">
@@ -26,7 +26,7 @@
                         <th>Date, time</th>
                         <th>Transaction ID</th>
                         <th>Amount</th>
-                        <th>Description</th>
+                        <th>Type</th>
                         <th>Status</th>
                     </tr>
 
@@ -36,8 +36,10 @@
                         <tr>
                             <td>{{ $item->created_at }}</td>
                             <td>#{{ $item->id }}</td>
-                            <td>@currency($item->amount)</td>
-                            <td>{{ $item->description }}</td>
+                            <td>{{ $item->type === 'withdraw' ? '-' : '' }}
+                                @currency($item->amount)
+                            </td>
+                            <td>{{ $item->type }}</td>
                             <td>
                                 <div
                                     class="gap-1 d-flex text-capitalize {{ $item->status === 'approved' || $item->status === 'settled' ? ' text-success' : ($item->status === 'pending' ? ' text-muted' : 'text-danger') }}">

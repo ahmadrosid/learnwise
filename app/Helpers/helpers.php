@@ -2,22 +2,28 @@
 
 use Illuminate\Support\Str;
 
-if (!function_exists('formatThumbnail')) {
+if (! function_exists('formatThumbnail')) {
     function formatThumbnail($item)
     {
-        return Str::startsWith($item->thumbnail, 'http') ? $item->thumbnail : asset('storage/' . $item->thumbnail);
+        return Str::startsWith($item->thumbnail, 'http') ? $item->thumbnail : asset('storage/'.$item->thumbnail);
     }
 }
 
-if (!function_exists('formatCurrency')) {
+if (! function_exists('formatCurrency')) {
     function formatCurrency($amount)
     {
         $currency = getenv('CURRENCY');
+        $formattedAmount = '';
+
         switch ($currency) {
             case 'idr':
-                return "Rp. " . number_format($amount, 0, ',', '.');
+                $formattedAmount = 'Rp. '.number_format(abs($amount), 0, ',', '.');
+                break;
             default:
-                return "$" . number_format($amount, 2, '.', ',');
+                $formattedAmount = '$ '.number_format(abs($amount), 2, '.', ',');
+                break;
         }
+
+        return $amount < 0 ? '-'.$formattedAmount : $formattedAmount;
     }
 }
