@@ -26,7 +26,7 @@ class PaymentController extends Controller
             'payer_email' => $request->payer_email,
             'description' => $request->description,
             'amount' => $request->amount,
-            'success_redirect_url' => route('mycourse')
+            'success_redirect_url' => route('mycourse'),
         ];
 
         try {
@@ -42,7 +42,6 @@ class PaymentController extends Controller
             ];
 
             Payment::create($payment);
-
 
             return view('payments.checkout', [
                 'url' => $invoice['invoice_url'],
@@ -67,6 +66,7 @@ class PaymentController extends Controller
         // Update status payment
         try {
             $payment->update(['status' => strtolower($invoice['status'])]);
+
             return response()->json(['message' => 'Payment successfully created!']);
         } catch (\Exception $err) {
             return response()->json(['message' => $err]);
@@ -75,7 +75,6 @@ class PaymentController extends Controller
 
     public function done()
     {
-
         return view('payments.successful');
     }
 }

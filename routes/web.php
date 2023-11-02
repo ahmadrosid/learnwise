@@ -5,6 +5,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserCourseController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,8 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::put('/teacher/chapter/publish/{chapter}', [ChapterController::class, 'publish'])->name('teacher.chapter.publish');
     Route::get('/teacher/analytics', [TeacherController::class, 'analytics'])->name('teacher.analytics');
     Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue'])->name('api.teacher.revenue');
+    Route::get('/teacher/balance', [TeacherController::class, 'balance'])->name('teacher.balance');
+    Route::post('/transaction/withdraw', [TransactionController::class, 'withdraw'])->name('transaction.withdraw');
 });
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
@@ -62,4 +65,4 @@ Route::get('/courses/chapter-lock', function () {
 
 Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

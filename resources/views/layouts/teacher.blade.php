@@ -42,6 +42,14 @@
                                 Analytics
                             </a>
                         </li>
+
+                        <li>
+                            <a class="menu-item p-4 {{ request()->is('teacher/balance') ? 'active' : '' }}"
+                                href="{{ route('teacher.balance') }}">
+                                <x-lucide-banknote class="w-4 h-4 me-2" />
+                                Balance
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
