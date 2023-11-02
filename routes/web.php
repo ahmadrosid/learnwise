@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
@@ -41,6 +42,11 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/balance', [TeacherController::class, 'balance'])->name('teacher.balance');
     Route::post('/transaction/withdraw', [TransactionController::class, 'withdraw'])->name('transaction.withdraw');
 });
+
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin/transactions', [AdminController::class, 'transactions'])->name('admin.transactions');
+Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+Route::post('/admin/approvewithdrawal', [AdminController::class, 'approvewithdrawal'])->name('admin.approvewithdrawal');
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
 

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -51,7 +50,7 @@ class UserSeeder extends Seeder
                 'email' => 'michaeldavis@mail.com',
                 'password' => '$2b$12$ma3bfhM9/ucsyMJbMII2GOKIVHvnXh4b.l62cTsf5ta8jFC2coSaK',
                 'created_at' => now(),
-                'role' => 'student',
+                'role' => 'admin',
                 'updated_at' => now(),
             ],
 
