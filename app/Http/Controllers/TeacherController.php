@@ -132,10 +132,12 @@ class TeacherController extends Controller
             'courses.price'
         )->join('courses', 'courses.id', 'transactions.course_id')
             ->where('courses.user_id', auth()->user()->id)
+            ->where('transactions.status', 'settled')
             ->get();
 
         $totalRevenue = Transaction::join('courses', 'transactions.course_id', 'courses.id')
             ->where('courses.user_id', auth()->user()->id)
+            ->where('transactions.status', 'settled')
             ->sum('courses.price');
 
         return view('teachers.analytics.index', [
