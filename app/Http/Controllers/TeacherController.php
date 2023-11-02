@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Purchase;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -142,6 +143,15 @@ class TeacherController extends Controller
             'data' => $purchasesData,
             'salesCount' => $purchasesData->count(),
             'totalRevenue' => $totalRevenue,
+        ]);
+    }
+
+    public function balance()
+    {
+        $history = Transaction::all();
+
+        return view('teachers.balance', [
+            'history' => $history,
         ]);
     }
 }

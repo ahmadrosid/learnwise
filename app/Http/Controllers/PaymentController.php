@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Xendit\Configuration;
@@ -39,9 +40,11 @@ class PaymentController extends Controller
                 'external_id' => $params['external_id'],
                 'user_id' => $request['user_id'],
                 'course_id' => $request['course_id'],
+                'type' => 'enroll',
+                'amount' => $request['amount'],
             ];
 
-            Payment::create($payment);
+            Transaction::create($payment);
 
             return view('payments.checkout', [
                 'url' => $invoice['invoice_url'],
@@ -57,7 +60,7 @@ class PaymentController extends Controller
         $invoice = $this->apiInstance->getInvoiceById($request->id);
 
         // Get data
-        $payment = Payment::where('external_id', $request->external_id)->firstOrFail();
+        $payment = Transaction::where('external_id', $request->external_id)->firstOrFail();
 
         if ($payment->status == 'settled') {
             return response()->json(['data' => 'Payment has been already processed']);

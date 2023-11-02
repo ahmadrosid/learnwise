@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Payment;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
 class UserCourseController extends Controller
@@ -11,7 +11,7 @@ class UserCourseController extends Controller
     public function show()
     {
 
-        $enrolledCourseIds = Payment::select('course_id')
+        $enrolledCourseIds = Transaction::select('course_id')
             ->where('user_id', auth()->user()->id)
             ->where('status', 'settled')
             ->get()

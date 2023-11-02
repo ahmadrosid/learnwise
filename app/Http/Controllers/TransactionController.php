@@ -39,7 +39,6 @@ class TransactionController extends Controller
                 'type' => 'enroll',
                 'amount' => $request['amount'],
             ];
-
             Transaction::create($transaction);
 
             return view('payments.checkout', [

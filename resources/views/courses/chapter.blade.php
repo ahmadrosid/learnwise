@@ -52,6 +52,7 @@
                                 <input type="hidden" name="user_id" value={{ auth()->user()->id }} />
                                 <button type="submit" class="btn btn-primary"
                                     {{ $isTheCreator ? ' disabled' : '' }}>Enroll course </button>
+
                             </form>
                         @else
                             <form action="{{ route('chapter.complete', $chapter->id) }}" method="POST">
