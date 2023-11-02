@@ -4,6 +4,7 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserCourseController;
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 });
 
 Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
+
+Route::get('/student/purchases', [StudentController::class, 'showActivity']);
 
 Route::get('/payment/done', [PaymentController::class, 'done']);
 

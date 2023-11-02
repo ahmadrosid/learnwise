@@ -31,7 +31,8 @@
                     </li>
                 @elseif(Auth::check() && !Auth::user()->hasRole('teacher'))
                     <li>
-                        <a class="p-4 menu-item" href="/student/purchases">
+                        <a class="p-4 menu-item{{ Request::is('student/purchases') ? ' active' : '' }}"
+                            href="/student/purchases">
                             <x-lucide-shopping-cart class="w-5 h-5 me-2" />
                             My purchases
                         </a>
