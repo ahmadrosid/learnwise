@@ -1,25 +1,6 @@
 <x-app-layout>
 
     <div class="p-5">
-        <div class="gap-2 p-4 d-flex">
-            <div class="p-3 rounded border flex-grow-1">
-                <p>Balance</p>
-                <p class="fw-bold fs-3"> @currency(0)</p>
-            </div>
-
-            <div class="p-3 rounded border flex-grow-1">
-                <p>Withdraw</p>
-                <form method="POST" action="{{ route('transaction.withdraw') }}">
-                    @csrf
-                    <div class="gap-4 d-flex">
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" />
-                        <input class="form-control" name="amount" /> <button disabled
-                            class="btn btn-primary">Withdraw</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <div class="gap-2 p-4">
             <h3>History</h3>
             <table class="table">
