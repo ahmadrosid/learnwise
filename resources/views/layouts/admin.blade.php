@@ -30,24 +30,17 @@
                             </div>
                         </li>
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('teacher') ? 'active' : '' }}" href="/teacher">
+                            <a class="menu-item p-4 {{ request()->is('admin/users') ? 'active' : '' }}"
+                                href="{{ route('admin.users') }}">
                                 <x-lucide-list class="w-4 h-4 me-2" />
-                                Courses
+                                Users
                             </a>
                         </li>
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('teacher/analytics') ? 'active' : '' }}"
-                                href="{{ route('teacher.analytics') }}">
+                            <a class="menu-item p-4 {{ request()->is('admin/transactions') ? 'active' : '' }}"
+                                href="{{ route('admin.transactions') }}">
                                 <x-lucide-bar-chart class="w-4 h-4 me-2" />
-                                Analytics
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="menu-item p-4 {{ request()->is('teacher/balance') ? 'active' : '' }}"
-                                href="{{ route('teacher.balance') }}">
-                                <x-lucide-banknote class="w-4 h-4 me-2" />
-                                Balance
+                                Transactions
                             </a>
                         </li>
                     </ul>
@@ -55,7 +48,7 @@
             </div>
         </div>
         <div>
-            @include('layouts.navigations.teachernav')
+            @include('layouts.navigations.adminnav')
             <main style="min-height: 90vh;">
                 {{ $slot }}
             </main>

@@ -6,7 +6,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
-use App\Models\Purchase;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -115,7 +115,7 @@ class TeacherController extends Controller
     {
 
         $groupRevenue = Course::select('courses.title', DB::raw('SUM(courses.price) as revenue'))
-            ->join('purchases', 'courses.id', '=', 'purchases.course_id')
+            ->join('transactions', 'courses.id', '=', 'transactions.course_id')
             ->groupBy('courses.title')
             ->where('courses.user_id', auth()->user()->id)
             ->get();
@@ -125,23 +125,57 @@ class TeacherController extends Controller
 
     public function analytics()
     {
-        $purchasesData = Purchase::select(
-            'purchases.id',
-            'purchases.course_id',
+        $purchasesData = Transaction::select(
+            'transactions.id',
+            'transactions.course_id',
             'courses.title',
             'courses.price'
-        )->join('courses', 'courses.id', 'purchases.course_id')
+        )->join('courses', 'courses.id', 'transactions.course_id')
             ->where('courses.user_id', auth()->user()->id)
+            ->where('transactions.status', 'settled')
             ->get();
 
-        $totalRevenue = Purchase::join('courses', 'purchases.course_id', 'courses.id')
+        $totalRevenue = Transaction::join('courses', 'transactions.course_id', 'courses.id')
             ->where('courses.user_id', auth()->user()->id)
+            ->where('transactions.status', 'settled')
             ->sum('courses.price');
 
         return view('teachers.analytics.index', [
             'data' => $purchasesData,
             'salesCount' => $purchasesData->count(),
             'totalRevenue' => $totalRevenue,
+        ]);
+    }
+
+    public function balance()
+    {
+        $userId = auth()->user()->id;
+        $transactionHistory = Transaction::select('transactions.*')
+            ->leftJoin('courses', 'transactions.course_id', '=', 'courses.id')
+            ->where(function ($query) use ($userId) {
+                $query->where(function ($query) use ($userId) {
+                    $query->where('transactions.type', 'withdraw')
+                        ->where('transactions.user_id', $userId);
+                })->orWhere(function ($query) use ($userId) {
+                    $query->where('transactions.type', 'enroll')
+                        ->where('courses.user_id', $userId);
+                });
+            })
+            ->get();
+
+        $balance = 0;
+
+        foreach ($transactionHistory as $item) {
+            if ($item->type === 'enroll' && $item->status === 'settled') {
+                $balance += $item->amount;
+            } elseif ($item->type === 'withdraw' && $item->status === 'approved') {
+                $balance -= $item->amount;
+            }
+        }
+
+        return view('teachers.balance', [
+            'history' => $transactionHistory,
+            'balance' => $balance,
         ]);
     }
 }

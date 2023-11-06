@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Xendit\Configuration;
 use Xendit\Invoice\InvoiceApi;
 
-class PaymentController extends Controller
+class TransactionController extends Controller
 {
     private $apiInstance;
 
@@ -21,7 +20,6 @@ class PaymentController extends Controller
 
     public function purchase(Request $request)
     {
-
         $params = [
             'external_id' => (string) Str::uuid(),
             'payer_email' => $request->payer_email,
@@ -32,52 +30,71 @@ class PaymentController extends Controller
 
         try {
             $invoice = $this->apiInstance->createInvoice($params);
-
-            // Save to database
-            $payment = [
+            $transaction = [
                 'checkout_link' => $invoice['invoice_url'],
                 'status' => 'pending',
-                'external_id' => $params['external_id'],
+                'external_id' => '',
                 'user_id' => $request['user_id'],
                 'course_id' => $request['course_id'],
                 'type' => 'enroll',
                 'amount' => $request['amount'],
             ];
-
-            Transaction::create($payment);
+            Transaction::create($transaction);
 
             return view('payments.checkout', [
-                'url' => $invoice['invoice_url'],
+                'url' => $invoice['invoce_url'],
             ]);
+
         } catch (\Xendit\XenditSdkException $err) {
             echo 'Exception when calling InvoiceApi->createInvoice: ', $err->getMessage(), PHP_EOL;
             echo 'Full Error: ', json_encode($err->getFullError()), PHP_EOL;
         }
     }
 
-    public function successful(Request $request)
+    public function purchaseSuccessful(Request $request)
     {
         $invoice = $this->apiInstance->getInvoiceById($request->id);
+        $transaction = Transaction::where('external_id', $request->external_id)->firstOrFail();
 
-        // Get data
-        $payment = Transaction::where('external_id', $request->external_id)->firstOrFail();
-
-        if ($payment->status == 'settled') {
-            return response()->json(['data' => 'Payment has been already processed']);
+        if ($transaction->status == 'settled') {
+            return response()->json(['data' => 'Payment has already been processed!']);
         }
 
-        // Update status payment
         try {
-            $payment->update(['status' => strtolower($invoice['status'])]);
+            $transaction->update(['status' => strtolower($invoice['status'])]);
 
-            return response()->json(['message' => 'Payment successfully created!']);
+            return response()->json(['message' => 'Payment successfully createad!']);
         } catch (\Exception $err) {
-            return response()->json(['message' => $err]);
+            return response()->json(['Error' => $err]);
         }
     }
 
-    public function done()
+    public function withdraw(Request $request)
     {
-        return view('payments.successful');
+        $transaction = [
+            'user_id' => $request['user_id'],
+            'amount' => $request['amount'],
+            'status' => 'pending',
+            'type' => 'withdraw',
+        ];
+
+        Transaction::create($transaction);
+
+        return redirect()->back();
+    }
+
+    public function refund(Request $request)
+    {
+        $transaction = [
+            'user_id' => $request['user_id'],
+            'amount' => $request['amount'],
+            'status' => 'pending',
+            'type' => 'refund',
+        ];
+
+        Transaction::create($transaction);
+
+        return redirect()->back();
+
     }
 }
