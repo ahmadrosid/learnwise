@@ -14,9 +14,6 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->user() && auth()->user()->role === 'admin') {
-            return redirect('/admin/');
-        }
         $category = null;
         $query = Course::select('courses.id', 'courses.slug', 'courses.title', 'courses.thumbnail', 'courses.price', 'courses.category_id', DB::raw('SUM(IF(chapters.is_published, 1, 0)) as chapters_count'), 'categories.name as category_name')
             ->leftJoin('chapters', 'courses.id', '=', 'chapters.course_id')

@@ -43,7 +43,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::post('/transaction/withdraw', [TransactionController::class, 'withdraw'])->name('transaction.withdraw');
 });
 
-Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/transactions', [AdminController::class, 'transactions'])->name('admin.transactions');
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 Route::post('/admin/approvewithdrawal', [AdminController::class, 'approvewithdrawal'])->name('admin.approvewithdrawal');

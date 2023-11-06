@@ -54,6 +54,16 @@
                         </a>
                     </li>
                 @endif
+
+                @if (Auth::check() && auth()->user()->role === 'admin')
+                    <li>
+
+                        <a class="p-4 menu-item" href="{{ route('admin') }}">
+                            <x-lucide-user-cog class="w-5 h-5 me-2" />
+                            Admin
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
