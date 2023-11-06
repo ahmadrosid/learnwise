@@ -15,8 +15,6 @@ class AdminController extends Controller
         }
 
         return redirect(route('admin.users'));
-
-        // return view('admin.index');
     }
 
     public function users()
