@@ -24,8 +24,16 @@
         <div class="p-5">
             <div class="pb-2">
                 @if ($isTheCreator || $isEnrolled || $chapter->is_free)
-                    <video src="{{ asset('/storage/' . $chapter->video_url) }}" class="rounded card-img-top"
-                        controls></video>
+                    @if ($chapter->video_source === 'cloudinary')
+                        <video src="{{ asset('/storage/' . $chapter->video_url) }}" class="rounded card-img-top"
+                            controls></video>
+                    @elseif($chapter->video_source === 'youtube')
+                        <iframe class="rounded card-img-top" style="aspect-ratio: 16/9;"
+                            src="https://www.youtube.com/embed/{{ $chapter->video_url }}" title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    @endif
                 @else
                     <div class="rounded card-img-top bg-neutral-800 ratio-16x9" style="height: 600px;">
                         <div class="text-center text-white" style="padding-top: 280px;">
