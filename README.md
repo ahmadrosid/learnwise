@@ -101,3 +101,11 @@ CLOUDINARY_API_SECRET=
 PUBLIC_CLOUDINARY_IMAGE_URL=
 PUBLIC_CLOUDINARY_VIDEO_URL=
 ```
+
+10. For security reason, we can create users with administrative privilige by running this command from the project root.
+
+```sh
+php artisan app:create-admin
+```
+
+then proceed with the prompt.
