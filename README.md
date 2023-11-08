@@ -91,7 +91,7 @@ This project inspired by: https://github.com/AntonioErdeljac/next13-lms-platform
 
     > Note: These are just a couple of options. There are other services available that can achieve the same purpose.
 
-9. We use [cloudinary]() to store the resources such as images and videos. Go ahead and set up an account if you haven't. Follow the instructions and adjust these variables accordingly,
+9. We use [cloudinary](https://cloudinary.com/) to store the resources such as images and videos. Go ahead and set up an account if you haven't. Follow the instructions and adjust these variables accordingly,
 
 ```
 CLOUDINARY_CLOUD_NAME=
