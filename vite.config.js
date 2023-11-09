@@ -7,7 +7,7 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/js/app.js",
-                "node_modules/choices.js/public/assets/styles/choices.min.css",
+                "public/css/choices.min.css",
             ],
             refresh: true,
         }),

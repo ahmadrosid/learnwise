@@ -14,7 +14,7 @@
 
 
     @vite([
-    "node_modules/fastbootstrap/dist/css/fastbootstrap.min.css",
+    "public/css/fastbootstrap.min.css",
     "resources/css/app.css",
     "resources/js/app.js",
     ])

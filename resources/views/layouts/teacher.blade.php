@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['node_modules/fastbootstrap/dist/css/fastbootstrap.min.css', 'node_modules/choices.js/public/assets/styles/choices.min.css', 'resources/css/app.css', 'resources/js/app.js'])
+    @vite(['public/css/fastbootstrap.min.css', 'public/css/choices.min.css', 'resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -36,16 +36,14 @@
                             </a>
                         </li>
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('teacher/analytics') ? 'active' : '' }}"
-                                href="{{ route('teacher.analytics') }}">
+                            <a class="menu-item p-4 {{ request()->is('teacher/analytics') ? 'active' : '' }}" href="{{ route('teacher.analytics') }}">
                                 <x-lucide-bar-chart class="w-4 h-4 me-2" />
                                 Analytics
                             </a>
                         </li>
 
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('teacher/balance') ? 'active' : '' }}"
-                                href="{{ route('teacher.balance') }}">
+                            <a class="menu-item p-4 {{ request()->is('teacher/balance') ? 'active' : '' }}" href="{{ route('teacher.balance') }}">
                                 <x-lucide-banknote class="w-4 h-4 me-2" />
                                 Balance
                             </a>

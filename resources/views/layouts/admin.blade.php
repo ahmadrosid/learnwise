@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['node_modules/fastbootstrap/dist/css/fastbootstrap.min.css', 'node_modules/choices.js/public/assets/styles/choices.min.css', 'resources/css/app.css', 'resources/js/app.js'])
+    @vite(['public/css/fastbootstrap.min.css', 'public/css/choices.min.css', 'resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -30,15 +30,13 @@
                             </div>
                         </li>
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('admin/users') ? 'active' : '' }}"
-                                href="{{ route('admin.users') }}">
+                            <a class="menu-item p-4 {{ request()->is('admin/users') ? 'active' : '' }}" href="{{ route('admin.users') }}">
                                 <x-lucide-list class="w-4 h-4 me-2" />
                                 Users
                             </a>
                         </li>
                         <li>
-                            <a class="menu-item p-4 {{ request()->is('admin/transactions') ? 'active' : '' }}"
-                                href="{{ route('admin.transactions') }}">
+                            <a class="menu-item p-4 {{ request()->is('admin/transactions') ? 'active' : '' }}" href="{{ route('admin.transactions') }}">
                                 <x-lucide-bar-chart class="w-4 h-4 me-2" />
                                 Transactions
                             </a>
