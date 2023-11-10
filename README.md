@@ -16,6 +16,14 @@ This project inspired by: https://github.com/AntonioErdeljac/next13-lms-platform
 
 ### Steps
 
+**Setup database**:
+
+```sql
+CREATE DATABASE learnwise;
+CREATE USER 'learnwise'@'127.0.0.1' IDENTIFIED BY 'yourpassword';
+GRANT ALL ON learnwise.* TO 'learnwise'@'127.0.0.1';
+```
+
 1. Clone the repository:
 
     ```sh
