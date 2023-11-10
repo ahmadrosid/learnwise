@@ -16,7 +16,6 @@
     @vite([
     "public/css/fastbootstrap.min.css",
     "resources/css/app.css",
-    "public/js/fastbootstrap.min.js",
     "resources/js/app.js",
     ])
 </head>
@@ -27,6 +26,7 @@
     <div class="layout">
         {{ $slot }}
     </div>
+    <script src="/js/fastbootstrap.min.js"></script>
 </body>
 
 </html>

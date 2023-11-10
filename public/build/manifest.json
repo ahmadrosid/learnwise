@@ -9,11 +9,6 @@
     "isEntry": true,
     "src": "public/css/fastbootstrap.min.css"
   },
-  "public/js/fastbootstrap.min.js": {
-    "file": "assets/fastbootstrap.min-c15fdf0f.js",
-    "isEntry": true,
-    "src": "public/js/fastbootstrap.min.js"
-  },
   "resources/css/app.css": {
     "file": "assets/app-7efba1d1.css",
     "isEntry": true,
