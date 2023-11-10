@@ -15,7 +15,6 @@ services:
       - .env
 
   mysql:
-    hostname: mysql_host
     restart: unless-stopped
     platform: linux/x86_64
     image: "mysql:5.7"
