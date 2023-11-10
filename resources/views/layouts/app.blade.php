@@ -16,6 +16,7 @@
     @vite([
     "public/css/fastbootstrap.min.css",
     "resources/css/app.css",
+    "public/js/fastbootstrap.min.js",
     "resources/js/app.js",
     ])
 </head>
