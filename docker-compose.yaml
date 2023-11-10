@@ -30,7 +30,9 @@ services:
       MYSQL_ROOT_PASSWORD: mysecret
       MYSQL_DATABASE: learnwise
     volumes:
-      - database:/var/lib/mysql
+      - name: mysql80
+        path: /var/lib/mysql
+
     networks:
       - learnwise
 volumes:
