@@ -10,12 +10,17 @@ class Chapter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description',  'course_id', 'is_published', 'is_free', 'position', 'video_url', 'next_chapter_id',
+        'title', 'description',  'course_id', 'is_published', 'is_free', 'position', 'video_url', 'next_chapter_id', 'section_id',
     ];
 
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
     }
 
     /*

@@ -31,6 +31,11 @@ class Course extends Model
         return $this->hasMany(Purchase::class);
     }
 
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
+
     /**
      * Get the route key for the model.
      */

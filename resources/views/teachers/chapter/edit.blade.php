@@ -25,6 +25,8 @@
 
     $isReadytoPublish = $completedFields === count($requiredFields);
 
+    $sectionName = null;
+
 @endphp
 <x-teacher-layout>
 
@@ -107,7 +109,7 @@
                         style="width: 35px; height: 35px; padding: 6px;">
                         <x-lucide-layout-dashboard class="text-blue-400" />
                     </div>
-                    <div class="fs-5">Customize your chapter</div>
+                    <div class="fs-5">Customize this chapter</div>
                 </div>
                 <div class="py-4" x-data="{ open: false }">
                     <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
@@ -269,7 +271,80 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="gap-4 py-2 d-flex align-items-center">
+                    <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
+                        style="width: 35px; height: 35px; padding: 6px;">
+                        <x-lucide-video class="text-blue-400" />
+                    </div>
+                    <div class="fs-5">Group this chapter </div>
+                </div>
+
+                <div class="py-4" x-data="{ open: false }">
+                    <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="chapter-title" class="form-label text-dark">Chapter Section</label>
+                            <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
+                                x-on:click="open = ! open">
+                                <x-lucide-pencil class="w-3 h-3 cursor-pointer text-neutral-400" x-show="!open" />
+                                <span x-show="!open">Edit</span>
+                                <span x-show="open">Cancel</span>
+                            </button>
+                        </div>
+                        <div class="py-2" x-show="open">
+                            <div class="gap-4 d-flex flex-column">
+                                <form action={{ route('section.create') }} method="POST">
+                                    @csrf
+
+
+                                    <label for="section-title">Add new section</label>
+                                    <div class="py-2 input-group">
+                                        <input type="text" class="form-control" id="section-title"
+                                            name="section_title" aria-describedby="basic-addon3" />
+                                        <input type="hidden" name="course_id" value={{ $courseId }} />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+
+                                <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <label for="sections">Or select from existing section</label>
+                                    <div class="py-2 select-group">
+                                        <select class="border form-select select-choice" aria-label="Select category"
+                                            name="section_id" id="sections">
+                                            <option value="">Select section</option>
+                                            @if ($sections->count() > 0)
+                                                @foreach ($sections as $section)
+                                                    <option value="{{ $section->id }}"
+                                                        {{ $chapter->section_id !== null && $chapter->section_id === $section->id ? ' selected' : '' }}>
+                                                        {{ $section->title }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="chapter_id" value="{{ $chapter->id }}" />
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        @if ($chapter->section_id)
+                            <div class="pt-1 text-sm text-neutral-100 fs-sm" x-show="!open">
+                                {{ $chapter->section_title }}
+                            </div>
+                        @else
+                            <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">
+                                No Section defined
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </x-teacher-layout>

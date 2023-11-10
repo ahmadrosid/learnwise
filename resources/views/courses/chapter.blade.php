@@ -3,19 +3,74 @@
         <div class="sidenav show border-end">
             <div class="menu accordion">
                 <ul class="menu-list">
-                    @foreach ($chapters as $item)
-                        <li>
-                            <a class="menu-item p-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
-                                href="/courses/{{ $slug }}/chapter/{{ $item->position }}">
-                                @if ($item->is_free || $isEnrolled || $isTheCreator)
-                                    <x-lucide-play-circle class="w-4 h-4 me-2" />
-                                @else
-                                    <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
-                                @endif
-                                <span class="text-truncate" style="width:220px;">{{ $item->title }}</span>
-                            </a>
-                        </li>
-                    @endforeach
+                    @if ($sections->count() > 0)
+                        @foreach ($sections as $section)
+                            <li>
+                                <div class="p-4 menu-item">
+                                    <button
+                                        class="p-0 bg-transparent accordion-button text-reset {{ $activeSession === $section->id ? '' : ' collapsed' }}"
+                                        type="button" data-bs-toggle="collapse" aria-expanded="false"
+                                        data-bs-target="#{{ 'section_' . $section->id }}">
+                                        <x-lucide-bookmark-check class="w-4 h-4 me-2" /> {{ $section->title }}
+                                    </button>
+                                </div>
+                                <div class="accordion-collapse collapse {{ $activeSession === $section->id ? ' show' : '' }}"
+                                    id="{{ 'section_' . $section->id }}">
+                                    <ul class="menu-list">
+                                        @if ($section->chapters->count() > 0)
+                                            @foreach ($chapters as $chapter)
+                                                @if ($chapter->section_id === $section->id)
+                                                    <li>
+                                                        <a class="menu-item py-4 {{ $chapter->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
+                                                            href="/courses/{{ $slug }}/chapter/{{ $chapter->position }}">
+                                                            @if ($chapter->is_free || $isEnrolled || $isTheCreator)
+                                                                <x-lucide-play-circle class="w-4 h-4 me-2" />
+                                                            @else
+                                                                <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
+                                                            @endif
+                                                            <span class="text-truncate"
+                                                                style="width:220px;">{{ $chapter->title }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
+                            </li>
+                        @endforeach
+                    @endif
+                    <li>
+                        <div class="p-4 menu-item">
+                            <button
+                                class="p-0 bg-transparent accordion-button text-reset {{ !$activeSession ? '' : ' collapsed' }}"
+                                type="button" data-bs-toggle="collapse" aria-expanded="true"
+                                data-bs-target="#section_ungrouped">
+                                <x-lucide-bookmark-check class="w-4 h-4 me-2 fst-italic" /> Ungrouped
+                            </button>
+                        </div>
+                        <div class="accordion-collapse collapse {{ !$activeSession ? ' show' : '' }}"
+                            id="section_ungrouped">
+                            <ul class="menu-list">
+                                @foreach ($chapters as $chapter)
+                                    @if ($chapter->section_id === null)
+                                        <li>
+                                            <a class="menu-item py-4 {{ $chapter->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
+                                                href="/courses/{{ $slug }}/chapter/{{ $chapter->position }}">
+                                                @if ($chapter->is_free || $isEnrolled || $isTheCreator)
+                                                    <x-lucide-play-circle class="w-4 h-4 me-2" />
+                                                @else
+                                                    <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
+                                                @endif
+                                                <span class="text-truncate"
+                                                    style="width:220px;">{{ $chapter->title }}</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

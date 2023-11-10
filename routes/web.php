@@ -5,6 +5,7 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TransactionController;
@@ -73,5 +74,7 @@ Route::get('/courses/chapter-lock', function () {
 });
 
 Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateorders']);
+
+Route::post('/section/create', [SectionController::class, 'store'])->name('section.create');
 
 require __DIR__.'/auth.php';

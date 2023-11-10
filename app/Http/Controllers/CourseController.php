@@ -44,6 +44,8 @@ class CourseController extends Controller
         $chapters = Chapter::sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         $isChapterFinished = false;
+        $sections = $course->sections;
+        $activeSession = reset($chapterData)['section_id'];
 
         if (count($chapterData) == 0) {
             return abort(404);
@@ -69,6 +71,8 @@ class CourseController extends Controller
             'isChapterFinished' => $isChapterFinished,
             'chapters' => $chapters,
             'isTheCreator' => auth()->id() === $course['user_id'],
+            'sections' => $sections,
+            'activeSession' => $activeSession,
         ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateChapterRequest extends FormRequest
 {
@@ -29,6 +28,7 @@ class UpdateChapterRequest extends FormRequest
             'description' => 'nullable|string',
             'position' => 'nullable|numeric',
             'next_chapter_id' => 'nullable|numeric|exists:chapters,id',
+            'section_id' => 'nullable|numeric|exists:sections,id',
         ];
     }
 }

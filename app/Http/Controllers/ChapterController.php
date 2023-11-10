@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Progress;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,16 @@ class ChapterController extends Controller
         $chapter = Chapter::where('id', $id)->firstOrFail();
         $course = Course::select('id', 'title', 'slug')->where('id', $chapter->course_id)->firstOrFail();
 
+        if ($chapter->section_id) {
+            $chapter->section_title = Section::where('id', $chapter->section_id)->value('title');
+        } else {
+            $chapter->section_title = null;
+        }
+
         return view('teachers.chapter.edit', [
             'chapter' => $chapter,
             'slug' => $course->slug,
+            'courseId' => $course->id,
         ]);
     }
 
