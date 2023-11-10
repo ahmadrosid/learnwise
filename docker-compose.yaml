@@ -1,6 +1,6 @@
 version: "3.3"
 networks:
-  gateway: {}
+  learnwise:
 
 services:
   server:
@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
     networks:
-      - gateway
+      - learnwise
     ports:
       - "8181:80"
     depends_on:
@@ -22,7 +22,7 @@ services:
   mysql:
     restart: unless-stopped
     platform: linux/x86_64
-    image: "mysql:5.7"
+    image: "mysql:8.0.13"
     ports:
       - "3306"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --explicit_defaults_for_timestamp
@@ -32,6 +32,6 @@ services:
     volumes:
       - database:/var/lib/mysql
     networks:
-      - gateway
+      - learnwise
 volumes:
   database:
