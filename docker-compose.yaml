@@ -1,6 +1,7 @@
 version: "3.3"
 networks:
   db:
+  php:
 
 services:
   server:
@@ -32,6 +33,8 @@ services:
       MYSQL_DATABASE: learnwise
     volumes:
       - database:/var/lib/mysql
-
+    networks:
+      - php
+      - default
 volumes:
   database:
