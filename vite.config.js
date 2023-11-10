@@ -5,6 +5,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                "public/js/fastbootstrap.min.js",
                 "resources/js/app.js",
                 "resources/css/app.css",
                 "public/css/choices.min.css",
