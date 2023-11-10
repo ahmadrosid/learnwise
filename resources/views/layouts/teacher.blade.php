@@ -30,7 +30,7 @@
                         <li class="position-sticky">
                             <div class="py-3 px-2 brand">
                                 <a class="navbar-brand fw-bold" href="/">
-                                    <img src="/images/learnwise.svg" width="36" alt="Logo" /> Learnwise
+                                    <img src="/images/learnwise.svg" width="36" alt="Logo" /> {{config('app.name')}}
                                 </a>
                             </div>
                         </li>

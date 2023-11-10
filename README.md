@@ -20,7 +20,7 @@ This project inspired by: https://github.com/AntonioErdeljac/next13-lms-platform
 
 ```sql
 CREATE DATABASE learnwise;
-CREATE USER 'learnwise'@'127.0.0.1' IDENTIFIED BY 'yourpassword';
+CREATE USER 'learnwise'@'127.0.0.1' IDENTIFIED BY 'mysecret';
 GRANT ALL ON learnwise.* TO 'learnwise'@'127.0.0.1';
 ```
 
