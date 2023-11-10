@@ -1,20 +1,6 @@
 ARG PHP_VERSION='8.1'
 
-# ================
-# Build Stage
-# ================
-FROM node as builder
-RUN npm install --global pnpm
 
-WORKDIR /app
-COPY . .
-RUN pnpm install
-RUN pnpm run build
-RUN rm -rf node_modules
-
-# ================
-# Base Stage
-# ================
 FROM serversideup/php:${PHP_VERSION}-fpm-nginx as base
 ENV AUTORUN_ENABLED=false
 ENV SSL_MODE=off
@@ -37,7 +23,7 @@ USER $PUID:$PGID
 
 # Copy source code from builder.
 # - To ignore files or folders, use .dockerignore
-COPY  --from=builder --chown=$PUID:$PGID /app .
+COPY --chown=$PUID:$PGID . .
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
