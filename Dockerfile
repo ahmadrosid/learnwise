@@ -8,7 +8,6 @@ RUN npm install --global pnpm
 
 WORKDIR /app
 COPY . .
-COPY .env.example .env
 RUN pnpm install
 RUN pnpm run build
 RUN rm -rf node_modules
