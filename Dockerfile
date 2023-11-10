@@ -23,7 +23,6 @@ USER $PUID:$PGID
 # Copy source code from builder.
 # - To ignore files or folders, use .dockerignore
 COPY --chown=$PUID:$PGID . .
-COPY --chown=$PUID:$PGID .env .env
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
