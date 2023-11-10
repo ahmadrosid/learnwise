@@ -1,7 +1,6 @@
 version: "3.3"
 networks:
-  db:
-  php:
+  gateway: {}
 
 services:
   server:
@@ -10,8 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
     networks:
-      - db
-      - default
+      - gateway
     ports:
       - "8181:80"
     depends_on:
@@ -34,7 +32,6 @@ services:
     volumes:
       - database:/var/lib/mysql
     networks:
-      - php
-      - default
+      - gateway
 volumes:
   database:
