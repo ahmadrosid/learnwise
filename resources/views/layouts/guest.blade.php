@@ -36,6 +36,7 @@
             </div>
         </div>
     </div>
+    <script src="/js/fastbootstrap.min.js"></script>
 </body>
 
 </html>

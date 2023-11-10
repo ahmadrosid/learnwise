@@ -229,7 +229,7 @@
                                 <span x-show="open">Cancel</span>
                             </button>
                         </div>
-                        <div x-data="{ fileName: '', chapterVideoFile: null }" class="dropzone-area" x-show="open">
+                        <div x-data="{ fileName: '', chapterVideoFile: null, youtubeURL: '', isButtonDisabled: true }" class="dropzone-area" x-show="open">
 
                             <form enctype="multipart/form-data"
                                 action="{{ route('teacher.chapter.update.video', $chapter->id) }}" method="POST">
@@ -238,8 +238,7 @@
                                 <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
                                     <div class="py-4">
                                         <input accept="video/*" type="file" name="chapter_video" title=""
-                                            x-ref="file"
-                                            @change="fileName = $refs.file.files[0].name; chapterVideoFile = $refs.file.files[0]"
+                                            x-ref="file" {{-- @change="fileName = $refs.file.files[0].name; chapterVideoFile = $refs.file.files[0]" --}} @change="onVideoChange"
                                             class="dropzone-input-file"
                                             @dragover="$refs.dnd.classList.add('bg-blue-50')"
                                             @dragleave="$refs.dnd.classList.remove('bg-blue-50')"
@@ -252,16 +251,31 @@
                                         <p x-text="fileName"></p>
                                     </div>
                                 </div>
+                                <div class="mt-4 flex-column d-flex">
+                                    <label class="text-dark" for="chapter_video_url">Or paste your video from
+                                        youtube</label>
+                                    <input type="url" id="chapter_video_url" x-model="youtubeURL" x-ref="url"
+                                        name="chapter_video_url" @input="updateButtonStatus" class="form-control" />
+                                </div>
                                 <button class="mt-4 w-full btn btn-primary" type="submit"
-                                    :disabled="!chapterVideoFile">Save</button>
+                                    :disabled="isButtonDisabled">Save</button>
                             </form>
                         </div>
                         <div class="py-2 text-sm" x-show="!open">
 
                             @if ($chapter->video_url)
-                                <video controls class="img-fluid rounded-3" style="max-height: 300px;">
-                                    <source src="{{ asset('storage/' . $chapter->video_url) }}" type="video/mp4" />
-                                </video>
+                                @if ($chapter->video_source === 'cloudinary')
+                                    <video controls class="img-fluid rounded-3" style="max-height: 300px;">
+                                        <source src="{{ asset('storage/' . $chapter->video_url) }}"
+                                            type="video/mp4" />
+                                    </video>
+                                @elseif($chapter->video_source === 'youtube')
+                                    <iframe class="rounded card-img-top" style="aspect-ratio: 16/9;"
+                                        src="https://www.youtube.com/embed/{{ $chapter->video_url }}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                @endif
                             @else
                                 <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">
                                     Upload the chapter Video
@@ -347,4 +361,19 @@
 
         </div>
     </div>
+    <script>
+        function updateButtonStatus(e) {
+            if (e.target.value) {
+                this.isButtonDisabled = false;
+            }
+        }
+
+        function onVideoChange(e) {
+            if (e.target.files && e.target.files.length) {
+                this.fileName = e.target.files[0].name;
+                this.chapterVideoFile = e.target.files[0];
+                this.isButtonDisabled = false;
+            }
+        }
+    </script>
 </x-teacher-layout>

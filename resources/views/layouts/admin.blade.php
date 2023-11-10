@@ -13,7 +13,12 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['public/css/fastbootstrap.min.css', 'public/css/choices.min.css', 'resources/css/app.css', 'resources/js/app.js'])
+    @vite([
+    'public/css/fastbootstrap.min.css',
+    'public/css/choices.min.css',
+    'resources/css/app.css',
+    'resources/js/app.js'
+    ])
 </head>
 
 <body>
@@ -52,6 +57,7 @@
             </main>
         </div>
     </div>
+    <script src="/js/fastbootstrap.min.js"></script>
 </body>
 
 </html>

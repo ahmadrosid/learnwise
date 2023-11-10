@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   server:
     restart: unless-stopped
@@ -10,11 +10,6 @@ services:
     depends_on:
       - mysql
     environment:
-      - DB_HOST=mysql_host
-      - DB_PORT=3307
-      - DB_DATABASE=learnwise
-      - DB_USERNAME=root
-      - DB_PASSWORD=mysecret
       - SSL_MODE=off
     env_file:
       - .env
@@ -22,23 +17,22 @@ services:
       - web-dev
 
   mysql:
-    hostname: mysql_host
     restart: unless-stopped
     platform: linux/x86_64
-    image: "mysql:5.7"
+    image: "mysql:8.0.13"
     ports:
-      - "3307:3306"
+      - "3306:3306"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --explicit_defaults_for_timestamp
     environment:
       MYSQL_ROOT_PASSWORD: mysecret
+      MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: learnwise
     volumes:
       - database:/var/lib/mysql
     networks:
       - web-dev
+volumes:
+  database:
 
 networks:
   web-dev:
-
-volumes:
-  database:

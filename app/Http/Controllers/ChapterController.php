@@ -147,7 +147,23 @@ class ChapterController extends Controller
                 Storage::disk('public')->delete($chapter->video_url);
             }
             $formFields['video_url'] = $request->file('chapter_video')->store('chapter-video', 'public');
+            $formFields['video_source'] = 'cloudinary';
+
+        } elseif ($request->has('chapter_video_url')) {
+            $url = $request->input('chapter_video_url');
+            $parsedUrl = parse_url($url);
+
+            if (isset($parsedUrl['query'])) {
+                parse_str($parsedUrl['query'], $queryParameters);
+
+                if (isset($queryParameters['v'])) {
+                    $videoId = $queryParameters['v'];
+                }
+            }
+            $formFields['video_url'] = $videoId;
+            $formFields['video_source'] = 'youtube';
         }
+
         $chapter->update($formFields);
 
         return redirect()->back();

@@ -1,12 +1,10 @@
 import "./bootstrap";
-import "fastbootstrap";
 
 import Alpine from "alpinejs";
 import Choices from "choices.js";
 import focus from "@alpinejs/focus";
 import axios from "axios";
 import Chart from "chart.js/auto";
-import { Colors } from "chart.js";
 Alpine.plugin(focus);
 
 window.Alpine = Alpine;
@@ -108,7 +106,7 @@ window.chart = (async function () {
                 type: "bar",
                 data: {
                     labels: revenueData.map(
-                        (row) => row.title.slice(0, 25) + "...",
+                        (row) => row.title.slice(0, 25) + "..."
                     ),
                     datasets: [
                         {
