@@ -1,6 +1,5 @@
 ARG PHP_VERSION='8.1'
 
-
 FROM serversideup/php:${PHP_VERSION}-fpm-nginx as base
 ENV AUTORUN_ENABLED=false
 ENV SSL_MODE=off
@@ -24,6 +23,7 @@ USER $PUID:$PGID
 # Copy source code from builder.
 # - To ignore files or folders, use .dockerignore
 COPY --chown=$PUID:$PGID . .
+COPY --chown=$PUID:$PGID .env.example .env
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
