@@ -1,10 +1,16 @@
 version: "3.3"
+networks:
+  db:
+
 services:
   server:
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
+    networks:
+      - db
+      - default
     ports:
       - "8181:80"
     depends_on:
