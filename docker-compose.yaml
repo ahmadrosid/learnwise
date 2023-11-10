@@ -2,7 +2,6 @@ version: "3"
 services:
   server:
     restart: unless-stopped
-    network_mode: "host"
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,8 +18,6 @@ services:
       - SSL_MODE=off
     env_file:
       - .env
-    networks:
-      - web-dev
 
   mysql:
     hostname: mysql_host
@@ -35,11 +32,6 @@ services:
       MYSQL_DATABASE: learnwise
     volumes:
       - database:/var/lib/mysql
-    networks:
-      - web-dev
-
-networks:
-  web-dev:
 
 volumes:
   database:
