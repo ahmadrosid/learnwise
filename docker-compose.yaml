@@ -1,15 +1,10 @@
 version: "3.8"
-networks:
-  learnwise:
-
 services:
   server:
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
-    networks:
-      - learnwise
     ports:
       - "8181:80"
     depends_on:
@@ -18,6 +13,8 @@ services:
       - SSL_MODE=off
     env_file:
       - .env
+    networks:
+      - web-dev
 
   mysql:
     restart: unless-stopped
@@ -33,6 +30,9 @@ services:
     volumes:
       - database:/var/lib/mysql
     networks:
-      - learnwise
+      - web-dev
 volumes:
   database:
+
+networks:
+  web-dev:
