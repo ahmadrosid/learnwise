@@ -24,6 +24,18 @@ CREATE USER 'learnwise'@'127.0.0.1' IDENTIFIED BY 'yourpassword';
 GRANT ALL ON learnwise.* TO 'learnwise'@'127.0.0.1';
 ```
 
+**Build docker image**
+
+```bash
+docker build -t learnwise:latest .
+```
+
+**Run docker**:
+
+```bash
+docker run -p 127.0.0.1:8181:80/tcp -e SSL_MODE=off learnwise:latest
+```
+
 1. Clone the repository:
 
     ```sh
