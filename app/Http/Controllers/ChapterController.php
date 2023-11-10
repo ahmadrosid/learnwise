@@ -29,6 +29,7 @@ class ChapterController extends Controller
             'chapter' => $chapter,
             'slug' => $course->slug,
             'courseId' => $course->id,
+            'sections' => $course->sections,
         ]);
     }
 

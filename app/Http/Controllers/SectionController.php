@@ -20,19 +20,4 @@ class SectionController extends Controller
 
         return redirect()->back();
     }
-
-    public function update()
-    {
-
-    }
-
-    public function destroy()
-    {
-
-    }
-
-    public function updateOrder()
-    {
-
-    }
 }
