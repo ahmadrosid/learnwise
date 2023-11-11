@@ -9,6 +9,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserCourseController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CourseController::class, 'index']);
@@ -41,6 +42,12 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue'])->name('api.teacher.revenue');
     Route::get('/teacher/balance', [TeacherController::class, 'balance'])->name('teacher.balance');
     Route::post('/transaction/withdraw', [TransactionController::class, 'withdraw'])->name('transaction.withdraw');
+    Route::get('/teacher/voucher', [VoucherController::class, 'show'])->name('teacher.voucher');
+    Route::get('/teacher/voucher/create', [VoucherController::class, 'create'])->name('teacher.voucher.create');
+    Route::post('/teacher/voucher/store', [VoucherController::class, 'store'])->name('teacher.voucher.store');
+    Route::get('/teacher/voucher/{id}/edit', [VoucherController::class, 'edit'])->name('teacher.voucher.edit');
+    Route::put('/teacher/voucher/{id}/update', [VoucherController::class, 'update'])->name('teacher.voucher.update');
+    Route::delete('/teacher/voucher/{id}/delete', [VoucherController::class, 'destroy'])->name('teacher.voucher.delete');
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
