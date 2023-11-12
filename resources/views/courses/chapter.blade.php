@@ -40,37 +40,23 @@
                             </li>
                         @endforeach
                     @endif
-                    <li>
-                        <div class="p-4 menu-item">
-                            <button
-                                class="p-0 bg-transparent accordion-button text-reset {{ !$activeSession ? '' : ' collapsed' }}"
-                                type="button" data-bs-toggle="collapse" aria-expanded="true"
-                                data-bs-target="#section_ungrouped">
-                                <x-lucide-bookmark-check class="w-4 h-4 me-2 fst-italic" /> Ungrouped
-                            </button>
-                        </div>
-                        <div class="accordion-collapse collapse {{ !$activeSession ? ' show' : '' }}"
-                            id="section_ungrouped">
-                            <ul class="menu-list">
-                                @foreach ($chapters as $chapter)
-                                    @if ($chapter->section_id === null)
-                                        <li>
-                                            <a class="menu-item py-4 {{ $chapter->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
-                                                href="/courses/{{ $slug }}/chapter/{{ $chapter->position }}">
-                                                @if ($chapter->is_free || $isEnrolled || $isTheCreator)
-                                                    <x-lucide-play-circle class="w-4 h-4 me-2" />
-                                                @else
-                                                    <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
-                                                @endif
-                                                <span class="text-truncate"
-                                                    style="width:220px;">{{ $chapter->title }}</span>
-                                            </a>
-                                        </li>
+
+
+                    @foreach ($chapters as $chapter)
+                        @if ($chapter->section_id === null)
+                            <li>
+                                <a class="menu-item py-4 {{ $chapter->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
+                                    href="/courses/{{ $slug }}/chapter/{{ $chapter->position }}">
+                                    @if ($chapter->is_free || $isEnrolled || $isTheCreator)
+                                        <x-lucide-play-circle class="w-4 h-4 me-2" />
+                                    @else
+                                        <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
                                     @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </li>
+                                    <span class="text-truncate" style="width:220px;">{{ $chapter->title }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -78,6 +64,10 @@
     <main class="bg-neutral-10">
         <div class="p-5">
             <div class="pb-2">
+                @php
+                    echo $isTheCreator || $isEnrolled || $chapter->is_free;
+                    echo json_encode($chapter);
+                @endphp
                 @if ($isTheCreator || $isEnrolled || $chapter->is_free)
                     @if ($chapter->video_source === 'cloudinary')
                         <video src="{{ asset('/storage/' . $chapter->video_url) }}" class="rounded card-img-top"
