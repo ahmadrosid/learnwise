@@ -42,6 +42,7 @@ class CourseController extends Controller
 
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
+        // dd($chapters);
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         $isChapterFinished = false;
         $sections = $course->sections;

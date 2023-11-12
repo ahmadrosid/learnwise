@@ -268,13 +268,122 @@
             </div>
 
             <div class="col">
+                <!-- Chapters & Sections -->
                 <div class="gap-4 py-2 d-flex align-items-center">
                     <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
                         style="width: 35px; height: 35px; padding: 6px;">
                         <x-lucide-list-checks class="text-blue-400" />
                     </div>
-                    <div class="fs-5">Course chapters</div>
+                    <div class="fs-5">Course chapters and sections</div>
                 </div>
+
+
+                <!-- Section Management -->
+                <div class="py-4" x-data="{ open: false }">
+                    <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
+                        <div class="pt-1 pb-2 d-flex justify-content-between align-items-center">
+                            <label for="course-description" class="form-label text-dark">Course Sections</label>
+                            <button class="gap-2 p-1 btn btn-sm d-flex align-items-center" x-on:click="open = ! open">
+                                <x-lucide-plus-circle class="w-3 h-3 cursor-pointer text-neutral-400"
+                                    x-show="!open" />
+                                <span x-show="!open">Add new section</span>
+                                <span x-show="open">Cancel</span>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="py-2" x-data="{ items: {{ json_encode($sections) }}, newItem: '', dragging: null, dropping: null }"
+                                @drop.prevent="items=dragDropList(items, dragging, dropping)"
+                                @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+
+                                <template x-if="items.length === 0">
+                                    <div class="fst-italic fs-xs text-muted">This course has no section yet. <div>
+                                </template>
+                                <div class="py-2" x-data="{ items: {{ json_encode($sections) }}, newItem: '', dragging: null, dropping: null }"
+                                    @drop.prevent="items=dragDropList(items, dragging, dropping)"
+                                    @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                                    <div class="overflow-hidden border list-group rounded-2">
+                                        <template x-for="(item, index) in items" :key="index">
+                                            <div class="p-0 position-relative list-group-item border-bottom"
+                                                draggable="false"
+                                                :class="{ 'border-bottom-0': items.length - 1 === index }"
+                                                @dragstart="dragging = index" @dragend="dragging = null">
+                                                <div x-data="{ editMode: false }">
+                                                    <button x-show="false"
+                                                        class="py-2 px-2 border-0 border-blue-100 btn rounded-0 border-end cursor-grab">
+                                                        <x-lucide-grip-vertical
+                                                            class="w-5 h-5 cursor-pointer text-neutral-400" />
+                                                    </button>
+                                                    <template x-if="editMode">
+                                                        <form class="d-inline" action="/teacher/section/update"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('put')
+                                                            <input type="text" class="border-transparent"
+                                                                x-bind:value="item.title" name="title" />
+
+                                                            <input type="hidden" name="course_id"
+                                                                value={{ $course->id }} />
+                                                            <input type="hidden" name="section_id"
+                                                                x-bind:value="item.id" />
+                                                        </form>
+                                                    </template>
+                                                    <template x-if="!editMode">
+                                                        <span x-text="item.title" class="px-2"
+                                                            x-show="!editMode"></span>
+                                                    </template>
+                                                    <div class="px-2 pt-1 float-end d-flex align-items-center">
+
+                                                        <button type="button" class="px-1 btn">
+                                                            <x-lucide-pencil class="w-3 h-3"
+                                                                style="margin-right: 8px;"
+                                                                @click="editMode = !editMode" />
+                                                        </button>
+                                                        <form action="/teacher/section/delete" method="POST">
+
+                                                            @csrf
+                                                            @method('delete')
+                                                            <input type="hidden" name="section_id"
+                                                                x-bind:value="item.id" />
+                                                            <button type="submit" class="px-1 btn"
+                                                                aria-label="Delete">
+                                                                <x-lucide-trash
+                                                                    class="w-3 h-3 cursor-pointer text-neutral-400" />
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="position-absolute"
+                                                    style="top: 0; bottom: 0; right: 0; left: 0;"
+                                                    x-show.transition="dragging !== null"
+                                                    :class="{
+                                                        'bg-blue-100': dropping === index,
+                                                        'cursor-grabbing': dragging ===
+                                                            index
+                                                    }"
+                                                    @dragenter.prevent="if(index !== dragging) {dropping = index}"
+                                                    @dragleave="if(dropping === index) dropping = null"></div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="pb-2" x-show="open" x-trap="open">
+                                        <form action="{{ route('section.create') }}" method="POST">
+                                            @csrf
+                                            <div class="py-2 input-group">
+                                                <input value="" x-model="newItem" type="text"
+                                                    class="form-control" name="section_title" />
+                                            </div>
+                                            <input type="hidden" name="course_id" value="{{ $course->id }}" />
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Section Management -->
+
+                <!-- Chapters Management -->
                 <div class="py-4" x-data="{ open: false }">
                     <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
                         <div class="pt-1 pb-2 d-flex justify-content-between align-items-center">
@@ -371,51 +480,55 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <!-- End Chapters -->
+                <!-- End Chapters & Sections -->
 
-                    <div class="gap-4 py-2 d-flex align-items-center">
-                        <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
-                            style="width: 35px; height: 35px; padding: 6px;">
-                            <x-lucide-dollar-sign class="text-blue-400" />
-                        </div>
-                        <div class="fs-5">Sell your course</div>
+                <!-- Course Price -->
+                <div class="gap-4 py-2 d-flex align-items-center">
+                    <div class="bg-blue-50 d-flex justify-content-center rounded-circle"
+                        style="width: 35px; height: 35px; padding: 6px;">
+                        <x-lucide-dollar-sign class="text-blue-400" />
                     </div>
+                    <div class="fs-5">Sell your course</div>
+                </div>
 
-                    <div class="py-4" x-data="{ open: false }">
-                        <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="course-title" class="form-label text-dark">Course price</label>
-                                <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
-                                    x-on:click="open = ! open">
-                                    <x-lucide-pencil class="w-3 h-3 cursor-pointer text-neutral-400" x-show="!open" />
-                                    <span x-show="!open">Edit</span>
-                                    <span x-show="open">Cancel</span>
-                                </button>
-                            </div>
-                            <div class="py-2" x-show="open">
-                                <form action="{{ route('teacher.course.update', $course->slug) }}" method="post">
-                                    @csrf
-                                    @method('put')
-                                    <div class="py-2 input-group">
-                                        <input value="{{ $course->price }}" name="price" type="text"
-                                            class="form-control" id="course-title" aria-describedby="basic-addon3" />
-                                    </div>
-                                    <input type="hidden" value="{{ $course->slug }}" name="slug" />
-                                    <button class="btn btn-primary" type="submit">Save</button>
-                                </form>
-                            </div>
-
-                            @if ($course->price)
-                                <div class="pt-1 fs-sm" x-show="!open">
-                                    $ {{ $course->price }}
-                                </div>
-                            @else
-                                <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
-                                    You have not defined the price for this course.
-                                </div>
-                            @endif
+                <div class="py-4" x-data="{ open: false }">
+                    <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label for="course-title" class="form-label text-dark">Course price</label>
+                            <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
+                                x-on:click="open = ! open">
+                                <x-lucide-pencil class="w-3 h-3 cursor-pointer text-neutral-400" x-show="!open" />
+                                <span x-show="!open">Edit</span>
+                                <span x-show="open">Cancel</span>
+                            </button>
                         </div>
+                        <div class="py-2" x-show="open">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="post">
+                                @csrf
+                                @method('put')
+                                <div class="py-2 input-group">
+                                    <input value="{{ $course->price }}" name="price" type="text"
+                                        class="form-control" id="course-title" aria-describedby="basic-addon3" />
+                                </div>
+                                <input type="hidden" value="{{ $course->slug }}" name="slug" />
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </form>
+                        </div>
+
+                        @if ($course->price)
+                            <div class="pt-1 fs-sm" x-show="!open">
+                                $ {{ $course->price }}
+                            </div>
+                        @else
+                            <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
+                                You have not defined the price for this course.
+                            </div>
+                        @endif
                     </div>
                 </div>
+                <!-- End Course Price -->
             </div>
         </div>
 </x-teacher-layout>

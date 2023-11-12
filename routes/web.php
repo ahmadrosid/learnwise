@@ -42,6 +42,9 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/api/teacher/revenue', [TeacherController::class,  'revenue'])->name('api.teacher.revenue');
     Route::get('/teacher/balance', [TeacherController::class, 'balance'])->name('teacher.balance');
     Route::post('/transaction/withdraw', [TransactionController::class, 'withdraw'])->name('transaction.withdraw');
+    Route::post('/teacher/section/create', [SectionController::class, 'store'])->name('teacher.section.create');
+    Route::delete('/teacher/section/delete', [SectionController::class, 'destroy'])->name('teacher.section.delete');
+    Route::put('/teacher/section/update', [SectionController::class, 'update'])->name('teacher.section.update');
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');

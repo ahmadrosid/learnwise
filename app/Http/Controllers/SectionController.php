@@ -15,8 +15,24 @@ class SectionController extends Controller
         Section::create([
             'title' => $title,
             'course_id' => $course_id,
+            'user_id' => auth()->user()->id,
             'next_section_id' => null,
         ]);
+
+        return redirect()->back();
+    }
+
+    public function update(Request $request)
+    {
+
+        Section::where(['id' => $request['section_id']])->update(['title' => $request['title']]);
+
+        return redirect()->back();
+    }
+
+    public function destroy(Request $request)
+    {
+        Section::where(['id' => $request['section_id']])->delete();
 
         return redirect()->back();
     }
