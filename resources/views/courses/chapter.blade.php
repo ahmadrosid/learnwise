@@ -64,10 +64,6 @@
     <main class="bg-neutral-10">
         <div class="p-5">
             <div class="pb-2">
-                @php
-                    echo $isTheCreator || $isEnrolled || $chapter->is_free;
-                    echo json_encode($chapter);
-                @endphp
                 @if ($isTheCreator || $isEnrolled || $chapter->is_free)
                     @if ($chapter->video_source === 'cloudinary')
                         <video src="{{ asset('/storage/' . $chapter->video_url) }}" class="rounded card-img-top"
