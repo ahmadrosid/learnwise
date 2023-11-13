@@ -22,7 +22,7 @@
                                                 @if ($item->section_id === $section->id)
                                                     <li>
                                                         <a class="menu-item py-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
-                                                            href="/courses/{{ $slug }}/chapter/{{ $item->position }}">
+                                                            href="/course/{{ $slug }}/chapter/{{ $item->position }}">
                                                             @if ($item->is_free || $isEnrolled || $isTheCreator)
                                                                 <x-lucide-play-circle class="w-4 h-4 me-2" />
                                                             @else
@@ -46,7 +46,7 @@
                         @if ($item->section_id === null)
                             <li>
                                 <a class="menu-item py-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
-                                    href="/courses/{{ $slug }}/chapter/{{ $item->position }}">
+                                    href="/course/{{ $slug }}/chapter/{{ $item->position }}">
                                     @if ($item->is_free || $isEnrolled || $isTheCreator)
                                         <x-lucide-play-circle class="w-4 h-4 me-2" />
                                     @else

@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/courses/mycourses', [UserCourseController::class, 'show'])->name('mycourse');
+    Route::get('/course/mycourses', [UserCourseController::class, 'show'])->name('mycourse');
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
@@ -52,13 +52,14 @@ Route::get('/admin/transactions', [AdminController::class, 'transactions'])->nam
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 Route::post('/admin/approvewithdrawal', [AdminController::class, 'approvewithdrawal'])->name('admin.approvewithdrawal');
 
-Route::get('/courses/{slug}/chapter/{chapter}', [CourseController::class, 'show']);
+Route::get('/course/{slug}', [CourseController::class, 'show']);
+Route::get('/course/{slug}/chapter/{chapter}', [CourseController::class, 'showchapter']);
 
 Route::get('/student/purchases', [StudentController::class, 'showActivity']);
 
 Route::get('/payment/done', [PaymentController::class, 'done']);
 
-Route::get('/courses/chapter-free', function () {
+Route::get('/course/chapter-free', function () {
     return view('courses.chapter', [
         'isFree' => true,
         'isLocked' => false,
@@ -68,7 +69,7 @@ Route::get('/courses/chapter-free', function () {
 
 Route::put('/chapter/{chapter}/complete', [ChapterController::class, 'finish'])->name('chapter.complete');
 
-Route::get('/courses/chapter-lock', function () {
+Route::get('/course/chapter-lock', function () {
     return view('courses.chapter', [
         'isFree' => false,
         'isLocked' => true,

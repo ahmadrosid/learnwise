@@ -33,7 +33,28 @@ class CourseController extends Controller
         ]);
     }
 
-    public function show($slug, $chapter)
+    public function show($slug)
+    {
+
+        $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
+        $chapters = Chapter::sort($course->chapters, 'student');
+        $sections = $course->sections;
+
+        $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
+            ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
+
+        return view('courses.index', [
+            'course' => $course,
+            'slug' => $slug,
+            'isEnrolled' => $isEnrolled,
+            'chapters' => $chapters,
+            'isTheCreator' => auth()->id() === $course['user_id'],
+            'sections' => $sections,
+        ]);
+
+    }
+
+    public function showchapter($slug, $chapter)
     {
         /*
          * We indeed need to grab all courses in order to order them accordingly,

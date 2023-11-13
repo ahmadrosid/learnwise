@@ -38,11 +38,11 @@
                     @endphp
                     <div class="col">
                         <div class="border shadow-none card rounded-4">
-                            <a href="/courses/{{ $item->slug }}/chapter/1" class="p-2">
+                            <a href="/course/{{ $item->slug }}/chapter/1" class="p-2">
                                 <img src="@thumbnail($item)" class="card-img-top rounded-3" alt="green iguana" />
                             </a>
                             <div class="p-3 pt-0 card-body">
-                                <a href="/courses/{{ $item->slug }}/chapter/1" class="text-black">
+                                <a href="/course/{{ $item->slug }}/chapter/1" class="text-black">
                                     <div class="fs-6 fw-bold">{{ $item->title }}</div>
                                 </a>
                                 <div class="fs-sm text-neutral-100">{{ $item->category_name }}</div>

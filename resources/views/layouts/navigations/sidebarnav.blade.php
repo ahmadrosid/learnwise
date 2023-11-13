@@ -16,8 +16,8 @@
                     </a>
                 </li>
                 <li>
-                    <a class="p-4 menu-item{{ Request::is('courses/mycourses') ? ' active' : '' }}"
-                        href="/courses/mycourses">
+                    <a class="p-4 menu-item{{ Request::is('course/mycourses') ? ' active' : '' }}"
+                        href="/course/mycourses">
                         <x-lucide-layers-3 class="w-5 h-5 me-2" />
                         My learning
                     </a>
