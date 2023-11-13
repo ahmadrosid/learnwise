@@ -18,18 +18,18 @@
                                     id="{{ 'section_' . $section->id }}">
                                     <ul class="menu-list">
                                         @if ($section->chapters->count() > 0)
-                                            @foreach ($chapters as $chapter)
-                                                @if ($chapter->section_id === $section->id)
+                                            @foreach ($chapters as $item)
+                                                @if ($item->section_id === $section->id)
                                                     <li>
-                                                        <a class="menu-item py-4 {{ $chapter->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
-                                                            href="/courses/{{ $slug }}/chapter/{{ $chapter->position }}">
-                                                            @if ($chapter->is_free || $isEnrolled || $isTheCreator)
+                                                        <a class="menu-item py-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
+                                                            href="/courses/{{ $slug }}/chapter/{{ $item->position }}">
+                                                            @if ($item->is_free || $isEnrolled || $isTheCreator)
                                                                 <x-lucide-play-circle class="w-4 h-4 me-2" />
                                                             @else
                                                                 <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
                                                             @endif
                                                             <span class="text-truncate"
-                                                                style="width:220px;">{{ $chapter->title }}</span>
+                                                                style="width:220px;">{{ $item->title }}</span>
                                                         </a>
                                                     </li>
                                                 @endif
@@ -42,17 +42,17 @@
                     @endif
 
 
-                    @foreach ($chapters as $chapter)
-                        @if ($chapter->section_id === null)
+                    @foreach ($chapters as $item)
+                        @if ($item->section_id === null)
                             <li>
-                                <a class="menu-item py-4 {{ $chapter->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
-                                    href="/courses/{{ $slug }}/chapter/{{ $chapter->position }}">
-                                    @if ($chapter->is_free || $isEnrolled || $isTheCreator)
+                                <a class="menu-item py-4 {{ $item->position == $chapterPosition ? 'active rounded-0 border-blue-100 border-4 border-end' : '' }}"
+                                    href="/courses/{{ $slug }}/chapter/{{ $item->position }}">
+                                    @if ($item->is_free || $isEnrolled || $isTheCreator)
                                         <x-lucide-play-circle class="w-4 h-4 me-2" />
                                     @else
                                         <x-lucide-lock-keyhole class="w-4 h-4 me-2" />
                                     @endif
-                                    <span class="text-truncate" style="width:220px;">{{ $chapter->title }}</span>
+                                    <span class="text-truncate" style="width:220px;">{{ $item->title }}</span>
                                 </a>
                             </li>
                         @endif

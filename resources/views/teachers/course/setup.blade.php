@@ -298,42 +298,36 @@
                                 <template x-if="items.length === 0">
                                     <div class="fst-italic fs-xs text-muted">This course has no section yet. <div>
                                 </template>
-                                <div class="py-2" x-data="{ items: {{ json_encode($sections) }}, newItem: '', dragging: null, dropping: null }"
-                                    @drop.prevent="items=dragDropList(items, dragging, dropping)"
-                                    @dragover.prevent="$event.dataTransfer.dropEffect = &quot;move&quot;">
+                                <div class="py-2" x-data="{ items: {{ json_encode($sections) }}, newItem: '', dragging: null, dropping: null }">
                                     <div class="overflow-hidden border list-group rounded-2">
                                         <template x-for="(item, index) in items" :key="index">
                                             <div class="p-0 position-relative list-group-item border-bottom"
-                                                draggable="false"
-                                                :class="{ 'border-bottom-0': items.length - 1 === index }"
-                                                @dragstart="dragging = index" @dragend="dragging = null">
-                                                <div x-data="{ editMode: false }">
-                                                    <button x-show="false"
-                                                        class="py-2 px-2 border-0 border-blue-100 btn rounded-0 border-end cursor-grab">
-                                                        <x-lucide-grip-vertical
-                                                            class="w-5 h-5 cursor-pointer text-neutral-400" />
-                                                    </button>
+                                                :class="{ 'border-bottom-0': items.length - 1 === index }">
+                                                <div x-data="{ editMode: false }" class="gap-2 d-flex align-items-center">
                                                     <template x-if="editMode">
-                                                        <form class="d-inline" action="/teacher/section/update"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('put')
-                                                            <input type="text" class="border-transparent"
-                                                                x-bind:value="item.title" name="title" />
 
-                                                            <input type="hidden" name="course_id"
-                                                                value={{ $course->id }} />
-                                                            <input type="hidden" name="section_id"
-                                                                x-bind:value="item.id" />
-                                                        </form>
+                                                        <div class="flex-grow-1">
+                                                            <form action="/teacher/section/update" method="POST">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="text"
+                                                                    class="p-0 border-transparent form-control ps-2"
+                                                                    x-bind:value="item.title" name="title" />
+
+                                                                <input type="hidden" name="course_id"
+                                                                    value={{ $course->id }} />
+                                                                <input type="hidden" name="section_id"
+                                                                    x-bind:value="item.id" />
+                                                            </form>
+                                                        </div>
                                                     </template>
                                                     <template x-if="!editMode">
-                                                        <span x-text="item.title" class="px-2"
+                                                        <span x-text="item.title" class="flex-grow-1 ps-2"
                                                             x-show="!editMode"></span>
                                                     </template>
-                                                    <div class="px-2 pt-1 float-end d-flex align-items-center">
+                                                    <div class="gap-2 d-flex align-items-center">
 
-                                                        <button type="button" class="px-1 btn">
+                                                        <button type="button" class="px-1 text-center btn">
                                                             <x-lucide-pencil class="w-3 h-3"
                                                                 style="margin-right: 8px;"
                                                                 @click="editMode = !editMode" />
@@ -344,7 +338,7 @@
                                                             @method('delete')
                                                             <input type="hidden" name="section_id"
                                                                 x-bind:value="item.id" />
-                                                            <button type="submit" class="px-1 btn"
+                                                            <button type="submit" class="px-1 text-center btn"
                                                                 aria-label="Delete">
                                                                 <x-lucide-trash
                                                                     class="w-3 h-3 cursor-pointer text-neutral-400" />
@@ -352,16 +346,6 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <div class="position-absolute"
-                                                    style="top: 0; bottom: 0; right: 0; left: 0;"
-                                                    x-show.transition="dragging !== null"
-                                                    :class="{
-                                                        'bg-blue-100': dropping === index,
-                                                        'cursor-grabbing': dragging ===
-                                                            index
-                                                    }"
-                                                    @dragenter.prevent="if(index !== dragging) {dropping = index}"
-                                                    @dragleave="if(dropping === index) dropping = null"></div>
                                             </div>
                                         </template>
                                     </div>
