@@ -56,6 +56,23 @@
 
         return $result;
     }
+    function secondsToHMS($seconds)
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $remainingSeconds = $seconds % 60;
+
+        if ($hours > 0) {
+            $formattedHours = str_pad($hours, 2, '0', STR_PAD_LEFT);
+            $formattedMinutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+            $formattedSeconds = str_pad($remainingSeconds, 2, '0', STR_PAD_LEFT);
+            return "$formattedHours:$formattedMinutes:$formattedSeconds";
+        } else {
+            $formattedMinutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+            $formattedSeconds = str_pad($remainingSeconds, 2, '0', STR_PAD_LEFT);
+            return "$formattedMinutes:$formattedSeconds";
+        }
+    }
     $freeSections = getFreeSections($sections, $chapters, $course->id);
 @endphp
 <x-app-layout>
@@ -138,7 +155,7 @@
                                                                     @click="previewChapter"
                                                                     class="btn">preview</button></span>
                                                         @endif
-                                                        <span>12:31</span>
+                                                        <span>{{ $ch->video_duration ? $ch->video_duration : '-' }}</span>
                                                     </div>
                                                 </div>
                                             @endif
@@ -165,7 +182,7 @@
                                                     x-bind:data-sections="JSON.stringify(freeSections)"
                                                     @click="previewChapter" class="btn">preview</button></span>
                                         @endif
-                                        <span>12:31</span>
+                                        <span>{{ $ch->video_duration ? $ch->video_duration : '-' }}</span>
                                     </div>
                                 </div>
                             @endif
@@ -187,8 +204,8 @@
                     <img src="@thumbnail($course)" class="card-img-top" alt="{{ $course->title }}" />
                     <button
                         class="z-30 p-0 m-0 bg-white border-none btn d-flex rounded-circle align-items-center justify-content-center"
-                        data-url="{{ getFirstFreeChapter($sections) }}" 
-                        x-bind:data-sections="JSON.stringify(freeSections)" 
+                        data-url="{{ getFirstFreeChapter($sections) }}"
+                        x-bind:data-sections="JSON.stringify(freeSections)"
                         style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px;">
 
                         <x-lucide-play-circle data-url="{{ getFirstFreeChapter($sections) }}" @click="previewChapter"
@@ -208,8 +225,7 @@
                         <form action="{{ route('enroll') }}" method="POST">
                             @csrf
                             <input type="hidden" name="course_id" value="{{ $course->id }}" />
-                            <input type="hidden" name="description"
-                                value="{{ 'Payment for ' . $course->title }}" />
+                            <input type="hidden" name="description" value="{{ 'Payment for ' . $course->title }}" />
                             <input type="hidden" name="amount" value="{{ $course->price }}" />
                             <input type="hidden" name="payer_email" value={{ auth()->user()->email }} />
                             <input type="hidden" name="user_id" value={{ auth()->user()->id }} />

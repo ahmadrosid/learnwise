@@ -251,7 +251,7 @@ function createAccordion(sections, videoId) {
                 playButton.addEventListener("click", handlePreviewLink);
 
                 const durationSpan = document.createElement("span");
-                durationSpan.textContent = "12:31";
+                durationSpan.textContent = secondsToHMS(chapter.video_duration) || "-";
 
                 rightDiv.appendChild(playButton);
                 rightDiv.appendChild(durationSpan);
@@ -279,7 +279,8 @@ function createAccordion(sections, videoId) {
             leftDiv.className = "gap-2 py-2 d-flex align-items-center";
             rightDiv.className = "gap-2 d-flex align-items-center";
 
-            if(videoId === chapter.video_url) container.classList.add("text-primary");
+            if (videoId === chapter.video_url)
+                container.classList.add("text-primary");
 
             const playIcon = document.createElement("span");
             playIcon.innerHTML =
@@ -295,7 +296,7 @@ function createAccordion(sections, videoId) {
 
             playButton.addEventListener("click", handlePreviewLink);
             const videoDuration = document.createElement("span");
-            videoDuration.innerText = "12:15";
+            videoDuration.innerText = secondsToHMS(chapter.video_duration) || "-";
             rightDiv.appendChild(playButton);
             rightDiv.appendChild(videoDuration);
 
@@ -312,12 +313,70 @@ function createAccordion(sections, videoId) {
 function handlePreviewLink(e) {
     const { url } = e.target.dataset;
     const previewLinks = document.querySelectorAll(".previewLink");
-    previewLinks.forEach(link => {
+    previewLinks.forEach((link) => {
         const grandparent = link.parentElement.parentElement;
         grandparent.classList.remove("text-primary");
     });
     e.target.parentElement.parentElement.classList.add("text-primary");
     renderVideo(url);
+}
+
+function secondsToHMS(seconds) {
+    if(!seconds) return null;
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    if (hours > 0) {
+        const formattedHours = hours.toString().padStart(2, "0");
+        const formattedMinutes = minutes.toString().padStart(2, "0");
+        const formattedSeconds = remainingSeconds.toString().padStart(2, "0");
+        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    } else {
+        const formattedMinutes = minutes.toString().padStart(2, "0");
+        const formattedSeconds = remainingSeconds.toString().padStart(2, "0");
+        return `${formattedMinutes}:${formattedSeconds}`;
+    }
+}
+
+window.chapterVideoFileName = "";
+window.chapterVideoURL = "";
+window.chapterVideoFile = null;
+window.youtubeURL = "";
+window.isSubmitVideoButtonDisabled = true;
+window.chapterVideoDuration = 0;
+
+const x = {
+    chapterVideoFileName: chapterVideoFileName,
+    chapterVideoFile: chapterVideoFile,
+    chapterVideoURL: chapterVideoURL,
+    youtubeURL: youtubeURL,
+    isSubmitVideoButtonDisabled: isSubmitVideoButtonDisabled,
+    chapterVideoDuration: chapterVideoDuration,
+};
+
+window.handleVideoUrlChange = async function (e) {
+    const {
+        data: { duration },
+    } = await getVideoInfo(e.target.value);
+    this.chapterVideoDuration = duration;
+    this.isSubmitVideoButtonDisabled = false;
+};
+
+async function getVideoInfo(videoUrl) {
+    try {
+        const response = await axios.post(
+            "https://echo-tube.vercel.app/get-video-info",
+            {
+                videoUrl: videoUrl,
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching video info:", error);
+        return null;
+    }
 }
 
 Alpine.start();

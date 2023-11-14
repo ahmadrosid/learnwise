@@ -229,7 +229,14 @@
                                 <span x-show="open">Cancel</span>
                             </button>
                         </div>
-                        <div x-data="{ fileName: '', chapterVideoFile: null, youtubeURL: '', isButtonDisabled: true }" class="dropzone-area" x-show="open">
+                        <div x-data="{
+                            chapterVideoFileName: chapterVideoFileName,
+                            chapterVideoURL: chapterVideoURL,
+                            chapterVideoFile: chapterVideoFile,
+                            youtubeURL: youtubeURL,
+                            isSubmitVideoButtonDisabled: isSubmitVideoButtonDisabled,
+                            chapterVideoDuration: chapterVideoDuration,
+                        }" class="dropzone-area" x-show="open">
 
                             <form enctype="multipart/form-data"
                                 action="{{ route('teacher.chapter.update.video', $chapter->id) }}" method="POST">
@@ -238,8 +245,7 @@
                                 <div x-ref="dnd" class="dropzone-box" style="min-height: 200px;">
                                     <div class="py-4">
                                         <input accept="video/*" type="file" name="chapter_video" title=""
-                                            x-ref="file" {{-- @change="fileName = $refs.file.files[0].name; chapterVideoFile = $refs.file.files[0]" --}} @change="onVideoChange"
-                                            class="dropzone-input-file"
+                                            x-ref="file" @change="onVideoChange" class="dropzone-input-file"
                                             @dragover="$refs.dnd.classList.add('bg-blue-50')"
                                             @dragleave="$refs.dnd.classList.remove('bg-blue-50')"
                                             @drop="$refs.dnd.classList.remove('bg-blue-50')" />
@@ -248,17 +254,19 @@
                                     <div class="dropzone-content">
                                         <x-lucide-upload-cloud class="w-5 h-5" />
                                         <p>Drag your file here or click in this area.</p>
-                                        <p x-text="fileName"></p>
+                                        <p x-text="chapterVideoFileName"></p>
                                     </div>
                                 </div>
                                 <div class="mt-4 flex-column d-flex">
                                     <label class="text-dark" for="chapter_video_url">Or paste your video from
                                         youtube</label>
                                     <input type="url" id="chapter_video_url" x-model="youtubeURL" x-ref="url"
-                                        name="chapter_video_url" @input="updateButtonStatus" class="form-control" />
+                                        name="chapter_video_url" @input="handleVideoUrlChange"
+                                        class="form-control" />
                                 </div>
+                                <input type="hidden" name="video_duration" x-bind:value="chapterVideoDuration" />
                                 <button class="mt-4 w-full btn btn-primary" type="submit"
-                                    :disabled="isButtonDisabled">Save</button>
+                                    :disabled="isSubmitVideoButtonDisabled">Save</button>
                             </form>
                         </div>
                         <div class="py-2 text-sm" x-show="!open">
@@ -364,15 +372,16 @@
     <script>
         function updateButtonStatus(e) {
             if (e.target.value) {
-                this.isButtonDisabled = false;
+                console.log(this);
+                this.isSubmitVideoButtonDisabled = false;
             }
         }
 
         function onVideoChange(e) {
             if (e.target.files && e.target.files.length) {
-                this.fileName = e.target.files[0].name;
+                this.chapterVideoFileName = e.target.files[0].name;
                 this.chapterVideoFile = e.target.files[0];
-                this.isButtonDisabled = false;
+                this.isSubmitVideoButtonDisabled = false;
             }
         }
     </script>

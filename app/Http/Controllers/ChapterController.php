@@ -162,6 +162,7 @@ class ChapterController extends Controller
             }
             $formFields['video_url'] = $videoId;
             $formFields['video_source'] = 'youtube';
+            $formFields[ 'video_duration'] = $request['video_duration'];
         }
 
         $chapter->update($formFields);
