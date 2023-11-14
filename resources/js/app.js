@@ -220,10 +220,14 @@ function createAccordion(sections, videoId) {
             item.chapters.forEach((chapter) => {
                 const chapterDiv = document.createElement("div");
                 chapterDiv.className =
-                    "py-2 d-flex justify-content-between ps-4";
+                    "py-2 d-flex justify-content-between ps-4 align-items-center";
+
+                if (videoId === chapter.video_url)
+                    chapterDiv.classList.add("text-primary");
 
                 const leftDiv = document.createElement("div");
-                leftDiv.className = "gap-2 d-flex justify-content-center";
+                leftDiv.className =
+                    "gap-2 d-flex justify-content-center align-items-center";
 
                 const playIcon = document.createElement("span");
                 playIcon.innerHTML =
@@ -236,7 +240,8 @@ function createAccordion(sections, videoId) {
                 leftDiv.appendChild(chapterTitle);
 
                 const rightDiv = document.createElement("div");
-                rightDiv.className = "gap-2 d-flex justify-content-center";
+                rightDiv.className =
+                    "gap-2 d-flex justify-content-center align-items-center";
 
                 const playButton = document.createElement("button");
                 playButton.setAttribute("data-url", chapter.video_url);
@@ -274,6 +279,8 @@ function createAccordion(sections, videoId) {
             leftDiv.className = "gap-2 py-2 d-flex align-items-center";
             rightDiv.className = "gap-2 d-flex align-items-center";
 
+            if(videoId === chapter.video_url) container.classList.add("text-primary");
+
             const playIcon = document.createElement("span");
             playIcon.innerHTML =
                 '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-circle"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>';
@@ -283,7 +290,7 @@ function createAccordion(sections, videoId) {
             leftDiv.appendChild(title);
             const playButton = document.createElement("button");
             playButton.setAttribute("data-url", chapter.video_url);
-            playButton.className = "btn";
+            playButton.className = "btn previewLink";
             playButton.innerText = "play";
 
             playButton.addEventListener("click", handlePreviewLink);
@@ -304,6 +311,12 @@ function createAccordion(sections, videoId) {
 
 function handlePreviewLink(e) {
     const { url } = e.target.dataset;
+    const previewLinks = document.querySelectorAll(".previewLink");
+    previewLinks.forEach(link => {
+        const grandparent = link.parentElement.parentElement;
+        grandparent.classList.remove("text-primary");
+    });
+    e.target.parentElement.parentElement.classList.add("text-primary");
     renderVideo(url);
 }
 
