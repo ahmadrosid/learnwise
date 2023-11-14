@@ -125,10 +125,13 @@ window.chart = (async function () {
 })();
 
 window.videoId = null;
+let previewModal, videoFrame, previewAccordion;
 
-const previewModal = new bootstrap.Modal("#previewModal");
-const videoFrame = document.querySelector("#videoFrame");
-const previewAccordion = document.querySelector("#previewAccordion");
+if (document.querySelector("#previewModal") !== null) {
+    previewModal = new bootstrap.Modal("#previewModal");
+    videoFrame = document.querySelector("#videoFrame");
+    previewAccordion = document.querySelector("#previewAccordion");
+}
 
 window.previewChapter = function (e) {
     const { url: videoId, sections } = e.target.dataset;
@@ -139,7 +142,6 @@ window.previewChapter = function (e) {
     previewAccordion.appendChild(accordion);
     previewModal.show();
 };
-
 
 function renderVideo(videoId) {
     const iFrame = document.createElement("iframe");
@@ -161,68 +163,90 @@ function renderVideo(videoId) {
 
 function createAccordion(sections, videoId) {
     const fragment = document.createDocumentFragment();
-    const ungroupedSections = sections.filter(items => items.is_ungrouped);
+    const ungroupedSections = sections.filter((items) => items.is_ungrouped);
 
     sections.forEach((item) => {
-        const activeSection = item.chapters.find((chapter) => chapter.video_url === videoId) !== undefined;
+        const activeSection =
+            item.chapters.find((chapter) => chapter.video_url === videoId) !==
+            undefined;
 
         if (!item.is_ungrouped) {
-            const accordionItem = document.createElement('div');
-            accordionItem.className = 'accordion-item';
+            const accordionItem = document.createElement("div");
+            accordionItem.className = "accordion-item";
 
-            const accordionHeader = document.createElement('h2');
-            accordionHeader.className = 'accordion-header';
+            const accordionHeader = document.createElement("h2");
+            accordionHeader.className = "accordion-header";
             accordionHeader.id = `preview-heading${item.id}`;
 
-            const accordionButton = document.createElement('button');
-            accordionButton.className = `px-2 accordion-button ${activeSection ? '' : 'collapsed'} bg-neutral-50`;
-            accordionButton.type = 'button';
-            accordionButton.setAttribute('data-bs-toggle', 'collapse');
-            accordionButton.setAttribute('data-bs-target', `#preview-collapse${item.id}`);
-            accordionButton.setAttribute('aria-expanded', activeSection ? 'true' : 'false');
-            accordionButton.setAttribute('aria-controls', `preview-collapse${item.id}`);
+            const accordionButton = document.createElement("button");
+            accordionButton.className = `px-2 accordion-button ${
+                activeSection ? "" : "collapsed"
+            } bg-neutral-50`;
+            accordionButton.type = "button";
+            accordionButton.setAttribute("data-bs-toggle", "collapse");
+            accordionButton.setAttribute(
+                "data-bs-target",
+                `#preview-collapse${item.id}`
+            );
+            accordionButton.setAttribute(
+                "aria-expanded",
+                activeSection ? "true" : "false"
+            );
+            accordionButton.setAttribute(
+                "aria-controls",
+                `preview-collapse${item.id}`
+            );
             accordionButton.textContent = item.title;
 
             accordionHeader.appendChild(accordionButton);
 
-            const accordionCollapse = document.createElement('div');
+            const accordionCollapse = document.createElement("div");
             accordionCollapse.id = `preview-collapse${item.id}`;
-            accordionCollapse.className = `accordion-collapse collapse ${activeSection ? 'show' : ''}`;
-            accordionCollapse.setAttribute('aria-labelledby', `preview-heading${item.id}`);
-            accordionCollapse.setAttribute('data-bs-parent', '#previewAccordion');
+            accordionCollapse.className = `accordion-collapse collapse ${
+                activeSection ? "show" : ""
+            }`;
+            accordionCollapse.setAttribute(
+                "aria-labelledby",
+                `preview-heading${item.id}`
+            );
+            accordionCollapse.setAttribute(
+                "data-bs-parent",
+                "#previewAccordion"
+            );
 
-            const accordionBody = document.createElement('div');
-            accordionBody.className = 'accordion-body ps-2';
+            const accordionBody = document.createElement("div");
+            accordionBody.className = "accordion-body ps-2";
 
             item.chapters.forEach((chapter) => {
-                const chapterDiv = document.createElement('div');
-                chapterDiv.className = 'py-2 d-flex justify-content-between ps-4';
+                const chapterDiv = document.createElement("div");
+                chapterDiv.className =
+                    "py-2 d-flex justify-content-between ps-4";
 
-                const leftDiv = document.createElement('div');
-                leftDiv.className = 'gap-2 d-flex justify-content-center';
+                const leftDiv = document.createElement("div");
+                leftDiv.className = "gap-2 d-flex justify-content-center";
 
-                const playIcon = document.createElement('span');
+                const playIcon = document.createElement("span");
                 playIcon.innerHTML =
                     '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-circle"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>';
 
-                const chapterTitle = document.createElement('span');
+                const chapterTitle = document.createElement("span");
                 chapterTitle.textContent = chapter.title;
 
                 leftDiv.appendChild(playIcon);
                 leftDiv.appendChild(chapterTitle);
 
-                const rightDiv = document.createElement('div');
-                rightDiv.className = 'gap-2 d-flex justify-content-center';
+                const rightDiv = document.createElement("div");
+                rightDiv.className = "gap-2 d-flex justify-content-center";
 
-                const playButton = document.createElement('button');
-                playButton.setAttribute('data-url', chapter.video_url);
-                playButton.className = 'previewLink btn';
-                playButton.textContent = 'play';
+                const playButton = document.createElement("button");
+                playButton.setAttribute("data-url", chapter.video_url);
+                playButton.className = "previewLink btn";
+                playButton.textContent = "play";
 
-                playButton.addEventListener("click", handlePreviewLink)
+                playButton.addEventListener("click", handlePreviewLink);
 
-                const durationSpan = document.createElement('span');
-                durationSpan.textContent = '12:31';
+                const durationSpan = document.createElement("span");
+                durationSpan.textContent = "12:31";
 
                 rightDiv.appendChild(playButton);
                 rightDiv.appendChild(durationSpan);
@@ -240,18 +264,19 @@ function createAccordion(sections, videoId) {
             fragment.appendChild(accordionItem);
         }
     });
-    if(ungroupedSections.length){
-        ungroupedSections[0].chapters.forEach(chapter => {
+    if (ungroupedSections.length) {
+        ungroupedSections[0].chapters.forEach((chapter) => {
             const container = document.createElement("div");
             const leftDiv = document.createElement("div");
             const rightDiv = document.createElement("div");
-            container.className = "gap-2 py-1 ps-4 d-flex align-items-center justify-content-between";
+            container.className =
+                "gap-2 py-1 ps-4 d-flex align-items-center justify-content-between";
             leftDiv.className = "gap-2 py-2 d-flex align-items-center";
             rightDiv.className = "gap-2 d-flex align-items-center";
 
-             const playIcon = document.createElement('span');
-                playIcon.innerHTML =
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-circle"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>';
+            const playIcon = document.createElement("span");
+            playIcon.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-circle"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>';
             const title = document.createElement("span");
             title.innerText = chapter.title;
             leftDiv.appendChild(playIcon);
@@ -260,7 +285,7 @@ function createAccordion(sections, videoId) {
             playButton.setAttribute("data-url", chapter.video_url);
             playButton.className = "btn";
             playButton.innerText = "play";
-            
+
             playButton.addEventListener("click", handlePreviewLink);
             const videoDuration = document.createElement("span");
             videoDuration.innerText = "12:15";
@@ -271,16 +296,15 @@ function createAccordion(sections, videoId) {
             container.appendChild(rightDiv);
 
             fragment.appendChild(container);
-        })
+        });
     }
 
     return fragment;
 }
 
-function handlePreviewLink (e) {
-    const {url} = e.target.dataset;
+function handlePreviewLink(e) {
+    const { url } = e.target.dataset;
     renderVideo(url);
 }
-
 
 Alpine.start();
