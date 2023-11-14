@@ -7,6 +7,7 @@ use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Payment;
 use App\Models\Progress;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +46,7 @@ class CourseController extends Controller
         $chapters = Chapter::sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         $isChapterFinished = false;
-        $sections = $course->sections;
+        $sections = Section::select('sections.*')->with('chapters')->where('course_id', $course->id)->get();
         $activeSession = reset($chapterData)['section_id'];
 
         if (count($chapterData) == 0) {
