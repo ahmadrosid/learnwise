@@ -150,9 +150,9 @@
                                                     </div>
                                                     <div class="gap-2 d-flex align-items-center">
                                                         @if ($ch->is_free)
-                                                            <span><button data-url="{{ $ch->video_url }}"
-                                                                    x-bind:data-sections="JSON.stringify(freeSections)"
-                                                                    @click="previewChapter"
+                                                            <span>
+                                                                <button
+                                                                    @click="previewChapter('{{ $ch->video_url }}', freeSections)"
                                                                     class="btn">preview</button></span>
                                                         @endif
                                                         <span>{{ $ch->video_duration ? $ch->video_duration : '-' }}</span>
@@ -178,9 +178,8 @@
 
                                     <div class="gap-2 d-flex align-items-center">
                                         @if ($ch->is_free)
-                                            <span><button data-url="{{ $ch->video_url }}"
-                                                    x-bind:data-sections="JSON.stringify(freeSections)"
-                                                    @click="previewChapter" class="btn">preview</button></span>
+                                            <span><button @click="previewChapter('{{ $ch->video_url }}', freeSections)"
+                                                    class="btn">preview</button></span>
                                         @endif
                                         <span>{{ $ch->video_duration ? $ch->video_duration : '-' }}</span>
                                     </div>
@@ -204,13 +203,11 @@
                     <img src="@thumbnail($course)" class="card-img-top" alt="{{ $course->title }}" />
                     <button
                         class="z-30 p-0 m-0 bg-white border-none btn d-flex rounded-circle align-items-center justify-content-center"
+                        @click="previewChapter('{{ getFirstFreeChapter($sections) }}', freeSections)"
                         data-url="{{ getFirstFreeChapter($sections) }}"
-                        x-bind:data-sections="JSON.stringify(freeSections)"
                         style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px;">
 
-                        <x-lucide-play-circle data-url="{{ getFirstFreeChapter($sections) }}" @click="previewChapter"
-                            x-bind:data-sections="JSON.stringify(freeSections)" class="text-black"
-                            style="width: 32px; height: 32px;" />
+                        <x-lucide-play-circle class="text-black" style="width: 32px; height: 32px;" />
                     </button>
                 </div>
                 <div class="card-body">

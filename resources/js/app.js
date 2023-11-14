@@ -133,9 +133,7 @@ if (document.querySelector("#previewModal") !== null) {
     previewAccordion = document.querySelector("#previewAccordion");
 }
 
-window.previewChapter = function (e) {
-    const { url: videoId, sections } = e.target.dataset;
-    const freeSections = JSON.parse(sections);
+window.previewChapter = function (videoId, freeSections) {
     const accordion = createAccordion(freeSections, videoId);
     renderVideo(videoId);
     previewAccordion.innerHTML = "";
@@ -345,15 +343,6 @@ window.chapterVideoFile = null;
 window.youtubeURL = "";
 window.isSubmitVideoButtonDisabled = true;
 window.chapterVideoDuration = 0;
-
-const x = {
-    chapterVideoFileName: chapterVideoFileName,
-    chapterVideoFile: chapterVideoFile,
-    chapterVideoURL: chapterVideoURL,
-    youtubeURL: youtubeURL,
-    isSubmitVideoButtonDisabled: isSubmitVideoButtonDisabled,
-    chapterVideoDuration: chapterVideoDuration,
-};
 
 window.handleVideoUrlChange = async function (e) {
     const {
