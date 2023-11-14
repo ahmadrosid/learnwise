@@ -36,20 +36,44 @@ class CourseController extends Controller
     public function show($slug)
     {
 
+        /*
+         * We indeed need to grab all courses in order to order them accordingly,
+         * as opposed to taking only published ones
+         **/
+        $chapter = 1;
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
+        $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
+        $isChapterFinished = false;
         $sections = $course->sections;
+        $activeSession = reset($chapterData)['section_id'];
+
+        if (count($chapterData) == 0) {
+            return abort(404);
+        }
 
         $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
 
+        if ($isEnrolled) {
+            $chapterId = reset($chapterData)['id'];
+            $isChapterFinished = Progress::where('user_id', auth()->user()->id)
+                ->where('course_id', $course->id)
+                ->where('chapter_id', $chapterId)
+                ->exists();
+        }
+
         return view('courses.index', [
             'course' => $course,
             'slug' => $slug,
+            'chapter' => reset($chapterData),
+            'chapterPosition' => $chapter,
             'isEnrolled' => $isEnrolled,
+            'isChapterFinished' => $isChapterFinished,
             'chapters' => $chapters,
             'isTheCreator' => auth()->id() === $course['user_id'],
             'sections' => $sections,
+            'activeSession' => $activeSession,
         ]);
 
     }

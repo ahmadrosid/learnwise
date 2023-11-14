@@ -121,3 +121,10 @@ body {
 .object-cover {
     object-fit: cover;
 }
+.rating-button {
+    width: 24px;
+    color: darkgray;
+}
+.rating-button:hover {
+    cursor: pointer;
+}
