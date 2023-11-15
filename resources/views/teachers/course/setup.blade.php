@@ -315,7 +315,7 @@
                                                                     x-bind:value="item.title" name="title" />
 
                                                                 <input type="hidden" name="course_id"
-                                                                    value={{ $course->id }} />
+                                                                    value="{{ $course->id }}" />
                                                                 <input type="hidden" name="section_id"
                                                                     x-bind:value="item.id" />
                                                             </form>

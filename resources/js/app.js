@@ -106,7 +106,7 @@ window.chart = (async function () {
                 type: "bar",
                 data: {
                     labels: revenueData.map(
-                        (row) => row.title.slice(0, 25) + "..."
+                        (row) => row.title.slice(0, 25) + "...",
                     ),
                     datasets: [
                         {
@@ -131,6 +131,18 @@ if (document.querySelector("#previewModal") !== null) {
     previewModal = new bootstrap.Modal("#previewModal");
     videoFrame = document.querySelector("#videoFrame");
     previewAccordion = document.querySelector("#previewAccordion");
+
+    // previewModal.addEventListener("hidden.bs.modal", () => {
+    //     videoFrame.innerHTML = "";
+    //     previewAccordion.innerHTML = "";
+    // });
+}
+
+if (previewModal !== null) {
+    console.log(previewModal);
+    // previewModal.addEventListener("hidden.bs.modal", function () {
+    //     console.log("modal hidden");
+    // });
 }
 
 window.previewChapter = function (videoId, freeSections) {
@@ -149,7 +161,7 @@ function renderVideo(videoId) {
     iFrame.setAttribute("frameborder", "0");
     iFrame.setAttribute(
         "allow",
-        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
     );
     iFrame.setAttribute("allowfullscreen", "");
 
@@ -184,15 +196,15 @@ function createAccordion(sections, videoId) {
             accordionButton.setAttribute("data-bs-toggle", "collapse");
             accordionButton.setAttribute(
                 "data-bs-target",
-                `#preview-collapse${item.id}`
+                `#preview-collapse${item.id}`,
             );
             accordionButton.setAttribute(
                 "aria-expanded",
-                activeSection ? "true" : "false"
+                activeSection ? "true" : "false",
             );
             accordionButton.setAttribute(
                 "aria-controls",
-                `preview-collapse${item.id}`
+                `preview-collapse${item.id}`,
             );
             accordionButton.textContent = item.title;
 
@@ -205,11 +217,11 @@ function createAccordion(sections, videoId) {
             }`;
             accordionCollapse.setAttribute(
                 "aria-labelledby",
-                `preview-heading${item.id}`
+                `preview-heading${item.id}`,
             );
             accordionCollapse.setAttribute(
                 "data-bs-parent",
-                "#previewAccordion"
+                "#previewAccordion",
             );
 
             const accordionBody = document.createElement("div");
@@ -249,7 +261,8 @@ function createAccordion(sections, videoId) {
                 playButton.addEventListener("click", handlePreviewLink);
 
                 const durationSpan = document.createElement("span");
-                durationSpan.textContent = secondsToHMS(chapter.video_duration) || "-";
+                durationSpan.textContent =
+                    secondsToHMS(chapter.video_duration) || "-";
 
                 rightDiv.appendChild(playButton);
                 rightDiv.appendChild(durationSpan);
@@ -294,7 +307,8 @@ function createAccordion(sections, videoId) {
 
             playButton.addEventListener("click", handlePreviewLink);
             const videoDuration = document.createElement("span");
-            videoDuration.innerText = secondsToHMS(chapter.video_duration) || "-";
+            videoDuration.innerText =
+                secondsToHMS(chapter.video_duration) || "-";
             rightDiv.appendChild(playButton);
             rightDiv.appendChild(videoDuration);
 
@@ -320,7 +334,7 @@ function handlePreviewLink(e) {
 }
 
 function secondsToHMS(seconds) {
-    if(!seconds) return null;
+    if (!seconds) return null;
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
@@ -358,7 +372,7 @@ async function getVideoInfo(videoUrl) {
             "https://echo-tube.vercel.app/get-video-info",
             {
                 videoUrl: videoUrl,
-            }
+            },
         );
 
         return response.data;

@@ -1,13 +1,4 @@
 @php
-    function containsFreeChapter($section)
-    {
-        foreach ($section->chapters as $ch) {
-            if ($ch->is_free) {
-                return true;
-            }
-        }
-        return false;
-    }
     function getFirstFreeChapter($sections)
     {
         foreach ($sections as $sec) {
@@ -155,7 +146,7 @@
                                                                     @click="previewChapter('{{ $ch->video_url }}', freeSections)"
                                                                     class="btn">preview</button></span>
                                                         @endif
-                                                        <span>{{ $ch->video_duration ? $ch->video_duration : '-' }}</span>
+                                                        <span>{{ $ch->video_duration ? secondsToHMS($ch->video_duration) : '-' }}</span>
                                                     </div>
                                                 </div>
                                             @endif
@@ -181,7 +172,7 @@
                                             <span><button @click="previewChapter('{{ $ch->video_url }}', freeSections)"
                                                     class="btn">preview</button></span>
                                         @endif
-                                        <span>{{ $ch->video_duration ? $ch->video_duration : '-' }}</span>
+                                        <span>{{ $ch->video_duration ? secondsToHMS($ch->video_duration) : '-' }}</span>
                                     </div>
                                 </div>
                             @endif
