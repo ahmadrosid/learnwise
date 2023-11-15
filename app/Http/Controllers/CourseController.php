@@ -8,7 +8,6 @@ use App\Models\Course;
 use App\Models\Payment;
 use App\Models\Progress;
 use App\Models\Section;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,36 +37,16 @@ class CourseController extends Controller
     public function show($slug)
     {
 
-        /*
-         * We indeed need to grab all courses in order to order them accordingly,
-         * as opposed to taking only published ones
-         **/
-        $chapter = 1;
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
-        $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
-        $isChapterFinished = false;
         $sections = Section::select('sections.*')->with('chapters')->where('course_id', $course->id)->get();
-
         $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
-
-        if ($isEnrolled) {
-            $chapterId = reset($chapterData)['id'];
-            $isChapterFinished = Progress::where('user_id', auth()->user()->id)
-                ->where('course_id', $course->id)
-                ->where('chapter_id', $chapterId)
-                ->exists();
-        }
-
-        $client = new Client();
 
         return view('courses.index', [
             'course' => $course,
             'slug' => $slug,
-            'chapterPosition' => $chapter,
             'isEnrolled' => $isEnrolled,
-            'isChapterFinished' => $isChapterFinished,
             'chapters' => $chapters,
             'isTheCreator' => auth()->id() === $course['user_id'],
             'sections' => $sections,

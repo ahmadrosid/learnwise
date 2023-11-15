@@ -64,7 +64,24 @@
             return "$formattedMinutes:$formattedSeconds";
         }
     }
+
+    function calculateVideoDurations($sections)
+    {
+        $count = 0;
+
+        foreach ($sections as $section) {
+            foreach ($section->chapters as $chapter) {
+                $count += $chapter->video_duration;
+            }
+        }
+
+        return $count;
+    }
+
+    $totalDurationInSecond = calculateVideoDurations($sections);
+    $prettyDuration = secondsToHMS($totalDurationInSecond);
     $freeSections = getFreeSections($sections, $chapters, $course->id);
+
 @endphp
 <x-app-layout>
     <div class="row" x-data="{ freeSections: {{ json_encode($freeSections) }} }">
@@ -108,7 +125,8 @@
                 <h3 class="m-0">Course content</h3>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="fs-sm text-muted">
-                        <span>8 sections</span> &bull; <span>27 lectures</span> &bull; <span>11h 22m total
+                        <span>{{ $sections->count() }} sections</span> &bull; <span>27 lectures</span> &bull;
+                        <span>{{ $prettyDuration }} total
                             length</span>
                     </div>
                     <button class="btn">Expand all sections</button>
