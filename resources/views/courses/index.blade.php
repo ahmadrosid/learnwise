@@ -94,42 +94,35 @@
                         {!! $course->description !!}
                     </x-markdown>
                 </div>
-                <div class="gap-2 d-flex align-items-center">
-                    <span class="text-warning">4.4</span>
-                    <div class="d-flex">
-                        <x-lucide-star class="w-4 h-4 text-warning" />
-                        <x-lucide-star class="w-4 h-4 text-warning" />
-                        <x-lucide-star class="w-4 h-4 text-warning" />
-                        <x-lucide-star class="w-4 h-4 text-warning" />
-                        <x-lucide-star-half class="w-4 h-4 text-warning" />
+                <div class="flex-wrap gap-4 d-flex">
+                    <div class="gap-1 d-flex align-items-center fs-sm">
+                        <x-lucide-user-circle class="w-4 h-4" />
+                        <span>Created by {{ $course->user->name }}</span>
                     </div>
-                    <span>(122,012 ratings)</span>
-                    <span>437,902 students</span>
-                </div>
-                <p>Created by {{ $course->user->name }}</p>
-                <div class="gap-4 d-flex align-items-center">
-                    <div>
+                    <div class="gap-1 d-flex align-items-center fs-sm">
                         <x-lucide-alert-circle class="w-4 h-4 text-dark" />
-                        <span>Last updated 8/2022</span>
+                        <span>Last updated {{ $course->updated_at->format('m/d') }}</span>
                     </div>
-                    <div>
+
+                    {{-- We might want to have another column called language --}}
+                    <div class="gap-1 d-flex align-items-center fs-sm">
                         <x-lucide-globe class="w-4 h-4 text-dark" />
                         <span>English</span>
                     </div>
                 </div>
             </div>
-            <!-- END HEAING -->
+            <!-- END HEADING -->
 
             <!-- COURSE CONTENT -->
             <div class="py-4 my-4">
-                <h3 class="m-0">Course content</h3>
-                <div class="d-flex justify-content-between align-items-center">
+                <h3 class="my-2">Course content</h3>
+                <div class="my-2 d-flex justify-content-between align-items-center">
                     <div class="fs-sm text-muted">
-                        <span>{{ $sections->count() }} sections</span> &bull; <span>27 lectures</span> &bull;
+                        <span>{{ $sections->count() }} sections</span> &bull; <span>{{ $course->chapters->count() }}
+                            lectures</span> &bull;
                         <span>{{ $prettyDuration }} total
                             length</span>
                     </div>
-                    <button class="btn">Expand all sections</button>
                 </div>
                 <div>
                     <div class="accordion" id="sectionAccordion">
@@ -210,14 +203,16 @@
             <div class="card" style="position: sticky; top:65px;">
                 <div class="card-img-top position-relative">
                     <img src="@thumbnail($course)" class="card-img-top" alt="{{ $course->title }}" />
-                    <button
-                        class="z-30 p-0 m-0 bg-white border-none btn d-flex rounded-circle align-items-center justify-content-center"
-                        @click="previewChapter('{{ getFirstFreeChapter($sections) }}', freeSections)"
-                        data-url="{{ getFirstFreeChapter($sections) }}"
-                        style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px;">
+                    <div class="top-0 left-0 bg-black video-preview-overlay d-flex align-items-center justify-content-center w-100 h-100 position-absolute card-img-top"
+                        style="opacity:0.2"
+                        @click="previewChapter('{{ getFirstFreeChapter($sections) }}', freeSections)">
+                    </div>
+                    <div class="z-30 p-0 bg-primary rounded-circle position-absolute video-preview-btn"
+                        style="opacity:0.8; width: 32px; height: 32px;  top: 50%; left: 50%; transform: translate(-50%, -50%)"
+                        @click="previewChapter('{{ getFirstFreeChapter($sections) }}', freeSections)">
+                        <x-lucide-play-circle class="text-white" style="width: 32px; height: 32px;" />
+                    </div>
 
-                        <x-lucide-play-circle class="text-black" style="width: 32px; height: 32px;" />
-                    </button>
                 </div>
                 <div class="card-body">
                     <h4>{{ $course->title }}</h4>
@@ -228,17 +223,22 @@
                     </p>
                     <p>@currency($course->price)</p>
                     <div>
-                        <form action="{{ route('enroll') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="course_id" value="{{ $course->id }}" />
-                            <input type="hidden" name="description" value="{{ 'Payment for ' . $course->title }}" />
-                            <input type="hidden" name="amount" value="{{ $course->price }}" />
-                            <input type="hidden" name="payer_email" value={{ auth()->user()->email }} />
-                            <input type="hidden" name="user_id" value={{ auth()->user()->id }} />
-                            <button type="submit" class="btn btn-primary"
-                                {{ $isTheCreator ? ' disabled' : '' }}>Enroll course </button>
+                        @if (!Auth::user())
+                            <a href="{{ route('login') }}" class="btn btn-primary">Login to Enroll</a>
+                        @else
+                            <form action="{{ route('enroll') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}" />
+                                <input type="hidden" name="description"
+                                    value="{{ 'Payment for ' . $course->title }}" />
+                                <input type="hidden" name="amount" value="{{ $course->price }}" />
+                                <input type="hidden" name="payer_email" value={{ auth()->user()->email }} />
+                                <input type="hidden" name="user_id" value={{ auth()->user()->id }} />
+                                <button type="submit" class="btn btn-primary"
+                                    {{ $isTheCreator ? ' disabled' : '' }}>Enroll course </button>
 
-                        </form>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -128,3 +128,12 @@ body {
 .rating-button:hover {
     cursor: pointer;
 }
+
+.video-preview-overlay:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+.video-preview-btn:hover {
+    cursor: pointer;
+    opacity: 0.2;
+}
