@@ -112,7 +112,7 @@
             </div>
         </div>
     </div>
-    <div x-data="{ handlePreviewLink }" class="modal fade show" id="previewModal" data-bs-backdrop="static"
+    <div x-data="{ handlePreviewLink, closePreview }" class="modal fade show" id="previewModal" data-bs-backdrop="static"
         data-bs-keyboard="false" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -121,7 +121,7 @@
                         <p class="text-muted">Course preview</p>
                         <h5 class="modal-title" id="previewModalLabel">{{ $course->title }}</h5>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click="closePreview" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="videoFrame"> </div>

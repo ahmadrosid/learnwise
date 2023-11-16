@@ -124,17 +124,21 @@ window.chart = (async function () {
     }
 })();
 
-let previewModal, videoFrame, previewAccordion;
+let previewModal, videoFrame;
 
 if (document.querySelector("#previewModal") !== null) {
     previewModal = new bootstrap.Modal("#previewModal");
     videoFrame = document.querySelector("#videoFrame");
-    previewAccordion = document.querySelector("#previewAccordion");
 }
 
 window.previewChapter = function (videoId) {
     renderVideo(videoId);
     previewModal.show();
+};
+
+window.closePreview = function () {
+    videoFrame.innerHTML = "";
+    previewModal.hide();
 };
 
 function renderVideo(videoId) {
