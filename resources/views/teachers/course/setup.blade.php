@@ -41,6 +41,8 @@
 
     $isReadyToPublish = $completedFields === count($requiredFields);
 
+    $languages = ['English', 'Spanish', 'Dutch', 'German', 'Russian', 'Bahasa Indonesia', 'Italian', 'French'];
+
 @endphp
 
 <x-teacher-layout>
@@ -224,6 +226,51 @@
                 <div class="py-4" x-data="{ open: false }">
                     <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
                         <div class="d-flex justify-content-between align-items-center">
+                            <label for="course-title" class="form-label text-dark">Course Language</label>
+                            <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
+                                x-on:click="open = ! open">
+                                <x-lucide-pencil class="w-3 h-3 cursor-pointer text-neutral-400" x-show="!open" />
+                                <span x-show="!open">Edit</span>
+                                <span x-show="open">Cancel</span>
+                            </button>
+                        </div>
+                        <div class="py-2" x-show="open">
+                            <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="py-2">
+                                    <select class="border form-select select-choice" aria-label="Select category"
+                                        name="lang">
+                                        <option value="">Select language</option>
+                                        @foreach ($languages as $language)
+                                            <option value="{{ $language }}"
+                                                {{ $course->lang === $language ? 'selected' : '' }}>
+                                                {{ $language }} </option>
+                                        @endforeach
+
+
+                                    </select>
+                                </div>
+                                <input type="hidden" name="slug" value="{{ $course->slug }}" />
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+
+                        @if ($course->lang)
+                            <div class="pt-1 fs-sm" x-show="!open">
+                                {{ $course->lang }}
+                            </div>
+                        @else
+                            <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
+                                No language defined
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="py-4" x-data="{ open: false }">
+                    <div class="p-2 px-3 border rounded-2 bg-neutral-30 border-neutral-40">
+                        <div class="d-flex justify-content-between align-items-center">
                             <label for="course-title" class="form-label text-dark">Course category</label>
                             <button class="btn p-1 d-flex align-items-center gap-1 btn--s,"
                                 x-on:click="open = ! open">
@@ -256,7 +303,7 @@
 
                         @if ($course->category_id)
                             <div class="pt-1 fs-sm" x-show="!open">
-                                {{ $course->category_id ? $course->category->name : 'No category defined.' }}
+                                {{ $course->category->name }}
                             </div>
                         @else
                             <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">

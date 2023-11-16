@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateCourseRequest extends FormRequest
 {
@@ -27,6 +26,7 @@ class UpdateCourseRequest extends FormRequest
             'title' => 'nullable|string|min:3|max:255',
             'category_id' => 'nullable|numeric|exists:categories,id',
             'description' => 'nullable|string',
+            'lang' => 'nullable|string',
         ];
     }
 }
