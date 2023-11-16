@@ -372,7 +372,6 @@
     <script>
         function updateButtonStatus(e) {
             if (e.target.value) {
-                console.log(this);
                 this.isSubmitVideoButtonDisabled = false;
             }
         }
