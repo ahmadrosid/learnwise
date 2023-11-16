@@ -20,7 +20,7 @@
                     <div class="gap-1 d-flex align-items-center fs-sm">
                         <x-lucide-globe class="w-4 h-4 text-dark" />
                         @if ($course->lang)
-                            <span>{{ $course - lang }}</span>
+                            <span>{{ $course->lang }}</span>
                         @else
                             <span class="fst-italic text-muted fs-sm">No language defined</span>
                         @endif
