@@ -27,3 +27,26 @@ if (! function_exists('formatCurrency')) {
         return $amount < 0 ? '-'.$formattedAmount : $formattedAmount;
     }
 }
+
+if (! function_exists('sec2HMS')) {
+    function sec2HMS($seconds)
+    {
+
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $remainingSeconds = $seconds % 60;
+
+        if ($hours > 0) {
+            $formattedHours = str_pad($hours, 2, '0', STR_PAD_LEFT);
+            $formattedMinutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+            $formattedSeconds = str_pad($remainingSeconds, 2, '0', STR_PAD_LEFT);
+
+            return "$formattedHours:$formattedMinutes:$formattedSeconds";
+        } else {
+            $formattedMinutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+            $formattedSeconds = str_pad($remainingSeconds, 2, '0', STR_PAD_LEFT);
+
+            return "$formattedMinutes:$formattedSeconds";
+        }
+    }
+}

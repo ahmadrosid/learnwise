@@ -133,7 +133,8 @@ body {
     cursor: pointer;
     opacity: 0.9;
 }
-.video-preview-btn:hover {
+
+.video-preview-link > *:hover {
     cursor: pointer;
-    opacity: 0.2;
+    text-decoration: underline;
 }

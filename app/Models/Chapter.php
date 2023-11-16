@@ -10,7 +10,7 @@ class Chapter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description',  'course_id', 'is_published', 'is_free', 'position', 'video_url', 'next_chapter_id', 'video_source', 'section_id', 'video_duration'
+        'title', 'description',  'course_id', 'is_published', 'is_free', 'position', 'video_url', 'next_chapter_id', 'video_source', 'section_id', 'video_duration', 'lang',
     ];
 
     public function course()
@@ -22,11 +22,6 @@ class Chapter extends Model
     {
         return $this->belongsTo(Section::class);
     }
-
-    /*
-     * type can be either 'student' or 'teacher',
-     * with teacher having all the records, and student with only those that are published
-     **/
 
     public static function sort($chapters, $type)
     {
@@ -52,5 +47,24 @@ class Chapter extends Model
         }
 
         return array_reverse($sortedChapters);
+    }
+
+    public static function getFreeChapters($chapters)
+    {
+        $freeChapters = array_filter($chapters, function ($chapter) {
+            return $chapter->is_free;
+        });
+
+        return array_values($freeChapters);
+    }
+
+    public static function getTotalDuration($chapters)
+    {
+        $totalTime = 0;
+        foreach ($chapters as $chapter) {
+            $totalTime += $chapter['video_duration'];
+        }
+
+        return $totalTime;
     }
 }

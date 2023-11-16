@@ -10,6 +10,7 @@ use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class ChapterController extends Controller
@@ -150,7 +151,10 @@ class ChapterController extends Controller
             $formFields['video_source'] = 'cloudinary';
 
         } elseif ($request->has('chapter_video_url')) {
+
             $url = $request->input('chapter_video_url');
+            $videoInfo = $this->getVideoInfo($url);
+            $videoDuration = $videoInfo['data']['duration'];
             $parsedUrl = parse_url($url);
 
             if (isset($parsedUrl['query'])) {
@@ -162,12 +166,25 @@ class ChapterController extends Controller
             }
             $formFields['video_url'] = $videoId;
             $formFields['video_source'] = 'youtube';
-            $formFields[ 'video_duration'] = $request['video_duration'];
+            $formFields['video_duration'] = $videoDuration;
         }
 
         $chapter->update($formFields);
 
         return redirect()->back();
+    }
+
+    private function getVideoInfo($videoUrl)
+    {
+        try {
+            $response = Http::post('https://echo-tube.vercel.app/get-video-info', [
+                'videoUrl' => $videoUrl,
+            ]);
+
+            return $response->json();
+        } catch (\Exception $error) {
+            return null;
+        }
     }
 
     public function publish(Chapter $chapter)

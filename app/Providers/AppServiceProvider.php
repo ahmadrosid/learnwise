@@ -8,9 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         Blade::directive('thumbnail', function ($expression) {
@@ -19,11 +16,11 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('currency', function ($expression) {
             return "<?php echo formatCurrency($expression); ?>";
         });
+        Blade::directive('sec2HMS', function ($expression) {
+            return "<?php echo sec2HMS($expression);?>";
+        });
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Paginator::useBootstrapFive();

@@ -39,6 +39,9 @@ class CourseController extends Controller
 
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
+        $freeChapters = Chapter::getFreeChapters($chapters);
+        $videoCourseDuration = Chapter::getTotalDuration($chapters);
+        $firstFreeChapter = Chapter::where('course_id', $course->id)->where('is_free', 1)->first();
         $sections = Section::select('sections.*')->with('chapters')->where('course_id', $course->id)->get();
         $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
             ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
@@ -50,20 +53,17 @@ class CourseController extends Controller
             'chapters' => $chapters,
             'isTheCreator' => auth()->id() === $course['user_id'],
             'sections' => $sections,
+            'freeChapters' => $freeChapters,
+            'firstFreeChapter' => $firstFreeChapter->video_url,
+            'videoCourseDuration' => $videoCourseDuration,
         ]);
 
     }
 
     public function showchapter($slug, $chapter)
     {
-        /*
-         * We indeed need to grab all courses in order to order them accordingly,
-         * as opposed to taking only published ones
-         **/
-
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
-        // dd($chapters);
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         $isChapterFinished = false;
         $sections = $course->sections;

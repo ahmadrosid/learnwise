@@ -264,7 +264,7 @@
                                         name="chapter_video_url" @input="handleVideoUrlChange"
                                         class="form-control" />
                                 </div>
-                                <input type="hidden" name="video_duration" x-bind:value="chapterVideoDuration" />
+                                {{-- <input type="hidden" name="video_duration" x-bind:value="chapterVideoDuration" /> --}}
                                 <button class="mt-4 w-full btn btn-primary" type="submit"
                                     :disabled="isSubmitVideoButtonDisabled">Save</button>
                             </form>
