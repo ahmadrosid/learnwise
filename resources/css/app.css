@@ -121,3 +121,29 @@ body {
 .object-cover {
     object-fit: cover;
 }
+.rating-button {
+    width: 24px;
+    color: darkgray;
+}
+.rating-button:hover {
+    cursor: pointer;
+}
+
+.video-preview-overlay:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.video-preview-link > *:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.hover_underline:hover {
+    -webkit-text-decoration-line: underline;
+            text-decoration-line: underline
+}
+
+.CodeMirror {
+	height: 100px;
+}

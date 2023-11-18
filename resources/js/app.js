@@ -106,7 +106,7 @@ window.chart = (async function () {
                 type: "bar",
                 data: {
                     labels: revenueData.map(
-                        (row) => row.title.slice(0, 25) + "..."
+                        (row) => row.title.slice(0, 25) + "...",
                     ),
                     datasets: [
                         {
@@ -123,5 +123,58 @@ window.chart = (async function () {
         console.error("Error getting data from API", error);
     }
 })();
+
+let previewModal, videoFrame;
+
+if (document.querySelector("#previewModal") !== null) {
+    previewModal = new bootstrap.Modal("#previewModal");
+    videoFrame = document.querySelector("#videoFrame");
+}
+
+window.previewChapter = function (videoId) {
+    renderVideo(videoId);
+    previewModal.show();
+};
+
+window.closePreview = function () {
+    videoFrame.innerHTML = "";
+    previewModal.hide();
+};
+
+function renderVideo(videoId) {
+    const iFrame = document.createElement("iframe");
+    iFrame.setAttribute("width", "560");
+    iFrame.setAttribute("height", "315");
+    iFrame.setAttribute("title", "Youtube video player");
+    iFrame.setAttribute("frameborder", "0");
+    iFrame.setAttribute(
+        "allow",
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+    );
+    iFrame.setAttribute("allowfullscreen", "");
+
+    iFrame.setAttribute("src", "https://www.youtube.com/embed/" + videoId);
+
+    videoFrame.innerHTML = "";
+    videoFrame.appendChild(iFrame);
+}
+
+window.handlePreviewLink = function (e) {
+    const link = e.target.closest(".modal-video-preview-link");
+    const { videoId } = link.dataset;
+
+    renderVideo(videoId);
+};
+
+window.chapterVideoFileName = "";
+window.chapterVideoURL = "";
+window.chapterVideoFile = null;
+window.youtubeURL = "";
+window.isSubmitVideoButtonDisabled = true;
+window.chapterVideoDuration = 0;
+
+window.handleVideoUrlChange = function () {
+    this.isSubmitVideoButtonDisabled = false;
+};
 
 Alpine.start();

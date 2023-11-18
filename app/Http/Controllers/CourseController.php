@@ -7,6 +7,7 @@ use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Payment;
 use App\Models\Progress;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,17 +34,40 @@ class CourseController extends Controller
         ]);
     }
 
-    public function show($slug, $chapter)
+    public function show($slug)
     {
-        /*
-         * We indeed need to grab all courses in order to order them accordingly,
-         * as opposed to taking only published ones
-         **/
 
+        $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
+        $chapters = Chapter::sort($course->chapters, 'student');
+        $freeChapters = Chapter::getFreeChapters($chapters);
+        $videoCourseDuration = Chapter::getTotalDuration($chapters);
+        $firstFreeChapter = Chapter::where('course_id', $course->id)->where('is_free', 1)->first();
+        $sections = Section::select('sections.*')->with('chapters')->where('course_id', $course->id)->get();
+        $isEnrolled = auth()->check() ? Payment::where('user_id', auth()->user()->id)
+            ->where('course_id', $course->id)->where('status', 'settled')->count() === 1 : false;
+
+        return view('courses.index', [
+            'course' => $course,
+            'slug' => $slug,
+            'isEnrolled' => $isEnrolled,
+            'chapters' => $chapters,
+            'isTheCreator' => auth()->id() === $course['user_id'],
+            'sections' => $sections,
+            'freeChapters' => $freeChapters,
+            'firstFreeChapter' => $firstFreeChapter->video_url,
+            'videoCourseDuration' => $videoCourseDuration,
+        ]);
+
+    }
+
+    public function showchapter($slug, $chapter)
+    {
         $course = Course::select('courses.*')->with('chapters')->where('slug', $slug)->firstOrFail();
         $chapters = Chapter::sort($course->chapters, 'student');
         $chapterData = array_filter($chapters, fn ($item) => $item['position'] == $chapter);
         $isChapterFinished = false;
+        $sections = $course->sections;
+        $activeSession = reset($chapterData)['section_id'];
 
         if (count($chapterData) == 0) {
             return abort(404);
@@ -69,6 +93,8 @@ class CourseController extends Controller
             'isChapterFinished' => $isChapterFinished,
             'chapters' => $chapters,
             'isTheCreator' => auth()->id() === $course['user_id'],
+            'sections' => $sections,
+            'activeSession' => $activeSession,
         ]);
     }
 }

@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
     ];
 
     /**
@@ -44,7 +44,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function course()
     {
         return $this->hasMany(Course::class);
@@ -53,5 +52,10 @@ class User extends Authenticatable
     public function hasRole($role): bool
     {
         return $this->role == $role;
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

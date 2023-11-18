@@ -41,13 +41,19 @@ class TeacherController extends Controller
         return redirect(route('teacher.course.setup', $course->slug));
     }
 
+    private function groupSections ($sections, $chapters){
+
+    }
+
     public function edit(Course $course)
     {
+
         return view('teachers.course.setup', [
             'course' => $course,
             'categories' => Category::all(),
             'chapters' => Chapter::sort($course->chapters, 'teacher'),
             'hasBeenSold' => $course->purchases->count() > 0,
+            'sections' => $course->sections,
         ]);
     }
 

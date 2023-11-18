@@ -1,21 +1,11 @@
 {
-  "public/css/choices.min.css": {
-    "file": "assets/choices.min-ef7b3fa8.css",
-    "isEntry": true,
-    "src": "public/css/choices.min.css"
-  },
-  "public/css/fastbootstrap.min.css": {
-    "file": "assets/fastbootstrap.min-9165903c.css",
-    "isEntry": true,
-    "src": "public/css/fastbootstrap.min.css"
-  },
   "resources/css/app.css": {
-    "file": "assets/app-7efba1d1.css",
+    "file": "assets/app-2310bd4f.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-b8e6faf3.js",
+    "file": "assets/app-8d30ce84.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
