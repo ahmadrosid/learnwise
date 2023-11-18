@@ -150,13 +150,15 @@ $sectionName = null;
                                 @csrf
                                 @method('put')
 
-                                <x-trix-editor :input_name="'description'" :text="$chapter->description" />
+                                <x-mde-editor :input_name="'description'" :text="$chapter->description" />
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                         </div>
                         @if ($chapter->description)
                         <div class="pt-1 text-sm text-neutral-100 fs-sm" x-show="!open">
-                            {!! $chapter->description !!}
+                            <x-markdown>
+                                {{$chapter->description}}
+                            </x-markdown>
                         </div>
                         @else
                         <div class="pt-1 text-sm text-muted fs-xs fst-italic" x-show="!open">

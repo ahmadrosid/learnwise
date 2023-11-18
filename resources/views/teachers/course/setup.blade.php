@@ -163,15 +163,17 @@ $languages = ['English', 'Spanish', 'Dutch', 'German', 'Russian', 'Bahasa Indone
                             <form action="{{ route('teacher.course.update', $course->slug) }}" method="POST">
                                 @csrf
                                 @method('put')
-                                <x-trix-editor :input_name="'description'" :text="$course->description" />
+                                <x-mde-editor :input_name="'description'" :text="$course->description" />
                                 <button class="btn btn-primary">Save</button>
                             </form>
                         </div>
 
+
                         @if ($course->description)
                         <div class="pt-1 fs-sm" x-show="!open">
-
-                            {!! $course->description !!}
+                            <x-markdown>
+                                {{$course->description}}
+                            </x-markdown>
                         </div>
                         @else
                         <div class="pt-1 text-muted fs-xs fst-italic" x-show="!open">
