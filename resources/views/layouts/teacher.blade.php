@@ -12,10 +12,10 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
 
+    <link rel="stylesheet" href="/css/fastbootstrap.min.css">
+    <link rel="stylesheet" href="/css/choices.min.css">
     <!-- Scripts -->
     @vite([
-    'public/css/fastbootstrap.min.css',
-    'public/css/choices.min.css',
     'resources/css/app.css',
     'resources/js/app.js'
     ])

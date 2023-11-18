@@ -52,7 +52,7 @@ Route::get('/admin/transactions', [AdminController::class, 'transactions'])->nam
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 Route::post('/admin/approvewithdrawal', [AdminController::class, 'approvewithdrawal'])->name('admin.approvewithdrawal');
 
-Route::get('/course/{slug}', [CourseController::class, 'show']);
+Route::get('/course/{slug}', [CourseController::class, 'show'])->name('course.show');
 Route::get('/course/{slug}/chapter/{chapter}', [CourseController::class, 'showchapter']);
 
 Route::get('/student/purchases', [StudentController::class, 'showActivity']);
@@ -81,4 +81,4 @@ Route::put('/teacher/chapter/updateorders', [ChapterController::class, 'updateor
 
 Route::post('/section/create', [SectionController::class, 'store'])->name('section.create');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

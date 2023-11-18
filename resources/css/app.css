@@ -138,3 +138,9 @@ body {
     cursor: pointer;
     text-decoration: underline;
 }
+
+.hover_underline:hover {
+    -webkit-text-decoration-line: underline;
+            text-decoration-line: underline
+}
+  
