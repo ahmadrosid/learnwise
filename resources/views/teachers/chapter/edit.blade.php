@@ -295,18 +295,6 @@ $sectionName = null;
                         </div>
                         <div class="py-2" x-show="open">
                             <div class="gap-4 d-flex flex-column">
-                                <form action={{ route('section.create') }} method="POST">
-                                    @csrf
-
-
-                                    <label for="section-title">Add new section</label>
-                                    <div class="py-2 input-group">
-                                        <input type="text" class="form-control" id="section-title" name="section_title" aria-describedby="basic-addon3" />
-                                        <input type="hidden" name="course_id" value={{ $courseId }} />
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </form>
-
                                 <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                     @csrf
                                     @method('put')
@@ -324,6 +312,15 @@ $sectionName = null;
                                         </select>
                                     </div>
                                     <input type="hidden" name="chapter_id" value="{{ $chapter->id }}" />
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                                <form action={{ route('section.create') }} method="POST">
+                                    @csrf
+                                    <label for="section-title">Add new section</label>
+                                    <div class="py-2 input-group">
+                                        <input type="text" class="form-control" id="section-title" name="section_title" aria-describedby="basic-addon3" />
+                                        <input type="hidden" name="course_id" value={{ $courseId }} />
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
                             </div>
