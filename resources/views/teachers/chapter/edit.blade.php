@@ -298,7 +298,7 @@ $sectionName = null;
                                 <form action="{{ route('teacher.chapter.update', $chapter->id) }}" method="post">
                                     @csrf
                                     @method('put')
-                                    <label for="sections">Or select from existing section</label>
+                                    <label for="sections">Select from existing section</label>
                                     <div class="py-2 select-group">
                                         <select class="border form-select select-choice" aria-label="Select category" name="section_id" id="sections">
                                             <option value="">Select section</option>
@@ -316,7 +316,7 @@ $sectionName = null;
                                 </form>
                                 <form action={{ route('section.create') }} method="POST">
                                     @csrf
-                                    <label for="section-title">Add new section</label>
+                                    <label for="section-title">Or Add new section</label>
                                     <div class="py-2 input-group">
                                         <input type="text" class="form-control" id="section-title" name="section_title" aria-describedby="basic-addon3" />
                                         <input type="hidden" name="course_id" value={{ $courseId }} />
