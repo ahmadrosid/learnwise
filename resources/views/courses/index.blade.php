@@ -2,7 +2,7 @@
     <div class="row" x-data="{ freeChapters: {{ json_encode($freeChapters) }}, }">
         <div class="col-8">
             <div class="pb-4 mb-4">
-                <h1>Introduction to psychology and human behaviour</h1>
+                <h1>{{$course->title}}</h1>
                 <div class="my-2">
                     <x-markdown :options="['commonmark' => ['enable_strong' => false]]" theme="github-dark">
                         {!! $course->description !!}
