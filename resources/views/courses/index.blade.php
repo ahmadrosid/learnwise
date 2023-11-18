@@ -5,7 +5,7 @@
                 <h1>{{$course->title}}</h1>
                 <div class="my-2">
                     <x-markdown :options="['commonmark' => ['enable_strong' => false]]" theme="github-dark">
-                        {!! $course->description !!}
+                        {{ $course->description }}
                     </x-markdown>
                 </div>
                 <div class="flex-wrap gap-4 d-flex">
@@ -73,17 +73,12 @@
                     <img src="@thumbnail($course)" class="card-img-top" alt="{{ $course->title }}" />
                     <div class="top-0 left-0 bg-black video-preview-overlay d-flex align-items-center justify-content-center w-100 h-100 position-absolute card-img-top" style="opacity:0.2" @click="previewChapter('{{ $firstFreeChapter }}')">
                     </div>
-                    <div class="z-30 p-0 bg-primary rounded-circle position-absolute video-preview-btn" style="opacity:0.8; width: 32px; height: 32px;  top: 50%; left: 50%; transform: translate(-50%, -50%)" @click="previewChapter('{{ $firstFreeChapter }}')">
-                        <x-lucide-play-circle class="text-white" style="width: 32px; height: 32px;" />
+                    <div class="z-30 p-0 bg-primary rounded-circle position-absolute video-preview-btn" style="opacity:0.8; cursor: pointer; width: 50px; height: 50px;  top: 50%; left: 50%; transform: translate(-50%, -50%)" @click="previewChapter('{{ $firstFreeChapter }}')">
+                        <x-lucide-play-circle class="text-white" style="width: 50px; height: 50px;" />
                     </div>
                 </div>
                 <div class="card-body">
                     <h4>{{ $course->title }}</h4>
-                    <p class="card-text">
-                        <x-markdown :options="['commonmark' => ['enable_strong' => false]]" theme="github-dark">
-                            {!! $course->description !!}
-                        </x-markdown>
-                    </p>
                     <p>@currency($course->price)</p>
                     <div>
                         @if (!Auth::user())
@@ -115,11 +110,11 @@
                     <button type="button" class="btn-close" @click="closePreview" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="videoFrame"> </div>
+                    <div id="videoFrame"></div>
                     <div class="my-4 accordion" id="previewAccordion">
                         @foreach ($freeChapters as $chapter)
-                        <a @click="handlePreviewLink" class="py-2 px-4 d-flex justify-content-between modal-video-preview-link align-items-center" data-video-id="{{ $chapter->video_url }}">
-                            <div class="gap-2 d-flex align-items-center">
+                        <a @click="handlePreviewLink" class="py-2 px-4 d-flex justify-content-between modal-video-preview-link align-items-center" data-video-id="{{ $chapter->video_url }}" style="cursor: pointer;">
+                            <div class=" gap-2 d-flex align-items-center">
                                 <x-lucide-play-circle class="w-4 h-4" />
                                 <span>{{ $chapter->title }}</span>
                             </div>
@@ -132,7 +127,7 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="modal-footer"> </div>
+                <!-- <div class="modal-footer"> </div> -->
             </div>
         </div>
     </div>
